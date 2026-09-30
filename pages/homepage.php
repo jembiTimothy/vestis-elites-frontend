@@ -12,6 +12,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
+ * Add a dedicated body class to the coded homepage.
+ *
+ * This allows us to control Astra's page container
+ * without changing the rest of the website.
+ */
+function vestis_elites_homepage_body_class( $classes ) {
+
+	if ( is_page() ) {
+
+		$page_id      = get_queried_object_id();
+		$page_content = get_post_field( 'post_content', $page_id );
+
+		if ( $page_content && has_shortcode( $page_content, 'vestis_frontend' ) ) {
+			$classes[] = 've-coded-homepage';
+		}
+	}
+
+	return $classes;
+}
+
+add_filter(
+	'body_class',
+	'vestis_elites_homepage_body_class'
+);
+
+
+/**
  * Find a published WordPress page by title
  * and return its current permalink.
  */
@@ -63,7 +90,7 @@ function vestis_elites_get_image_id( $filename ) {
 
 
 /**
- * Homepage.
+ * Vestis Elites coded homepage.
  */
 function vestis_elites_homepage() {
 
@@ -95,6 +122,7 @@ function vestis_elites_homepage() {
 	$mobile_image_url = $mobile_image_id
 		? wp_get_attachment_image_url( $mobile_image_id, 'full' )
 		: '';
+
 
 	$desktop_srcset = $desktop_image_id
 		? wp_get_attachment_image_srcset( $desktop_image_id, 'full' )
@@ -226,14 +254,70 @@ function vestis_elites_homepage() {
 	<style>
 
 		/* =========================================================
+		   ASTRA CONTAINER RESET
+		   Applies ONLY to this coded homepage.
+		========================================================= */
+
+		body.ve-coded-homepage .site-content > .ast-container {
+
+			width: 100% !important;
+
+			max-width: 100% !important;
+
+			padding-left: 0 !important;
+
+			padding-right: 0 !important;
+		}
+
+
+		body.ve-coded-homepage .site-content > .ast-container > #primary {
+
+			width: 100% !important;
+
+			max-width: none !important;
+
+			margin: 0 !important;
+
+			padding: 0 !important;
+		}
+
+
+		body.ve-coded-homepage .site-content .hentry {
+
+			margin: 0 !important;
+
+			padding: 0 !important;
+		}
+
+
+		body.ve-coded-homepage .site-content .entry-content {
+
+			margin: 0 !important;
+
+			padding: 0 !important;
+		}
+
+
+		/* =========================================================
+		   GLOBAL HOMEPAGE RESET
+		========================================================= */
+
+		.ve-hero-content,
+		.ve-hero-image {
+
+			width: 100%;
+
+			margin-left: 0;
+
+			margin-right: 0;
+		}
+
+
+		/* =========================================================
 		   SECTION 1 — HERO CONTENT
-		   ========================================================= */
+		========================================================= */
 
 		.ve-hero-content {
-
-			width: 100vw;
-
-			margin-left: calc(50% - 50vw);
 
 			background: #000000;
 
@@ -278,7 +362,7 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* H1 */
+		/* TITLE */
 
 		.ve-hero-content__title {
 
@@ -334,7 +418,9 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* PRIMARY CTA */
+		/* =========================================================
+		   PRIMARY CTA
+		========================================================= */
 
 		.ve-button--primary,
 		.ve-button--primary:hover,
@@ -394,7 +480,9 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* SECONDARY CTA */
+		/* =========================================================
+		   SECONDARY CTA
+		========================================================= */
 
 		.ve-button--secondary {
 
@@ -459,7 +547,9 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ACCESSIBILITY */
+		/* =========================================================
+		   ACCESSIBILITY
+		========================================================= */
 
 		.ve-button:focus-visible {
 
@@ -469,7 +559,9 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* QUIET ENTRANCE ANIMATION */
+		/* =========================================================
+		   QUIET ENTRANCE ANIMATION
+		========================================================= */
 
 		.ve-hero-content__eyebrow,
 		.ve-hero-content__title,
@@ -528,18 +620,9 @@ function vestis_elites_homepage() {
 
 		/* =========================================================
 		   SECTION 2 — HERO IMAGE
-		   ========================================================= */
+		========================================================= */
 
 		.ve-hero-image {
-
-			width: 100vw;
-
-			margin-left: calc(50% - 50vw);
-
-			/*
-			 * Controlled ivory breathing space between
-			 * the statement and the editorial image.
-			 */
 
 			margin-top: 48px;
 
@@ -605,7 +688,7 @@ function vestis_elites_homepage() {
 
 		/* =========================================================
 		   TABLET
-		   ========================================================= */
+		========================================================= */
 
 		@media (max-width: 900px) {
 
@@ -632,7 +715,7 @@ function vestis_elites_homepage() {
 
 		/* =========================================================
 		   MOBILE
-		   ========================================================= */
+		========================================================= */
 
 		@media (max-width: 640px) {
 
@@ -714,8 +797,6 @@ function vestis_elites_homepage() {
 			}
 
 
-			/* MOBILE IMAGE */
-
 			.ve-hero-image {
 
 				margin-top: 32px;
@@ -737,7 +818,7 @@ function vestis_elites_homepage() {
 
 		/* =========================================================
 		   REDUCED MOTION
-		   ========================================================= */
+		========================================================= */
 
 		@media (prefers-reduced-motion: reduce) {
 
