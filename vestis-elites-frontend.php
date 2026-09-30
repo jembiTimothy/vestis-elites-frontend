@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Vestis Elites Frontend
  * Description: Custom-coded frontend for Vestis Elites.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Vestis Elites
  */
 
