@@ -352,37 +352,55 @@ function vestis_elites_homepage() {
 		   QUIET ENTRANCE ANIMATION
 		   --------------------------------------------------------- */
 
-		.ve-hero-content__eyebrow,
-		.ve-hero-content__title,
-		.ve-hero-content__supporting,
-		.ve-hero-content__actions {
+		/* ---------------------------------------------------------
+   QUIET ENTRANCE ANIMATION
+   --------------------------------------------------------- */
 
-			animation:
-				veHeroReveal
-				1000ms
-				cubic-bezier(0.22, 1, 0.36, 1)
-				both;
-		}
+.ve-hero-content__eyebrow,
+.ve-hero-content__title,
+.ve-hero-content__supporting,
+.ve-hero-content__actions {
 
-
-		.ve-hero-content__eyebrow {
-			animation-delay: 80ms;
-		}
-
-
-		.ve-hero-content__title {
-			animation-delay: 240ms;
-		}
+	animation:
+		veHeroReveal
+		1500ms
+		cubic-bezier(0.22, 1, 0.36, 1)
+		both;
+}
 
 
-		.ve-hero-content__supporting {
-			animation-delay: 420ms;
-		}
+.ve-hero-content__eyebrow {
+	animation-delay: 0ms;
+}
 
 
-		.ve-hero-content__actions {
-			animation-delay: 600ms;
-		}
+.ve-hero-content__title {
+	animation-delay: 300ms;
+}
+
+
+.ve-hero-content__supporting {
+	animation-delay: 600ms;
+}
+
+
+.ve-hero-content__actions {
+	animation-delay: 900ms;
+}
+
+
+@keyframes veHeroReveal {
+
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
 
 
 		@keyframes veHeroReveal {
