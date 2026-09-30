@@ -50,14 +50,9 @@ function vestis_elites_homepage() {
 
 		<div class="ve-hero-content__inner">
 
-			<!-- Eyebrow -->
-
 			<p class="ve-hero-content__eyebrow">
 				VESTIS ELITES
 			</p>
-
-
-			<!-- H1 -->
 
 			<h1
 				id="ve-hero-title"
@@ -68,15 +63,9 @@ function vestis_elites_homepage() {
 				Bespoke.
 			</h1>
 
-
-			<!-- Supporting Copy -->
-
 			<p class="ve-hero-content__supporting">
 				Bespoke clothing and personal presentation designed around you.
 			</p>
-
-
-			<!-- CTA Group -->
 
 			<div class="ve-hero-content__actions">
 
@@ -121,29 +110,17 @@ function vestis_elites_homepage() {
 		   HERO CONTENT — SECTION 1
 		   ========================================================= */
 
-
-		/* ---------------------------------------------------------
-		   HERO CONTAINER
-		   --------------------------------------------------------- */
-
 		.ve-hero-content {
 			width: 100vw;
 			margin-left: calc(50% - 50vw);
-
 			background: #000000;
 			color: #F7F5EF;
-
 			overflow: hidden;
 		}
 
 
-		/* ---------------------------------------------------------
-		   CONTENT CONTAINER
-		   --------------------------------------------------------- */
-
 		.ve-hero-content__inner {
 			width: min(100%, 1180px);
-
 			margin: 0 auto;
 
 			padding:
@@ -155,14 +132,12 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   EYEBROW
-		   --------------------------------------------------------- */
+		/* EYEBROW */
 
 		.ve-hero-content__eyebrow {
 			margin: 0 0 40px;
 
-			color: #1F4D3A;
+			color: #5E9B7D;
 
 			font-size: 12px;
 			font-weight: 600;
@@ -171,13 +146,10 @@ function vestis_elites_homepage() {
 			letter-spacing: 0.20em;
 
 			text-transform: uppercase;
-			text-decoration: none;
 		}
 
 
-		/* ---------------------------------------------------------
-		   H1
-		   --------------------------------------------------------- */
+		/* H1 */
 
 		.ve-hero-content__title {
 			max-width: 760px;
@@ -197,9 +169,7 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   SUPPORTING COPY
-		   --------------------------------------------------------- */
+		/* SUPPORTING COPY */
 
 		.ve-hero-content__supporting {
 			max-width: 540px;
@@ -212,14 +182,10 @@ function vestis_elites_homepage() {
 			font-weight: 400;
 
 			line-height: 1.65;
-
-			letter-spacing: 0;
 		}
 
 
-		/* ---------------------------------------------------------
-		   CTA GROUP
-		   --------------------------------------------------------- */
+		/* CTA GROUP */
 
 		.ve-hero-content__actions {
 			display: flex;
@@ -234,19 +200,17 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   CTA BASE
-		   --------------------------------------------------------- */
+		/* PRIMARY CTA */
 
 		.ve-button--primary,
-.ve-button--primary:hover,
-.ve-button--primary:focus,
-.ve-button--primary:visited {
-	text-decoration: none !important;
-}
+		.ve-button--primary:hover,
+		.ve-button--primary:focus,
+		.ve-button--primary:visited {
+			text-decoration: none !important;
+		}
 
 
-		.ve-button {
+		.ve-button--primary {
 			display: inline-flex;
 
 			align-items: center;
@@ -254,7 +218,14 @@ function vestis_elites_homepage() {
 
 			min-height: 54px;
 
+			padding: 0 30px;
+
 			box-sizing: border-box;
+
+			background: #F7F5EF;
+			color: #000000;
+
+			border: 1px solid #F7F5EF;
 
 			font-size: 14px;
 			font-weight: 600;
@@ -271,23 +242,10 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   PRIMARY CTA
-		   --------------------------------------------------------- */
-
-		.ve-button--primary {
-			padding: 0 30px;
-
-			background: #F7F5EF;
-			color: #000000;
-
-			border: 1px solid #F7F5EF;
-		}
-
-
 		.ve-button--primary:hover,
 		.ve-button--primary:focus-visible {
 			background: #1F4D3A;
+
 			color: #FFFFFF;
 
 			border-color: #1F4D3A;
@@ -296,20 +254,42 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   SECONDARY CTA
-		   --------------------------------------------------------- */
+		/* SECONDARY CTA */
 
 		.ve-button--secondary {
+			display: inline-flex;
+
+			align-items: center;
+			justify-content: center;
+
 			min-height: 44px;
 
 			padding: 10px 0;
 
 			gap: 9px;
 
+			box-sizing: border-box;
+
 			color: #F7F5EF;
 
 			border: 0;
+
+			font-size: 14px;
+			font-weight: 600;
+
+			line-height: 1;
+
+			letter-spacing: 0.01em;
+
+			text-decoration: underline;
+
+			text-decoration-thickness: 1px;
+
+			text-underline-offset: 6px;
+
+			transition:
+				color 260ms ease,
+				text-decoration-color 260ms ease;
 		}
 
 
@@ -318,10 +298,6 @@ function vestis_elites_homepage() {
 			color: #1F4D3A;
 		}
 
-
-		/* ---------------------------------------------------------
-		   SECONDARY CTA ARROW
-		   --------------------------------------------------------- */
 
 		.ve-button__arrow {
 			display: inline-block;
@@ -337,9 +313,7 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   KEYBOARD ACCESSIBILITY
-		   --------------------------------------------------------- */
+		/* ACCESSIBILITY */
 
 		.ve-button:focus-visible {
 			outline: 2px solid #1F4D3A;
@@ -348,91 +322,63 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   QUIET ENTRANCE ANIMATION
-		   --------------------------------------------------------- */
+		/* QUIET ENTRANCE ANIMATION */
 
-		/* ---------------------------------------------------------
-   QUIET ENTRANCE ANIMATION
-   --------------------------------------------------------- */
+		.ve-hero-content__eyebrow,
+		.ve-hero-content__title,
+		.ve-hero-content__supporting,
+		.ve-hero-content__actions {
 
-.ve-hero-content__eyebrow,
-.ve-hero-content__title,
-.ve-hero-content__supporting,
-.ve-hero-content__actions {
-
-	animation:
-		veHeroReveal
-		1500ms
-		cubic-bezier(0.22, 1, 0.36, 1)
-		both;
-}
+			animation:
+				veHeroReveal
+				1500ms
+				cubic-bezier(0.22, 1, 0.36, 1)
+				both;
+		}
 
 
-.ve-hero-content__eyebrow {
-	animation-delay: 0ms;
-}
+		.ve-hero-content__eyebrow {
+			animation-delay: 0ms;
+		}
 
 
-.ve-hero-content__title {
-	animation-delay: 300ms;
-}
+		.ve-hero-content__title {
+			animation-delay: 300ms;
+		}
 
 
-.ve-hero-content__supporting {
-	animation-delay: 600ms;
-}
+		.ve-hero-content__supporting {
+			animation-delay: 600ms;
+		}
 
 
-.ve-hero-content__actions {
-	animation-delay: 900ms;
-}
-
-
-@keyframes veHeroReveal {
-
-	from {
-		opacity: 0;
-		transform: translateY(18px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+		.ve-hero-content__actions {
+			animation-delay: 900ms;
+		}
 
 
 		@keyframes veHeroReveal {
 
 			from {
 				opacity: 0;
-
-				transform:
-					translateY(18px);
+				transform: translateY(18px);
 			}
 
 			to {
 				opacity: 1;
-
-				transform:
-					translateY(0);
+				transform: translateY(0);
 			}
 		}
 
 
-		/* ---------------------------------------------------------
-		   TABLET
-		   --------------------------------------------------------- */
+		/* TABLET */
 
 		@media (max-width: 900px) {
 
 			.ve-hero-content__inner {
-
 				padding-left: 28px;
 				padding-right: 28px;
 			}
-
 
 			.ve-hero-content__title {
 				max-width: 650px;
@@ -440,9 +386,7 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   MOBILE
-		   --------------------------------------------------------- */
+		/* MOBILE */
 
 		@media (max-width: 640px) {
 
@@ -455,8 +399,6 @@ function vestis_elites_homepage() {
 			}
 
 
-			/* Eyebrow */
-
 			.ve-hero-content__eyebrow {
 
 				margin-bottom: 34px;
@@ -466,8 +408,6 @@ function vestis_elites_homepage() {
 				letter-spacing: 0.19em;
 			}
 
-
-			/* H1 */
 
 			.ve-hero-content__title {
 
@@ -486,8 +426,6 @@ function vestis_elites_homepage() {
 			}
 
 
-			/* Supporting */
-
 			.ve-hero-content__supporting {
 
 				max-width: 430px;
@@ -499,8 +437,6 @@ function vestis_elites_homepage() {
 				line-height: 1.65;
 			}
 
-
-			/* CTA Group */
 
 			.ve-hero-content__actions {
 
@@ -514,8 +450,6 @@ function vestis_elites_homepage() {
 			}
 
 
-			/* Primary CTA */
-
 			.ve-button--primary {
 
 				width: 100%;
@@ -523,8 +457,6 @@ function vestis_elites_homepage() {
 				min-height: 56px;
 			}
 
-
-			/* Secondary CTA */
 
 			.ve-button--secondary {
 
@@ -537,9 +469,7 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* ---------------------------------------------------------
-		   REDUCED MOTION
-		   --------------------------------------------------------- */
+		/* REDUCED MOTION */
 
 		@media (prefers-reduced-motion: reduce) {
 
@@ -552,7 +482,8 @@ function vestis_elites_homepage() {
 			}
 
 
-			.ve-button,
+			.ve-button--primary,
+			.ve-button--secondary,
 			.ve-button__arrow {
 
 				transition: none;
