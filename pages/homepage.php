@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 /**
- * Find a WordPress page by its exact title.
- * This keeps CTA destinations controlled by WordPress
- * instead of hard-coding URLs into the frontend.
+ * Find a published WordPress page by title
+ * and return its current permalink.
  */
 function vestis_elites_get_page_url( $title ) {
 
@@ -31,8 +31,9 @@ function vestis_elites_get_page_url( $title ) {
 	return get_permalink( $pages[0]->ID );
 }
 
+
 /**
- * Homepage — Section 1
+ * Homepage — Section 1: Hero Content
  */
 function vestis_elites_homepage() {
 
@@ -42,23 +43,40 @@ function vestis_elites_homepage() {
 	ob_start();
 	?>
 
-	<section class="ve-hero-content" aria-labelledby="ve-hero-title">
+	<section
+		class="ve-hero-content"
+		aria-labelledby="ve-hero-title"
+	>
 
 		<div class="ve-hero-content__inner">
+
+			<!-- Eyebrow -->
 
 			<p class="ve-hero-content__eyebrow">
 				VESTIS ELITES
 			</p>
 
-			<h1 id="ve-hero-title" class="ve-hero-content__title">
+
+			<!-- H1 -->
+
+			<h1
+				id="ve-hero-title"
+				class="ve-hero-content__title"
+			>
 				Personal Presentation.<br>
 				Lifestyle.<br>
 				Bespoke.
 			</h1>
 
+
+			<!-- Supporting Copy -->
+
 			<p class="ve-hero-content__supporting">
 				Bespoke clothing and personal presentation designed around you.
 			</p>
+
+
+			<!-- CTA Group -->
 
 			<div class="ve-hero-content__actions">
 
@@ -73,6 +91,7 @@ function vestis_elites_homepage() {
 
 				<?php endif; ?>
 
+
 				<?php if ( $atelier_url ) : ?>
 
 					<a
@@ -80,7 +99,10 @@ function vestis_elites_homepage() {
 						href="<?php echo esc_url( $atelier_url ); ?>"
 					>
 						<span>Explore The Atelier</span>
-						<span class="ve-button__arrow" aria-hidden="true">→</span>
+						<span
+							class="ve-button__arrow"
+							aria-hidden="true"
+						>→</span>
 					</a>
 
 				<?php endif; ?>
@@ -91,244 +113,415 @@ function vestis_elites_homepage() {
 
 	</section>
 
+
 	<style>
+
 		/* =========================================================
-		   VESTIS ELITES — HERO CONTENT
-		   Section 1 only
+		   VESTIS ELITES
+		   HERO CONTENT — SECTION 1
 		   ========================================================= */
 
+
+		/* ---------------------------------------------------------
+		   HERO CONTAINER
+		   --------------------------------------------------------- */
+
 		.ve-hero-content {
-			width: 100%;
+			width: 100vw;
+			margin-left: calc(50% - 50vw);
+
 			background: #000000;
 			color: #F7F5EF;
+
 			overflow: hidden;
 		}
 
+
+		/* ---------------------------------------------------------
+		   CONTENT CONTAINER
+		   --------------------------------------------------------- */
+
 		.ve-hero-content__inner {
 			width: min(100%, 1180px);
+
 			margin: 0 auto;
-			padding: clamp(96px, 11vw, 156px) 32px
-						clamp(92px, 10vw, 140px);
+
+			padding:
+				clamp(140px, 14vw, 190px)
+				32px
+				clamp(150px, 15vw, 210px);
 
 			box-sizing: border-box;
 		}
 
-		/* Eyebrow */
+
+		/* ---------------------------------------------------------
+		   EYEBROW
+		   --------------------------------------------------------- */
 
 		.ve-hero-content__eyebrow {
-			margin: 0 0 28px;
+			margin: 0 0 40px;
+
 			color: #1F4D3A;
+
 			font-size: 12px;
 			font-weight: 600;
 			line-height: 1.2;
+
 			letter-spacing: 0.20em;
+
 			text-transform: uppercase;
+			text-decoration: none;
 		}
 
-		/* H1 */
+
+		/* ---------------------------------------------------------
+		   H1
+		   --------------------------------------------------------- */
 
 		.ve-hero-content__title {
 			max-width: 760px;
+
 			margin: 0;
+
 			color: #F7F5EF;
+
 			font-size: clamp(42px, 5.2vw, 68px);
 			font-weight: 500;
-			line-height: 1.04;
+
+			line-height: 1.10;
+
 			letter-spacing: -0.035em;
+
 			text-wrap: balance;
 		}
 
-		/* Supporting copy */
+
+		/* ---------------------------------------------------------
+		   SUPPORTING COPY
+		   --------------------------------------------------------- */
 
 		.ve-hero-content__supporting {
 			max-width: 540px;
-			margin: 32px 0 0;
+
+			margin: 42px 0 0;
+
 			color: rgba(247, 245, 239, 0.76);
+
 			font-size: clamp(16px, 1.4vw, 18px);
 			font-weight: 400;
-			line-height: 1.6;
+
+			line-height: 1.65;
+
 			letter-spacing: 0;
 		}
 
-		/* CTA group */
+
+		/* ---------------------------------------------------------
+		   CTA GROUP
+		   --------------------------------------------------------- */
 
 		.ve-hero-content__actions {
 			display: flex;
+
 			align-items: center;
+
 			flex-wrap: wrap;
-			gap: 28px;
-			margin-top: 44px;
+
+			gap: 34px;
+
+			margin-top: 58px;
 		}
 
-		/* Shared CTA */
+
+		/* ---------------------------------------------------------
+		   CTA BASE
+		   --------------------------------------------------------- */
+
+		.ve-button,
+		.ve-button:hover,
+		.ve-button:focus,
+		.ve-button:visited {
+			text-decoration: none;
+		}
+
 
 		.ve-button {
 			display: inline-flex;
+
 			align-items: center;
 			justify-content: center;
-			min-height: 52px;
+
+			min-height: 54px;
+
 			box-sizing: border-box;
+
 			font-size: 14px;
 			font-weight: 600;
+
 			line-height: 1;
+
 			letter-spacing: 0.01em;
-			text-decoration: none;
+
 			transition:
-				background-color 220ms ease,
-				color 220ms ease,
-				border-color 220ms ease,
-				transform 220ms ease,
-				opacity 220ms ease;
+				background-color 260ms ease,
+				color 260ms ease,
+				border-color 260ms ease,
+				transform 260ms ease;
 		}
 
-		/* Primary CTA */
+
+		/* ---------------------------------------------------------
+		   PRIMARY CTA
+		   --------------------------------------------------------- */
 
 		.ve-button--primary {
-			padding: 0 27px;
+			padding: 0 30px;
+
 			background: #F7F5EF;
 			color: #000000;
+
 			border: 1px solid #F7F5EF;
 		}
+
 
 		.ve-button--primary:hover,
 		.ve-button--primary:focus-visible {
 			background: #1F4D3A;
 			color: #FFFFFF;
+
 			border-color: #1F4D3A;
+
 			transform: translateY(-2px);
 		}
 
-		/* Secondary CTA */
+
+		/* ---------------------------------------------------------
+		   SECONDARY CTA
+		   --------------------------------------------------------- */
 
 		.ve-button--secondary {
-			min-height: auto;
-			padding: 12px 0;
-			gap: 8px;
+			min-height: 44px;
+
+			padding: 10px 0;
+
+			gap: 9px;
+
 			color: #F7F5EF;
+
 			border: 0;
 		}
+
 
 		.ve-button--secondary:hover,
 		.ve-button--secondary:focus-visible {
 			color: #1F4D3A;
 		}
 
+
+		/* ---------------------------------------------------------
+		   SECONDARY CTA ARROW
+		   --------------------------------------------------------- */
+
 		.ve-button__arrow {
 			display: inline-block;
-			transition: transform 220ms ease;
+
+			transition:
+				transform 260ms ease;
 		}
+
 
 		.ve-button--secondary:hover .ve-button__arrow,
 		.ve-button--secondary:focus-visible .ve-button__arrow {
-			transform: translateX(4px);
+			transform: translateX(5px);
 		}
 
-		/* Keyboard accessibility */
+
+		/* ---------------------------------------------------------
+		   KEYBOARD ACCESSIBILITY
+		   --------------------------------------------------------- */
 
 		.ve-button:focus-visible {
 			outline: 2px solid #1F4D3A;
-			outline-offset: 5px;
+
+			outline-offset: 6px;
 		}
 
-		/* Entrance animation */
+
+		/* ---------------------------------------------------------
+		   QUIET ENTRANCE ANIMATION
+		   --------------------------------------------------------- */
 
 		.ve-hero-content__eyebrow,
 		.ve-hero-content__title,
 		.ve-hero-content__supporting,
 		.ve-hero-content__actions {
-			animation: veHeroReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+			animation:
+				veHeroReveal
+				1000ms
+				cubic-bezier(0.22, 1, 0.36, 1)
+				both;
 		}
+
 
 		.ve-hero-content__eyebrow {
-			animation-delay: 0ms;
+			animation-delay: 80ms;
 		}
+
 
 		.ve-hero-content__title {
-			animation-delay: 90ms;
+			animation-delay: 240ms;
 		}
+
 
 		.ve-hero-content__supporting {
-			animation-delay: 180ms;
+			animation-delay: 420ms;
 		}
 
+
 		.ve-hero-content__actions {
-			animation-delay: 270ms;
+			animation-delay: 600ms;
 		}
+
 
 		@keyframes veHeroReveal {
 
 			from {
 				opacity: 0;
-				transform: translateY(14px);
+
+				transform:
+					translateY(18px);
 			}
 
 			to {
 				opacity: 1;
-				transform: translateY(0);
+
+				transform:
+					translateY(0);
 			}
 		}
 
-		/* Tablet */
+
+		/* ---------------------------------------------------------
+		   TABLET
+		   --------------------------------------------------------- */
 
 		@media (max-width: 900px) {
 
 			.ve-hero-content__inner {
+
 				padding-left: 28px;
 				padding-right: 28px;
 			}
+
 
 			.ve-hero-content__title {
 				max-width: 650px;
 			}
 		}
 
-		/* Mobile */
+
+		/* ---------------------------------------------------------
+		   MOBILE
+		   --------------------------------------------------------- */
 
 		@media (max-width: 640px) {
 
 			.ve-hero-content__inner {
-				padding: 88px 22px 84px;
+
+				padding:
+					120px
+					22px
+					130px;
 			}
 
+
+			/* Eyebrow */
+
 			.ve-hero-content__eyebrow {
-				margin-bottom: 24px;
+
+				margin-bottom: 34px;
+
 				font-size: 11px;
+
 				letter-spacing: 0.19em;
 			}
 
+
+			/* H1 */
+
 			.ve-hero-content__title {
+
 				max-width: 100%;
-				font-size: clamp(38px, 11vw, 46px);
-				line-height: 1.04;
+
+				font-size:
+					clamp(
+						38px,
+						11vw,
+						46px
+					);
+
+				line-height: 1.10;
+
 				letter-spacing: -0.03em;
 			}
 
+
+			/* Supporting */
+
 			.ve-hero-content__supporting {
+
 				max-width: 430px;
-				margin-top: 26px;
+
+				margin-top: 38px;
+
 				font-size: 16px;
-				line-height: 1.55;
+
+				line-height: 1.65;
 			}
+
+
+			/* CTA Group */
 
 			.ve-hero-content__actions {
+
 				align-items: stretch;
+
 				flex-direction: column;
-				gap: 18px;
-				margin-top: 36px;
+
+				gap: 24px;
+
+				margin-top: 52px;
 			}
+
+
+			/* Primary CTA */
 
 			.ve-button--primary {
+
 				width: 100%;
-				min-height: 52px;
+
+				min-height: 56px;
 			}
 
+
+			/* Secondary CTA */
+
 			.ve-button--secondary {
+
 				align-self: flex-start;
+
+				min-height: 44px;
+
 				padding: 10px 0;
 			}
 		}
 
-		/* Reduced motion */
+
+		/* ---------------------------------------------------------
+		   REDUCED MOTION
+		   --------------------------------------------------------- */
 
 		@media (prefers-reduced-motion: reduce) {
 
@@ -336,16 +529,22 @@ function vestis_elites_homepage() {
 			.ve-hero-content__title,
 			.ve-hero-content__supporting,
 			.ve-hero-content__actions {
+
 				animation: none;
 			}
 
+
 			.ve-button,
 			.ve-button__arrow {
+
 				transition: none;
 			}
 		}
+
 	</style>
 
+
 	<?php
+
 	return ob_get_clean();
 }
