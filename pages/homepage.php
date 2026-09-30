@@ -238,12 +238,12 @@ function vestis_elites_homepage() {
 		   CTA BASE
 		   --------------------------------------------------------- */
 
-		.ve-button,
-		.ve-button:hover,
-		.ve-button:focus,
-		.ve-button:visited {
-			text-decoration: none;
-		}
+		.ve-button--primary,
+.ve-button--primary:hover,
+.ve-button--primary:focus,
+.ve-button--primary:visited {
+	text-decoration: none !important;
+}
 
 
 		.ve-button {
