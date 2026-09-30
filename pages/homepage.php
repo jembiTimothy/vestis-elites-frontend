@@ -35,7 +35,7 @@ function vestis_elites_get_page_url( $title ) {
 
 
 /**
- * Find a WordPress image attachment by its uploaded filename.
+ * Find a WordPress image attachment by filename.
  */
 function vestis_elites_get_image_id( $filename ) {
 
@@ -107,6 +107,7 @@ function vestis_elites_homepage() {
 
 	ob_start();
 	?>
+
 
 	<!-- =========================================================
 	     SECTION 1 — HERO CONTENT
@@ -225,7 +226,6 @@ function vestis_elites_homepage() {
 	<style>
 
 		/* =========================================================
-		   VESTIS ELITES
 		   SECTION 1 — HERO CONTENT
 		   ========================================================= */
 
@@ -536,11 +536,16 @@ function vestis_elites_homepage() {
 
 			margin-left: calc(50% - 50vw);
 
-			margin-top: 0;
+			/*
+			 * Controlled ivory breathing space between
+			 * the statement and the editorial image.
+			 */
+
+			margin-top: 48px;
 
 			padding: 0;
 
-			background: #000000;
+			background: #F7F5EF;
 
 			overflow: hidden;
 		}
@@ -615,6 +620,12 @@ function vestis_elites_homepage() {
 			.ve-hero-content__title {
 
 				max-width: 650px;
+			}
+
+
+			.ve-hero-image {
+
+				margin-top: 48px;
 			}
 		}
 
@@ -704,6 +715,12 @@ function vestis_elites_homepage() {
 
 
 			/* MOBILE IMAGE */
+
+			.ve-hero-image {
+
+				margin-top: 32px;
+			}
+
 
 			.ve-hero-image__media {
 
