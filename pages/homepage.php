@@ -89,6 +89,7 @@ function vestis_elites_homepage() {
 
 	$consultation_url = vestis_elites_get_page_url( 'Private Consultation' );
 	$atelier_url      = vestis_elites_get_page_url( 'Atelier' );
+	$journal_url      = vestis_elites_get_page_url( 'Journal' );
 
 	$desktop_image_id = vestis_elites_get_image_id(
 		'vestis-elite-about-hero-premium-2.webp'
@@ -96,6 +97,18 @@ function vestis_elites_homepage() {
 
 	$mobile_image_id = vestis_elites_get_image_id(
 		'vestis-elites-refined-men-portrait.webp'
+	);
+
+	$atelier_image_id = vestis_elites_get_image_id(
+		'imperium-wine-double-breasted-suit-luxury-fashion.webp'
+	);
+
+	$consultation_image_id = vestis_elites_get_image_id(
+		'vestis-elites-private-consultation-bespoke-tailoring.webp'
+	);
+
+	$journal_image_id = vestis_elites_get_image_id(
+		'vestis-elites-journal-personal-presentation-editorial.webp'
 	);
 
 	$desktop_image_url = $desktop_image_id
@@ -263,6 +276,189 @@ function vestis_elites_homepage() {
 	</section>
 
 
+	<!-- =========================================================
+	     SECTION 4 — EXPLORE THE HOUSE
+	     ========================================================= -->
+
+	<section
+		class="ve-explore"
+		aria-labelledby="ve-explore-title"
+	>
+
+		<div class="ve-explore__inner">
+
+			<div class="ve-explore__intro">
+
+				<h2
+					id="ve-explore-title"
+					class="ve-explore__title"
+				>
+					Explore the House.
+				</h2>
+
+			</div>
+
+
+			<div class="ve-explore__grid">
+
+
+				<?php if ( $atelier_url && $atelier_image_id ) : ?>
+
+					<a
+						class="ve-explore-card ve-explore-card--atelier"
+						href="<?php echo esc_url( $atelier_url ); ?>"
+						aria-label="Explore The Atelier"
+					>
+
+						<div class="ve-explore-card__image">
+
+							<?php
+							echo wp_get_attachment_image(
+								$atelier_image_id,
+								'full',
+								false,
+								array(
+									'alt'      => 'Man wearing a burgundy double-breasted suit in a refined interior',
+									'loading'  => 'lazy',
+									'decoding' => 'async',
+								)
+							);
+							?>
+
+						</div>
+
+						<div class="ve-explore-card__content">
+
+							<p class="ve-explore-card__label">
+								THE ATELIER
+							</p>
+
+							<h3 class="ve-explore-card__heading">
+								The collection, thoughtfully curated.
+							</h3>
+
+							<span class="ve-explore-card__cta">
+								Explore The Atelier
+								<span aria-hidden="true">→</span>
+							</span>
+
+						</div>
+
+					</a>
+
+				<?php endif; ?>
+
+
+				<div class="ve-explore__secondary">
+
+
+					<?php if ( $consultation_url && $consultation_image_id ) : ?>
+
+						<a
+							class="ve-explore-card ve-explore-card--consultation"
+							href="<?php echo esc_url( $consultation_url ); ?>"
+							aria-label="Begin Your Private Consultation"
+						>
+
+							<div class="ve-explore-card__image">
+
+								<?php
+								echo wp_get_attachment_image(
+									$consultation_image_id,
+									'full',
+									false,
+									array(
+										'alt'      => 'Private consultation for bespoke tailoring at Vestis Elites',
+										'loading'  => 'lazy',
+										'decoding' => 'async',
+									)
+								);
+								?>
+
+							</div>
+
+							<div class="ve-explore-card__content">
+
+								<p class="ve-explore-card__label">
+									PRIVATE CONSULTATION
+								</p>
+
+								<h3 class="ve-explore-card__heading">
+									Your presentation starts with a conversation.
+								</h3>
+
+								<p class="ve-explore-card__supporting">
+									Tell us where you are and where you want to go.
+								</p>
+
+								<span class="ve-explore-card__cta">
+									Begin Your Private Consultation
+									<span aria-hidden="true">→</span>
+								</span>
+
+							</div>
+
+						</a>
+
+					<?php endif; ?>
+
+
+					<?php if ( $journal_url && $journal_image_id ) : ?>
+
+						<a
+							class="ve-explore-card ve-explore-card--journal"
+							href="<?php echo esc_url( $journal_url ); ?>"
+							aria-label="Read The Journal"
+						>
+
+							<div class="ve-explore-card__image">
+
+								<?php
+								echo wp_get_attachment_image(
+									$journal_image_id,
+									'full',
+									false,
+									array(
+										'alt'      => 'Man reading on a tablet in a refined interior',
+										'loading'  => 'lazy',
+										'decoding' => 'async',
+									)
+								);
+								?>
+
+							</div>
+
+							<div class="ve-explore-card__content">
+
+								<p class="ve-explore-card__label">
+									THE JOURNAL
+								</p>
+
+								<h3 class="ve-explore-card__heading">
+									Ideas on personal presentation, style and the way you live.
+								</h3>
+
+								<span class="ve-explore-card__cta">
+									Read The Journal
+									<span aria-hidden="true">→</span>
+								</span>
+
+							</div>
+
+						</a>
+
+					<?php endif; ?>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+
 	<style>
 
 		/* =========================================================
@@ -285,8 +481,6 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* Astra row */
-
 		body.ve-coded-homepage .site-content .ast-row {
 
 			display: block !important;
@@ -298,8 +492,6 @@ function vestis_elites_homepage() {
 			margin: 0 !important;
 		}
 
-
-		/* Primary content column */
 
 		body.ve-coded-homepage .site-content #primary {
 
@@ -319,8 +511,6 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* Remove Astra secondary/sidebar column */
-
 		body.ve-coded-homepage .site-content #secondary {
 
 			display: none !important;
@@ -335,8 +525,6 @@ function vestis_elites_homepage() {
 		}
 
 
-		/* Entry */
-
 		body.ve-coded-homepage .site-content .hentry {
 
 			display: block !important;
@@ -350,8 +538,6 @@ function vestis_elites_homepage() {
 			padding: 0 !important;
 		}
 
-
-		/* Entry content */
 
 		body.ve-coded-homepage .site-content .entry-content {
 
@@ -373,7 +559,8 @@ function vestis_elites_homepage() {
 
 		body.ve-coded-homepage .ve-hero-content,
 		body.ve-coded-homepage .ve-hero-image,
-		body.ve-coded-homepage .ve-house {
+		body.ve-coded-homepage .ve-house,
+		body.ve-coded-homepage .ve-explore {
 
 			display: block;
 
@@ -643,7 +830,7 @@ function vestis_elites_homepage() {
 
 
 		/* =========================================================
-		   IMAGE
+		   SECTION 2 — IMAGE
 		========================================================= */
 
 		.ve-hero-image {
@@ -820,179 +1007,248 @@ function vestis_elites_homepage() {
 
 
 		/* =========================================================
-		   TABLET
+		   SECTION 4 — EXPLORE THE HOUSE
 		========================================================= */
 
-		@media (max-width: 900px) {
+		.ve-explore {
 
-			.ve-hero-content__inner,
-			.ve-house__inner {
+			background: #FFFFFF;
 
-				padding-left: 28px;
+			color: #111111;
 
-				padding-right: 28px;
-			}
+			overflow: hidden;
 		}
 
 
-		/* =========================================================
-		   MOBILE
-		========================================================= */
+		.ve-explore__inner {
 
-		@media (max-width: 640px) {
+			width: min(100%, 1180px);
 
-			.ve-hero-content__inner {
+			margin: 0 auto;
 
-				padding:
-					120px
-					22px
-					130px;
-			}
+			padding:
+				0
+				32px
+				clamp(130px, 13vw, 190px);
 
-
-			.ve-hero-content__eyebrow {
-
-				margin-bottom: 34px;
-
-				font-size: 11px;
-
-				letter-spacing: 0.19em;
-			}
-
-
-			.ve-hero-content__title {
-
-				font-size:
-					clamp(
-						38px,
-						11vw,
-						46px
-					);
-
-				line-height: 1.10;
-
-				letter-spacing: -0.03em;
-			}
-
-
-			.ve-hero-content__supporting {
-
-				margin-top: 38px;
-
-				font-size: 16px;
-
-				line-height: 1.65;
-			}
-
-
-			.ve-hero-content__actions {
-
-				align-items: stretch;
-
-				flex-direction: column;
-
-				gap: 24px;
-
-				margin-top: 52px;
-			}
-
-
-			.ve-button--primary {
-
-				width: 100%;
-
-				min-height: 56px;
-			}
-
-
-			.ve-button--secondary {
-
-				align-self: flex-start;
-			}
-
-
-			.ve-hero-image {
-
-				margin-top: 32px !important;
-			}
-
-
-			/* Section 3 */
-
-			.ve-house__inner {
-
-				padding:
-					100px
-					22px
-					110px;
-			}
-
-
-			.ve-house__eyebrow {
-
-				margin-bottom: 30px;
-
-				font-size: 10px;
-
-				letter-spacing: 0.19em;
-			}
-
-
-			.ve-house__title {
-
-				font-size:
-					clamp(
-						36px,
-						10.5vw,
-						44px
-					);
-
-				line-height: 1.10;
-
-				letter-spacing: -0.03em;
-			}
-
-
-			.ve-house__body {
-
-				margin-top: 34px;
-
-				font-size: 16px;
-
-				line-height: 1.72;
-			}
-
-
-			.ve-house__closing {
-
-				margin-top: 42px;
-
-				font-size: 21px;
-
-				line-height: 1.4;
-			}
+			box-sizing: border-box;
 		}
 
 
-		/* =========================================================
-		   REDUCED MOTION
-		========================================================= */
+		.ve-explore__intro {
 
-		@media (prefers-reduced-motion: reduce) {
-
-			.ve-hero-content__eyebrow,
-			.ve-hero-content__title,
-			.ve-hero-content__supporting,
-			.ve-hero-content__actions,
-			.ve-hero-image__media {
-
-				animation: none;
-			}
+			margin-bottom: 72px;
 		}
 
-	</style>
 
-	<?php
+		.ve-explore__title {
 
-	return ob_get_clean();
-}
+			max-width: 700px;
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(40px, 5vw, 64px);
+
+			font-weight: 500;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.035em;
+		}
+
+
+		/* MAIN FEATURE */
+
+		.ve-explore__grid {
+
+			display: grid;
+
+			grid-template-columns: minmax(0, 1fr);
+
+			gap: 86px;
+		}
+
+
+		.ve-explore-card {
+
+			display: block;
+
+			color: inherit;
+
+			text-decoration: none;
+
+			transition:
+				transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+
+		.ve-explore-card:hover {
+
+			color: inherit;
+
+			text-decoration: none;
+
+			transform: translateY(-4px);
+		}
+
+
+		.ve-explore-card__image {
+
+			position: relative;
+
+			overflow: hidden;
+
+			background: #F3F1EB;
+		}
+
+
+		.ve-explore-card__image img {
+
+			display: block;
+
+			width: 100%;
+
+			height: auto;
+
+			margin: 0;
+
+			transition:
+				transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__image img {
+
+			transform: scale(1.025);
+		}
+
+
+		.ve-explore-card__content {
+
+			padding-top: 28px;
+		}
+
+
+		.ve-explore-card__label {
+
+			margin: 0 0 18px;
+
+			color: #1F4D3A;
+
+			font-size: 11px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.19em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-explore-card__heading {
+
+			max-width: 720px;
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(25px, 2.6vw, 36px);
+
+			font-weight: 500;
+
+			line-height: 1.22;
+
+			letter-spacing: -0.025em;
+		}
+
+
+		.ve-explore-card__supporting {
+
+			max-width: 560px;
+
+			margin: 18px 0 0;
+
+			color: #4A4A4A;
+
+			font-size: 16px;
+
+			line-height: 1.65;
+		}
+
+
+		.ve-explore-card__cta {
+
+			display: inline-flex;
+
+			align-items: center;
+
+			gap: 9px;
+
+			margin-top: 24px;
+
+			color: #111111;
+
+			font-size: 13px;
+
+			font-weight: 600;
+
+			line-height: 1.3;
+
+			text-decoration: underline;
+
+			text-decoration-thickness: 1px;
+
+			text-underline-offset: 6px;
+
+			transition: color 260ms ease;
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__cta {
+
+			color: #1F4D3A;
+		}
+
+
+		.ve-explore-card__cta span {
+
+			display: inline-block;
+
+			transition:
+				transform 260ms ease;
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__cta span {
+
+			transform: translateX(5px);
+		}
+
+
+		/* SECONDARY GATEWAYS */
+
+		.ve-explore__secondary {
+
+			display: grid;
+
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+
+			gap: 48px;
+
+			align-items: start;
+		}
+
+
+		.ve-explore-card--consultation .ve-explore-card__heading,
+		.ve-explore-card--journal .ve-explore-card__heading {
+
+			font-size: clamp(24px, 2.2vw, 31px);
+		}
+
+
+		/* ===========================================
