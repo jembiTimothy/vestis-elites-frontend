@@ -226,6 +226,43 @@ function vestis_elites_homepage() {
 	<?php endif; ?>
 
 
+	<!-- =========================================================
+	     SECTION 3 — THE HOUSE
+	     ========================================================= -->
+
+	<section
+		class="ve-house"
+		aria-labelledby="ve-house-title"
+	>
+
+		<div class="ve-house__inner">
+
+			<p class="ve-house__eyebrow">
+				THE HOUSE
+			</p>
+
+			<h2
+				id="ve-house-title"
+				class="ve-house__title"
+			>
+				Your time belongs elsewhere.
+			</h2>
+
+			<p class="ve-house__body">
+				Personal presentation can demand constant decisions.
+				<strong>Vestis Elites</strong> takes that responsibility off you through
+				clothing, grooming and presentation solutions designed around you.
+			</p>
+
+			<p class="ve-house__closing">
+				So you can focus on what matters.
+			</p>
+
+		</div>
+
+	</section>
+
+
 	<style>
 
 		/* =========================================================
@@ -335,7 +372,8 @@ function vestis_elites_homepage() {
 		========================================================= */
 
 		body.ve-coded-homepage .ve-hero-content,
-		body.ve-coded-homepage .ve-hero-image {
+		body.ve-coded-homepage .ve-hero-image,
+		body.ve-coded-homepage .ve-house {
 
 			display: block;
 
@@ -671,12 +709,124 @@ function vestis_elites_homepage() {
 
 
 		/* =========================================================
+		   SECTION 3 — THE HOUSE
+		========================================================= */
+
+		.ve-house {
+
+			background: #FFFFFF;
+
+			color: #111111;
+
+			overflow: hidden;
+		}
+
+
+		.ve-house__inner {
+
+			width: min(100%, 1180px);
+
+			margin: 0 auto;
+
+			padding:
+				clamp(120px, 12vw, 180px)
+				32px
+				clamp(130px, 13vw, 190px);
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-house__eyebrow {
+
+			margin: 0 0 34px;
+
+			color: #1F4D3A;
+
+			font-size: 11px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.20em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-house__title {
+
+			max-width: 760px;
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(40px, 5vw, 64px);
+
+			font-weight: 500;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.035em;
+		}
+
+
+		.ve-house__body {
+
+			max-width: 650px;
+
+			margin: 42px 0 0;
+
+			color: #3F3F3F;
+
+			font-size: clamp(17px, 1.45vw, 19px);
+
+			font-weight: 400;
+
+			line-height: 1.75;
+
+			letter-spacing: -0.005em;
+		}
+
+
+		.ve-house__body strong {
+
+			color: #1F4D3A;
+
+			font-weight: 600;
+
+			letter-spacing: -0.01em;
+		}
+
+
+		.ve-house__closing {
+
+			max-width: 600px;
+
+			margin: 52px 0 0;
+
+			color: #111111;
+
+			font-size: clamp(20px, 2vw, 26px);
+
+			font-weight: 500;
+
+			line-height: 1.4;
+
+			letter-spacing: -0.02em;
+		}
+
+
+		/* =========================================================
 		   TABLET
 		========================================================= */
 
 		@media (max-width: 900px) {
 
-			.ve-hero-content__inner {
+			.ve-hero-content__inner,
+			.ve-house__inner {
 
 				padding-left: 28px;
 
@@ -764,6 +914,62 @@ function vestis_elites_homepage() {
 			.ve-hero-image {
 
 				margin-top: 32px !important;
+			}
+
+
+			/* Section 3 */
+
+			.ve-house__inner {
+
+				padding:
+					100px
+					22px
+					110px;
+			}
+
+
+			.ve-house__eyebrow {
+
+				margin-bottom: 30px;
+
+				font-size: 10px;
+
+				letter-spacing: 0.19em;
+			}
+
+
+			.ve-house__title {
+
+				font-size:
+					clamp(
+						36px,
+						10.5vw,
+						44px
+					);
+
+				line-height: 1.10;
+
+				letter-spacing: -0.03em;
+			}
+
+
+			.ve-house__body {
+
+				margin-top: 34px;
+
+				font-size: 16px;
+
+				line-height: 1.72;
+			}
+
+
+			.ve-house__closing {
+
+				margin-top: 42px;
+
+				font-size: 21px;
+
+				line-height: 1.4;
 			}
 		}
 
