@@ -1,7 +1,9 @@
 <?php
 /**
  * Vestis Elites — Homepage
+ *
  * Section 1: Hero Content
+ * Section 2: Hero Image
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,15 +35,82 @@ function vestis_elites_get_page_url( $title ) {
 
 
 /**
- * Homepage — Section 1: Hero Content
+ * Find a WordPress image attachment by its uploaded filename.
+ */
+function vestis_elites_get_image_id( $filename ) {
+
+	$attachments = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 1,
+			'meta_query'     => array(
+				array(
+					'key'     => '_wp_attached_file',
+					'value'   => $filename,
+					'compare' => 'LIKE',
+				),
+			),
+		)
+	);
+
+	if ( empty( $attachments ) ) {
+		return 0;
+	}
+
+	return (int) $attachments[0]->ID;
+}
+
+
+/**
+ * Homepage.
  */
 function vestis_elites_homepage() {
+
+	/* ---------------------------------------------------------
+	   CTA DESTINATIONS
+	   --------------------------------------------------------- */
 
 	$consultation_url = vestis_elites_get_page_url( 'Private Consultation' );
 	$atelier_url      = vestis_elites_get_page_url( 'Atelier' );
 
+
+	/* ---------------------------------------------------------
+	   HERO IMAGES
+	   --------------------------------------------------------- */
+
+	$desktop_image_id = vestis_elites_get_image_id(
+		'vestis-elite-about-hero-premium-2.webp'
+	);
+
+	$mobile_image_id = vestis_elites_get_image_id(
+		'vestis-elites-refined-men-portrait.webp'
+	);
+
+
+	$desktop_image_url = $desktop_image_id
+		? wp_get_attachment_image_url( $desktop_image_id, 'full' )
+		: '';
+
+	$mobile_image_url = $mobile_image_id
+		? wp_get_attachment_image_url( $mobile_image_id, 'full' )
+		: '';
+
+	$desktop_srcset = $desktop_image_id
+		? wp_get_attachment_image_srcset( $desktop_image_id, 'full' )
+		: '';
+
+	$mobile_srcset = $mobile_image_id
+		? wp_get_attachment_image_srcset( $mobile_image_id, 'full' )
+		: '';
+
+
 	ob_start();
 	?>
+
+	<!-- =========================================================
+	     SECTION 1 — HERO CONTENT
+	     ========================================================= -->
 
 	<section
 		class="ve-hero-content"
@@ -54,6 +123,7 @@ function vestis_elites_homepage() {
 				VESTIS ELITES
 			</p>
 
+
 			<h1
 				id="ve-hero-title"
 				class="ve-hero-content__title"
@@ -63,9 +133,11 @@ function vestis_elites_homepage() {
 				Bespoke.
 			</h1>
 
+
 			<p class="ve-hero-content__supporting">
 				Bespoke clothing and personal presentation designed around you.
 			</p>
+
 
 			<div class="ve-hero-content__actions">
 
@@ -88,10 +160,13 @@ function vestis_elites_homepage() {
 						href="<?php echo esc_url( $atelier_url ); ?>"
 					>
 						<span>Explore The Atelier</span>
+
 						<span
 							class="ve-button__arrow"
 							aria-hidden="true"
-						>→</span>
+						>
+							→
+						</span>
 					</a>
 
 				<?php endif; ?>
@@ -103,24 +178,75 @@ function vestis_elites_homepage() {
 	</section>
 
 
+	<!-- =========================================================
+	     SECTION 2 — HERO IMAGE
+	     ========================================================= -->
+
+	<?php if ( $desktop_image_url || $mobile_image_url ) : ?>
+
+		<section
+			class="ve-hero-image"
+			aria-label="Vestis Elites editorial presentation"
+		>
+
+			<picture>
+
+				<?php if ( $mobile_image_url ) : ?>
+
+					<source
+						media="(max-width: 640px)"
+						srcset="<?php echo esc_attr( $mobile_srcset ? $mobile_srcset : $mobile_image_url ); ?>"
+						sizes="100vw"
+					>
+
+				<?php endif; ?>
+
+
+				<img
+					class="ve-hero-image__media"
+					src="<?php echo esc_url( $desktop_image_url ? $desktop_image_url : $mobile_image_url ); ?>"
+					<?php if ( $desktop_srcset ) : ?>
+						srcset="<?php echo esc_attr( $desktop_srcset ); ?>"
+						sizes="100vw"
+					<?php endif; ?>
+					alt="Man wearing a tailored beige suit in the Vestis Elites atelier"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				>
+
+			</picture>
+
+		</section>
+
+	<?php endif; ?>
+
+
 	<style>
 
 		/* =========================================================
 		   VESTIS ELITES
-		   HERO CONTENT — SECTION 1
+		   SECTION 1 — HERO CONTENT
 		   ========================================================= */
 
 		.ve-hero-content {
+
 			width: 100vw;
+
 			margin-left: calc(50% - 50vw);
+
 			background: #000000;
+
 			color: #F7F5EF;
+
 			overflow: hidden;
 		}
 
 
 		.ve-hero-content__inner {
+
 			width: min(100%, 1180px);
+
 			margin: 0 auto;
 
 			padding:
@@ -135,12 +261,15 @@ function vestis_elites_homepage() {
 		/* EYEBROW */
 
 		.ve-hero-content__eyebrow {
+
 			margin: 0 0 40px;
 
 			color: #5E9B7D;
 
 			font-size: 12px;
+
 			font-weight: 600;
+
 			line-height: 1.2;
 
 			letter-spacing: 0.20em;
@@ -152,6 +281,7 @@ function vestis_elites_homepage() {
 		/* H1 */
 
 		.ve-hero-content__title {
+
 			max-width: 760px;
 
 			margin: 0;
@@ -159,6 +289,7 @@ function vestis_elites_homepage() {
 			color: #F7F5EF;
 
 			font-size: clamp(42px, 5.2vw, 68px);
+
 			font-weight: 500;
 
 			line-height: 1.10;
@@ -172,6 +303,7 @@ function vestis_elites_homepage() {
 		/* SUPPORTING COPY */
 
 		.ve-hero-content__supporting {
+
 			max-width: 540px;
 
 			margin: 42px 0 0;
@@ -179,6 +311,7 @@ function vestis_elites_homepage() {
 			color: rgba(247, 245, 239, 0.76);
 
 			font-size: clamp(16px, 1.4vw, 18px);
+
 			font-weight: 400;
 
 			line-height: 1.65;
@@ -188,6 +321,7 @@ function vestis_elites_homepage() {
 		/* CTA GROUP */
 
 		.ve-hero-content__actions {
+
 			display: flex;
 
 			align-items: center;
@@ -206,14 +340,17 @@ function vestis_elites_homepage() {
 		.ve-button--primary:hover,
 		.ve-button--primary:focus,
 		.ve-button--primary:visited {
+
 			text-decoration: none !important;
 		}
 
 
 		.ve-button--primary {
+
 			display: inline-flex;
 
 			align-items: center;
+
 			justify-content: center;
 
 			min-height: 54px;
@@ -223,11 +360,13 @@ function vestis_elites_homepage() {
 			box-sizing: border-box;
 
 			background: #F7F5EF;
+
 			color: #000000;
 
 			border: 1px solid #F7F5EF;
 
 			font-size: 14px;
+
 			font-weight: 600;
 
 			line-height: 1;
@@ -244,6 +383,7 @@ function vestis_elites_homepage() {
 
 		.ve-button--primary:hover,
 		.ve-button--primary:focus-visible {
+
 			background: #1F4D3A;
 
 			color: #FFFFFF;
@@ -257,9 +397,11 @@ function vestis_elites_homepage() {
 		/* SECONDARY CTA */
 
 		.ve-button--secondary {
+
 			display: inline-flex;
 
 			align-items: center;
+
 			justify-content: center;
 
 			min-height: 44px;
@@ -275,6 +417,7 @@ function vestis_elites_homepage() {
 			border: 0;
 
 			font-size: 14px;
+
 			font-weight: 600;
 
 			line-height: 1;
@@ -295,11 +438,13 @@ function vestis_elites_homepage() {
 
 		.ve-button--secondary:hover,
 		.ve-button--secondary:focus-visible {
+
 			color: #1F4D3A;
 		}
 
 
 		.ve-button__arrow {
+
 			display: inline-block;
 
 			transition:
@@ -309,6 +454,7 @@ function vestis_elites_homepage() {
 
 		.ve-button--secondary:hover .ve-button__arrow,
 		.ve-button--secondary:focus-visible .ve-button__arrow {
+
 			transform: translateX(5px);
 		}
 
@@ -316,6 +462,7 @@ function vestis_elites_homepage() {
 		/* ACCESSIBILITY */
 
 		.ve-button:focus-visible {
+
 			outline: 2px solid #1F4D3A;
 
 			outline-offset: 6px;
@@ -338,21 +485,25 @@ function vestis_elites_homepage() {
 
 
 		.ve-hero-content__eyebrow {
+
 			animation-delay: 0ms;
 		}
 
 
 		.ve-hero-content__title {
+
 			animation-delay: 300ms;
 		}
 
 
 		.ve-hero-content__supporting {
+
 			animation-delay: 600ms;
 		}
 
 
 		.ve-hero-content__actions {
+
 			animation-delay: 900ms;
 		}
 
@@ -360,33 +511,117 @@ function vestis_elites_homepage() {
 		@keyframes veHeroReveal {
 
 			from {
+
 				opacity: 0;
+
 				transform: translateY(18px);
 			}
 
 			to {
+
 				opacity: 1;
+
 				transform: translateY(0);
 			}
 		}
 
 
-		/* TABLET */
+		/* =========================================================
+		   SECTION 2 — HERO IMAGE
+		   ========================================================= */
+
+		.ve-hero-image {
+
+			width: 100vw;
+
+			margin-left: calc(50% - 50vw);
+
+			margin-top: 0;
+
+			padding: 0;
+
+			background: #000000;
+
+			overflow: hidden;
+		}
+
+
+		.ve-hero-image picture {
+
+			display: block;
+
+			width: 100%;
+		}
+
+
+		.ve-hero-image__media {
+
+			display: block;
+
+			width: 100%;
+
+			height: auto;
+
+			margin: 0;
+
+			padding: 0;
+
+			object-fit: cover;
+
+			object-position: center center;
+
+			transform: scale(1.001);
+
+			animation:
+				veHeroImageReveal
+				1800ms
+				cubic-bezier(0.22, 1, 0.36, 1)
+				both;
+		}
+
+
+		@keyframes veHeroImageReveal {
+
+			from {
+
+				opacity: 0;
+
+				transform: scale(1.025);
+			}
+
+			to {
+
+				opacity: 1;
+
+				transform: scale(1.001);
+			}
+		}
+
+
+		/* =========================================================
+		   TABLET
+		   ========================================================= */
 
 		@media (max-width: 900px) {
 
 			.ve-hero-content__inner {
+
 				padding-left: 28px;
+
 				padding-right: 28px;
 			}
 
+
 			.ve-hero-content__title {
+
 				max-width: 650px;
 			}
 		}
 
 
-		/* MOBILE */
+		/* =========================================================
+		   MOBILE
+		   ========================================================= */
 
 		@media (max-width: 640px) {
 
@@ -466,17 +701,34 @@ function vestis_elites_homepage() {
 
 				padding: 10px 0;
 			}
+
+
+			/* MOBILE IMAGE */
+
+			.ve-hero-image__media {
+
+				width: 100%;
+
+				height: auto;
+
+				object-fit: cover;
+
+				object-position: center center;
+			}
 		}
 
 
-		/* REDUCED MOTION */
+		/* =========================================================
+		   REDUCED MOTION
+		   ========================================================= */
 
 		@media (prefers-reduced-motion: reduce) {
 
 			.ve-hero-content__eyebrow,
 			.ve-hero-content__title,
 			.ve-hero-content__supporting,
-			.ve-hero-content__actions {
+			.ve-hero-content__actions,
+			.ve-hero-image__media {
 
 				animation: none;
 			}
