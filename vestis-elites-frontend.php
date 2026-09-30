@@ -458,8 +458,9 @@ function vestis_elites_frontend_shortcode() {
 
     return ob_get_clean();
 }
+require_once __DIR__ . '/pages/homepage.php';
 
 add_shortcode(
     'vestis_frontend',
-    'vestis_elites_frontend_shortcode'
+    'vestis_elites_homepage'
 );
