@@ -3319,265 +3319,224 @@ function vestis_elites_homepage() {
 		}
 	</style>
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-			const carousel = document.querySelector('[data-ve-atelier-carousel]');
+        const carousel = document.querySelector('[data-ve-atelier-carousel]');
 
-			if (!carousel) {
-				return;
-			}
+        if (!carousel) {
+            return;
+        }
 
 
-			const track = carousel.querySelector('.ve-atelier__track');
+        const track = carousel.querySelector('.ve-atelier__track');
 
-			const products = Array.from(
-				carousel.querySelectorAll('[data-ve-atelier-product]')
-			);
+        const products = Array.from(
+            carousel.querySelectorAll('[data-ve-atelier-product]')
+        );
 
-			const previousButton = carousel.querySelector('[data-ve-atelier-prev]');
+        const previousButton = carousel.querySelector('[data-ve-atelier-prev]');
 
-			const nextButton = carousel.querySelector('[data-ve-atelier-next]');
+        const nextButton = carousel.querySelector('[data-ve-atelier-next]');
 
 
-			if (!track || !products.length) {
-				return;
-			}
+        if (!track || !products.length) {
+            return;
+        }
 
 
-			let currentIndex = 0;
+        let currentIndex = 0;
 
-			let galleryTimers = [];
+        let touchStartX = 0;
 
-			let autoplayDisabled = false;
+        let touchStartY = 0;
 
-			let touchStartX = 0;
 
-			let touchStartY = 0;
+        /* =====================================================
+           PRODUCT CAROUSEL
+        ===================================================== */
 
+        function updateCarousel() {
 
-			/* =====================================================
-			   PRODUCT CAROUSEL
-			===================================================== */
+            track.style.transform =
+                'translateX(-' + (currentIndex * 100) + '%)';
 
-			function updateCarousel() {
+            products.forEach(function (product, index) {
 
-				track.style.transform =
-					'translateX(-' + (currentIndex * 100) + '%)';
+                product.setAttribute(
+                    'aria-hidden',
+                    index === currentIndex ? 'false' : 'true'
+                );
 
-				products.forEach(function (product, index) {
+            });
 
-					product.setAttribute(
-						'aria-hidden',
-						index === currentIndex ? 'false' : 'true'
-					);
+        }
 
-				});
 
-			}
+        function goToProduct(index) {
 
+            if (index < 0) {
+                index = products.length - 1;
+            }
 
-			function stopGalleryAutoplay() {
+            if (index >= products.length) {
+                index = 0;
+            }
 
-				galleryTimers.forEach(function (timer) {
 
-					clearInterval(timer);
+            currentIndex = index;
 
-				});
+            updateCarousel();
 
-				galleryTimers = [];
+        }
 
-			}
 
+        function nextProduct() {
 
-			function startGalleryAutoplay() {
+            goToProduct(currentIndex + 1);
 
-				if (autoplayDisabled) {
-					return;
-				}
+        }
 
-				stopGalleryAutoplay();
 
+        function previousProduct() {
 
-				products.forEach(function (product) {
+            goToProduct(currentIndex - 1);
 
-					const images = Array.from(
-						product.querySelectorAll(
-							'.ve-atelier-product__image'
-						)
-					);
+        }
 
 
-					if (images.length <= 1) {
-						return;
-					}
+        if (nextButton) {
 
+            nextButton.addEventListener(
+                'click',
+                nextProduct
+            );
 
-					let imageIndex = images.findIndex(function (image) {
+        }
 
-						return image.classList.contains('is-active');
 
-					});
+        if (previousButton) {
 
+            previousButton.addEventListener(
+                'click',
+                previousProduct
+            );
 
-					if (imageIndex < 0) {
-						imageIndex = 0;
-					}
+        }
 
 
-					const timer = setInterval(function () {
+        /* =====================================================
+           PRODUCT IMAGE GALLERY
+           Runs independently from product navigation.
+           Never stopped by carousel interaction.
+        ===================================================== */
 
-						if (autoplayDisabled) {
-							return;
-						}
+        products.forEach(function (product) {
 
+            const images = Array.from(
+                product.querySelectorAll(
+                    '.ve-atelier-product__image'
+                )
+            );
 
-						images[imageIndex].classList.remove('is-active');
 
-						imageIndex =
-							(imageIndex + 1) % images.length;
+            if (images.length <= 1) {
+                return;
+            }
 
-						images[imageIndex].classList.add('is-active');
 
-					}, 4000);
+            let imageIndex = images.findIndex(function (image) {
 
+                return image.classList.contains('is-active');
 
-					galleryTimers.push(timer);
+            });
 
-				});
 
-			}
+            if (imageIndex < 0) {
+                imageIndex = 0;
 
+                images[0].classList.add('is-active');
+            }
 
-			function disableAutoplay() {
 
-				autoplayDisabled = true;
+            setInterval(function () {
 
-				stopGalleryAutoplay();
+                images[imageIndex].classList.remove('is-active');
 
-			}
 
+                imageIndex =
+                    (imageIndex + 1) % images.length;
 
-			function goToProduct(index) {
 
-				if (index < 0) {
-					index = products.length - 1;
-				}
+                images[imageIndex].classList.add('is-active');
 
-				if (index >= products.length) {
-					index = 0;
-				}
+            }, 4000);
 
+        });
 
-				currentIndex = index;
 
-				updateCarousel();
+        /* =====================================================
+           TOUCH / SWIPE
+        ===================================================== */
 
-			}
+        carousel.addEventListener(
+            'touchstart',
+            function (event) {
 
+                const touch = event.changedTouches[0];
 
-			function nextProduct() {
+                touchStartX = touch.clientX;
 
-				disableAutoplay();
+                touchStartY = touch.clientY;
 
-				goToProduct(currentIndex + 1);
+            },
+            { passive: true }
+        );
 
-			}
 
+        carousel.addEventListener(
+            'touchend',
+            function (event) {
 
-			function previousProduct() {
+                const touch = event.changedTouches[0];
 
-				disableAutoplay();
+                const deltaX =
+                    touch.clientX - touchStartX;
 
-				goToProduct(currentIndex - 1);
+                const deltaY =
+                    touch.clientY - touchStartY;
 
-			}
 
+                if (
+                    Math.abs(deltaX) < 50 ||
+                    Math.abs(deltaX) <= Math.abs(deltaY)
+                ) {
+                    return;
+                }
 
-			if (nextButton) {
 
-				nextButton.addEventListener(
-					'click',
-					nextProduct
-				);
+                if (deltaX < 0) {
 
-			}
+                    nextProduct();
 
+                } else {
 
-			if (previousButton) {
+                    previousProduct();
 
-				previousButton.addEventListener(
-					'click',
-					previousProduct
-				);
+                }
 
-			}
+            },
+            { passive: true }
+        );
 
 
-			/* =====================================================
-			   TOUCH / SWIPE
-			===================================================== */
+        /* =====================================================
+           INITIALISE
+        ===================================================== */
 
-			carousel.addEventListener(
-				'touchstart',
-				function (event) {
+        updateCarousel();
 
-					const touch = event.changedTouches[0];
-
-					touchStartX = touch.clientX;
-
-					touchStartY = touch.clientY;
-
-				},
-				{ passive: true }
-			);
-
-
-			carousel.addEventListener(
-				'touchend',
-				function (event) {
-
-					const touch = event.changedTouches[0];
-
-					const deltaX =
-						touch.clientX - touchStartX;
-
-					const deltaY =
-						touch.clientY - touchStartY;
-
-
-					if (
-						Math.abs(deltaX) < 50 ||
-						Math.abs(deltaX) <= Math.abs(deltaY)
-					) {
-						return;
-					}
-
-
-					if (deltaX < 0) {
-
-						nextProduct();
-
-					} else {
-
-						previousProduct();
-
-					}
-
-				},
-				{ passive: true }
-			);
-
-
-			/* =====================================================
-			   INITIALISE
-			===================================================== */
-
-			updateCarousel();
-
-			startGalleryAutoplay();
-
-		});
-	</script>
+    });
+			</script>
 
 	<?php
 
