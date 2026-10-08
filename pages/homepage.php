@@ -1464,7 +1464,7 @@ function vestis_elites_homepage() {
 				padding:
 					100px
 					22px
-					110px;
+					55px;
 			}
 
 
