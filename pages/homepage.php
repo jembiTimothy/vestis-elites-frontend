@@ -138,6 +138,21 @@ function vestis_elites_homepage() {
 	$journal_image_url = $journal_image_id
 		? wp_get_attachment_image_url( $journal_image_id, 'full' )
 		: '';
+		$testimonial_one_image_id = vestis_elites_get_image_id(
+		'vestis-elites-client-testimonial-whatsapp-review.webp'
+	);
+
+	$testimonial_two_image_id = vestis_elites_get_image_id(
+		'vestis-elites-client-testimonial-whatsapp-chat.webp'
+	);
+
+	$testimonial_one_image_url = $testimonial_one_image_id
+		? wp_get_attachment_image_url( $testimonial_one_image_id, 'full' )
+		: '';
+
+	$testimonial_two_image_url = $testimonial_two_image_id
+		? wp_get_attachment_image_url( $testimonial_two_image_id, 'full' )
+		: '';
 	ob_start();
 	?>
 
@@ -553,6 +568,87 @@ function vestis_elites_homepage() {
 			<p class="ve-why__closing">
 				Less time managing your presentation. More time focused on what matters.
 			</p>
+
+		</div>
+
+	</section>
+		<!-- =========================================================
+	     SECTION 6 — CLIENT EXPERIENCE
+	     ========================================================= -->
+
+	<section
+		class="ve-client-experience"
+		aria-labelledby="ve-client-experience-title"
+	>
+
+		<div class="ve-client-experience__inner">
+
+			<header class="ve-client-experience__header">
+
+				<p class="ve-client-experience__eyebrow">
+					CLIENT EXPERIENCE
+				</p>
+
+				<h2
+					id="ve-client-experience-title"
+					class="ve-client-experience__title"
+				>
+					The experience speaks for itself.
+				</h2>
+
+			</header>
+
+
+			<div class="ve-client-experience__proof">
+
+
+				<?php if ( $testimonial_one_image_url ) : ?>
+
+					<figure class="ve-testimonial-proof ve-testimonial-proof--primary">
+
+						<img
+							src="<?php echo esc_url( $testimonial_one_image_url ); ?>"
+							alt="Client feedback about a Vestis Elites outfit"
+							loading="lazy"
+							decoding="async"
+						>
+
+					</figure>
+
+				<?php endif; ?>
+
+
+				<?php if ( $testimonial_two_image_url ) : ?>
+
+					<figure class="ve-testimonial-proof ve-testimonial-proof--secondary">
+
+						<img
+							src="<?php echo esc_url( $testimonial_two_image_url ); ?>"
+							alt="Client feedback praising a Vestis Elites outfit"
+							loading="lazy"
+							decoding="async"
+						>
+
+					</figure>
+
+				<?php endif; ?>
+
+
+			</div>
+
+
+			<blockquote class="ve-client-experience__quote">
+
+				<p>
+					“Yes, oh please pardon me, it really fits so well. He likes it.”
+				</p>
+
+				<footer>
+					<span>CLIENT FEEDBACK</span>
+				</footer>
+
+			</blockquote>
+
 
 		</div>
 
@@ -1955,7 +2051,264 @@ function vestis_elites_homepage() {
 				animation: none;
 			}
 		}
+		/* =========================================================
+		   SECTION 6 — CLIENT EXPERIENCE
+		========================================================= */
 
+		.ve-client-experience {
+
+			background: #FFFFFF;
+
+			color: #111111;
+
+			overflow: hidden;
+		}
+
+
+		.ve-client-experience__inner {
+
+			width: min(100%, 1180px);
+
+			margin: 0 auto;
+
+			padding:
+				clamp(110px, 11vw, 160px)
+				32px
+				clamp(110px, 11vw, 160px);
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-client-experience__header {
+
+			max-width: 780px;
+
+			margin-bottom: clamp(70px, 8vw, 110px);
+		}
+
+
+		.ve-client-experience__eyebrow {
+
+			margin: 0 0 28px;
+
+			color: #1F4D3A;
+
+			font-size: 10px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.20em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-client-experience__title {
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(42px, 5.5vw, 68px);
+
+			font-weight: 500;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.035em;
+		}
+
+
+		.ve-client-experience__proof {
+
+			display: grid;
+
+			grid-template-columns:
+				minmax(0, 1.15fr)
+				minmax(260px, 0.85fr);
+
+			align-items: start;
+
+			gap: clamp(28px, 5vw, 72px);
+
+			max-width: 1050px;
+
+			margin: 0 auto;
+		}
+
+
+		.ve-testimonial-proof {
+
+			margin: 0;
+
+			overflow: hidden;
+
+			background: #F4F3EF;
+		}
+
+
+		.ve-testimonial-proof img {
+
+			display: block;
+
+			width: 100%;
+
+			height: auto;
+
+			max-width: 100%;
+
+			object-fit: contain;
+		}
+
+
+		.ve-testimonial-proof--primary {
+
+			margin-top: 0;
+		}
+
+
+		.ve-testimonial-proof--secondary {
+
+			margin-top: clamp(70px, 10vw, 140px);
+		}
+
+
+		.ve-client-experience__quote {
+
+			max-width: 760px;
+
+			margin:
+				clamp(90px, 10vw, 135px)
+				auto
+				0;
+
+			padding: 0;
+
+			border: 0;
+		}
+
+
+		.ve-client-experience__quote p {
+
+			margin: 0;
+
+			color: #111111;
+
+			font-family: Georgia, "Times New Roman", serif;
+
+			font-size: clamp(26px, 3.4vw, 42px);
+
+			font-weight: 400;
+
+			line-height: 1.35;
+
+			letter-spacing: -0.02em;
+		}
+
+
+		.ve-client-experience__quote footer {
+
+			margin-top: 28px;
+
+			color: #1F4D3A;
+
+			font-size: 10px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.18em;
+
+			text-transform: uppercase;
+		}
+
+
+		/* =========================================================
+		   SECTION 6 — MOBILE
+		========================================================= */
+
+		@media (max-width: 640px) {
+
+			.ve-client-experience__inner {
+
+				padding:
+					90px
+					22px
+					100px;
+			}
+
+
+			.ve-client-experience__header {
+
+				margin-bottom: 58px;
+			}
+
+
+			.ve-client-experience__eyebrow {
+
+				margin-bottom: 24px;
+
+				font-size: 10px;
+
+				letter-spacing: 0.19em;
+			}
+
+
+			.ve-client-experience__title {
+
+				font-size:
+					clamp(
+						38px,
+						10.5vw,
+						46px
+					);
+
+				line-height: 1.10;
+
+				letter-spacing: -0.03em;
+			}
+
+
+			.ve-client-experience__proof {
+
+				display: block;
+
+				max-width: 100%;
+			}
+
+
+			.ve-testimonial-proof {
+
+				width: 100%;
+
+				max-width: 100%;
+			}
+
+
+			.ve-testimonial-proof--secondary {
+
+				margin-top: 42px;
+			}
+
+
+			.ve-client-experience__quote {
+
+				margin-top: 72px;
+			}
+
+
+			.ve-client-experience__quote p {
+
+				font-size: 27px;
+
+				line-height: 1.32;
+			}
+
+}
 	</style>
 
 	<?php
