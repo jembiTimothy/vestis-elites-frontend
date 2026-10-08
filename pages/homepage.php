@@ -113,7 +113,31 @@ function vestis_elites_homepage() {
 	$mobile_srcset = $mobile_image_id
 		? wp_get_attachment_image_srcset( $mobile_image_id, 'full' )
 		: '';
+	$journal_url = vestis_elites_get_page_url( 'Journal' );
 
+	$atelier_image_id = vestis_elites_get_image_id(
+		'imperium-wine-double-breasted-suit-luxury-fashion.webp'
+	);
+
+	$consultation_image_id = vestis_elites_get_image_id(
+		'vestis-elites-private-consultation-bespoke-tailoring.webp'
+	);
+
+	$journal_image_id = vestis_elites_get_image_id(
+		'vestis-elites-journal-personal-presentation-editorial.webp'
+	);
+
+	$atelier_image_url = $atelier_image_id
+		? wp_get_attachment_image_url( $atelier_image_id, 'full' )
+		: '';
+
+	$consultation_image_url = $consultation_image_id
+		? wp_get_attachment_image_url( $consultation_image_id, 'full' )
+		: '';
+
+	$journal_image_url = $journal_image_id
+		? wp_get_attachment_image_url( $journal_image_id, 'full' )
+		: '';
 	ob_start();
 	?>
 
@@ -262,7 +286,170 @@ function vestis_elites_homepage() {
 
 	</section>
 
+	<!-- =========================================================
+	     SECTION 4 — EXPLORE THE HOUSE
+	     ========================================================= -->
 
+	<section
+		class="ve-explore"
+		aria-labelledby="ve-explore-title"
+	>
+
+		<div class="ve-explore__inner">
+
+			<header class="ve-explore__header">
+
+				<h2
+					id="ve-explore-title"
+					class="ve-explore__title"
+				>
+					Explore the House.
+				</h2>
+
+			</header>
+
+
+			<div class="ve-explore__grid">
+
+
+				<!-- ATELIER -->
+
+				<?php if ( $atelier_url && $atelier_image_url ) : ?>
+
+					<a
+						class="ve-explore-card ve-explore-card--atelier"
+						href="<?php echo esc_url( $atelier_url ); ?>"
+					>
+
+						<div class="ve-explore-card__image-wrap">
+
+							<img
+								class="ve-explore-card__image"
+								src="<?php echo esc_url( $atelier_image_url ); ?>"
+								alt="Man wearing a wine double-breasted suit by Vestis Elites"
+								loading="lazy"
+								decoding="async"
+							>
+
+						</div>
+
+						<div class="ve-explore-card__content">
+
+							<p class="ve-explore-card__eyebrow">
+								THE ATELIER
+							</p>
+
+							<h3 class="ve-explore-card__title">
+								The collection, thoughtfully curated.
+							</h3>
+
+							<span class="ve-explore-card__cta">
+								Explore The Atelier
+								<span aria-hidden="true">→</span>
+							</span>
+
+						</div>
+
+					</a>
+
+				<?php endif; ?>
+
+
+				<!-- PRIVATE CONSULTATION -->
+
+				<?php if ( $consultation_url && $consultation_image_url ) : ?>
+
+					<a
+						class="ve-explore-card ve-explore-card--consultation"
+						href="<?php echo esc_url( $consultation_url ); ?>"
+					>
+
+						<div class="ve-explore-card__image-wrap">
+
+							<img
+								class="ve-explore-card__image"
+								src="<?php echo esc_url( $consultation_image_url ); ?>"
+								alt="Private bespoke tailoring consultation at Vestis Elites"
+								loading="lazy"
+								decoding="async"
+							>
+
+						</div>
+
+						<div class="ve-explore-card__content">
+
+							<p class="ve-explore-card__eyebrow">
+								PRIVATE CONSULTATION
+							</p>
+
+							<h3 class="ve-explore-card__title">
+								Your presentation starts with a conversation.
+							</h3>
+
+							<p class="ve-explore-card__supporting">
+								Tell us where you are and where you want to go.
+							</p>
+
+							<span class="ve-explore-card__cta">
+								Begin Your Private Consultation
+								<span aria-hidden="true">→</span>
+							</span>
+
+						</div>
+
+					</a>
+
+				<?php endif; ?>
+
+
+				<!-- JOURNAL -->
+
+				<?php if ( $journal_url && $journal_image_url ) : ?>
+
+					<a
+						class="ve-explore-card ve-explore-card--journal"
+						href="<?php echo esc_url( $journal_url ); ?>"
+					>
+
+						<div class="ve-explore-card__image-wrap">
+
+							<img
+								class="ve-explore-card__image"
+								src="<?php echo esc_url( $journal_image_url ); ?>"
+								alt="Man exploring ideas on personal presentation"
+								loading="lazy"
+								decoding="async"
+							>
+
+						</div>
+
+						<div class="ve-explore-card__content">
+
+							<p class="ve-explore-card__eyebrow">
+								THE JOURNAL
+							</p>
+
+							<h3 class="ve-explore-card__title">
+								Ideas on personal presentation, style and the way you live.
+							</h3>
+
+							<span class="ve-explore-card__cta">
+								Read The Journal
+								<span aria-hidden="true">→</span>
+							</span>
+
+						</div>
+
+					</a>
+
+				<?php endif; ?>
+
+
+			</div>
+
+		</div>
+
+</section>
 	<style>
 
 		/* =========================================================
@@ -806,6 +993,369 @@ function vestis_elites_homepage() {
 			line-height: 1.4;
 
 			letter-spacing: -0.02em;
+		}
+				/* =========================================================
+		   SECTION 4 — EXPLORE THE HOUSE
+		========================================================= */
+
+		.ve-explore {
+
+			background: #FFFFFF;
+
+			color: #111111;
+
+			overflow: hidden;
+		}
+
+
+		.ve-explore__inner {
+
+			width: min(100%, 1180px);
+
+			margin: 0 auto;
+
+			padding:
+				clamp(110px, 11vw, 170px)
+				32px
+				clamp(120px, 12vw, 180px);
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-explore__header {
+
+			margin-bottom: clamp(58px, 7vw, 90px);
+		}
+
+
+		.ve-explore__title {
+
+			max-width: 760px;
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(40px, 5vw, 64px);
+
+			font-weight: 500;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.035em;
+		}
+
+
+		.ve-explore__grid {
+
+			display: grid;
+
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+
+			column-gap: 34px;
+
+			row-gap: 80px;
+		}
+
+
+		.ve-explore-card {
+
+			display: block;
+
+			color: inherit;
+
+			text-decoration: none !important;
+
+			transition: color 260ms ease;
+		}
+
+
+		.ve-explore-card--atelier {
+
+			grid-column: 1 / -1;
+		}
+
+
+		.ve-explore-card__image-wrap {
+
+			width: 100%;
+
+			overflow: hidden;
+
+			background: #F7F5EF;
+		}
+
+
+		.ve-explore-card--atelier .ve-explore-card__image-wrap {
+
+			max-height: 760px;
+		}
+
+
+		.ve-explore-card--consultation .ve-explore-card__image-wrap,
+		.ve-explore-card--journal .ve-explore-card__image-wrap {
+
+			aspect-ratio: 3 / 2;
+		}
+
+
+		.ve-explore-card__image {
+
+			display: block;
+
+			width: 100% !important;
+
+			max-width: none !important;
+
+			height: auto;
+
+			margin: 0 !important;
+
+			padding: 0 !important;
+
+			object-fit: cover;
+
+			transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+
+		.ve-explore-card--atelier .ve-explore-card__image {
+
+			aspect-ratio: 2 / 3;
+
+			object-fit: cover;
+
+			object-position: center center;
+		}
+
+
+		.ve-explore-card--consultation .ve-explore-card__image,
+		.ve-explore-card--journal .ve-explore-card__image {
+
+			height: 100%;
+
+			object-fit: cover;
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__image {
+
+			transform: scale(1.025);
+		}
+
+
+		.ve-explore-card__content {
+
+			padding-top: 30px;
+		}
+
+
+		.ve-explore-card__eyebrow {
+
+			margin: 0 0 18px;
+
+			color: #1F4D3A;
+
+			font-size: 10px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.20em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-explore-card__title {
+
+			max-width: 680px;
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(25px, 3vw, 38px);
+
+			font-weight: 500;
+
+			line-height: 1.18;
+
+			letter-spacing: -0.025em;
+		}
+
+
+		.ve-explore-card--consultation .ve-explore-card__title,
+		.ve-explore-card--journal .ve-explore-card__title {
+
+			font-size: clamp(23px, 2.5vw, 32px);
+		}
+
+
+		.ve-explore-card__supporting {
+
+			max-width: 520px;
+
+			margin: 20px 0 0;
+
+			color: #555555;
+
+			font-size: 16px;
+
+			line-height: 1.65;
+		}
+
+
+		.ve-explore-card__cta {
+
+			display: inline-flex;
+
+			align-items: center;
+
+			gap: 9px;
+
+			margin-top: 28px;
+
+			color: #111111;
+
+			font-size: 13px;
+
+			font-weight: 600;
+
+			line-height: 1.4;
+
+			text-decoration: underline;
+
+			text-decoration-thickness: 1px;
+
+			text-underline-offset: 6px;
+
+			transition: color 260ms ease;
+		}
+
+
+		.ve-explore-card__cta span {
+
+			transition: transform 260ms ease;
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__cta {
+
+			color: #1F4D3A;
+		}
+
+
+		.ve-explore-card:hover .ve-explore-card__cta span {
+
+			transform: translateX(5px);
+		}
+
+
+		/* =========================================================
+		   SECTION 4 — MOBILE
+		========================================================= */
+
+		@media (max-width: 640px) {
+
+			.ve-explore__inner {
+
+				padding:
+					100px
+					22px
+					110px;
+			}
+
+
+			.ve-explore__header {
+
+				margin-bottom: 54px;
+			}
+
+
+			.ve-explore__title {
+
+				font-size:
+					clamp(
+						36px,
+						10.5vw,
+						44px
+					);
+
+				line-height: 1.10;
+
+				letter-spacing: -0.03em;
+			}
+
+
+			.ve-explore__grid {
+
+				display: block;
+			}
+
+
+			.ve-explore-card {
+
+				margin-bottom: 72px;
+			}
+
+
+			.ve-explore-card:last-child {
+
+				margin-bottom: 0;
+			}
+
+
+			.ve-explore-card--atelier .ve-explore-card__image-wrap {
+
+				max-height: none;
+			}
+
+
+			.ve-explore-card__content {
+
+				padding-top: 26px;
+			}
+
+
+			.ve-explore-card__eyebrow {
+
+				margin-bottom: 16px;
+
+				font-size: 10px;
+
+				letter-spacing: 0.19em;
+			}
+
+
+			.ve-explore-card__title,
+			.ve-explore-card--consultation .ve-explore-card__title,
+			.ve-explore-card--journal .ve-explore-card__title {
+
+				font-size: 25px;
+
+				line-height: 1.20;
+			}
+
+
+			.ve-explore-card__supporting {
+
+				margin-top: 18px;
+
+				font-size: 16px;
+
+				line-height: 1.65;
+			}
+
+
+			.ve-explore-card__cta {
+
+				margin-top: 25px;
+
+				font-size: 13px;
+			}
 		}
 
 
