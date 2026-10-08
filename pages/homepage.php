@@ -153,6 +153,50 @@ function vestis_elites_homepage() {
 	$testimonial_two_image_url = $testimonial_two_image_id
 		? wp_get_attachment_image_url( $testimonial_two_image_id, 'full' )
 		: '';
+		/* =========================================================
+	   SECTION 7 — LIVE WOOCOMMERCE ATELIER
+	========================================================= */
+
+	$atelier_products = array();
+
+	if ( function_exists( 'wc_get_products' ) ) {
+
+		$atelier_candidates = wc_get_products(
+			array(
+				'status'       => 'publish',
+				'type'         => array( 'simple', 'variable' ),
+				'stock_status' => 'instock',
+				'limit'        => 12,
+				'orderby'      => 'rand',
+				'return'       => 'objects',
+			)
+		);
+
+		foreach ( $atelier_candidates as $atelier_product ) {
+
+			if ( ! $atelier_product instanceof WC_Product ) {
+				continue;
+			}
+
+			if ( ! $atelier_product->is_visible() ) {
+				continue;
+			}
+
+			if ( ! $atelier_product->is_purchasable() ) {
+				continue;
+			}
+
+			if ( ! $atelier_product->get_image_id() ) {
+				continue;
+			}
+
+			$atelier_products[] = $atelier_product;
+
+			if ( count( $atelier_products ) >= 6 ) {
+				break;
+			}
+		}
+	}
 	ob_start();
 	?>
 
@@ -649,6 +693,249 @@ function vestis_elites_homepage() {
 
 			</blockquote>
 
+
+		</div>
+
+	</section>
+		<!-- =========================================================
+	     SECTION 7 — THE ATELIER
+	     ========================================================= -->
+
+	<section
+		class="ve-atelier"
+		aria-labelledby="ve-atelier-title"
+	>
+
+		<div class="ve-atelier__inner">
+
+			<header class="ve-atelier__header">
+
+				<h2
+					id="ve-atelier-title"
+					class="ve-atelier__title"
+				>
+					THE ATELIER
+				</h2>
+
+			</header>
+
+
+			<?php if ( ! empty( $atelier_products ) ) : ?>
+
+				<div
+					class="ve-atelier__carousel"
+					data-ve-atelier-carousel
+				>
+
+					<div class="ve-atelier__track">
+
+						<?php foreach ( $atelier_products as $atelier_product ) : ?>
+
+							<?php
+
+							$atelier_gallery_ids = array_unique(
+								array_merge(
+									array( $atelier_product->get_image_id() ),
+									$atelier_product->get_gallery_image_ids()
+								)
+							);
+
+							$atelier_gallery_ids = array_filter( $atelier_gallery_ids );
+
+							?>
+
+							<article
+								class="ve-atelier-product"
+								data-ve-atelier-product
+								data-product-id="<?php echo esc_attr( $atelier_product->get_id() ); ?>"
+								data-product-type="<?php echo esc_attr( $atelier_product->get_type() ); ?>"
+							>
+
+								<div class="ve-atelier-product__visual">
+
+									<div class="ve-atelier-product__gallery">
+
+										<?php foreach ( $atelier_gallery_ids as $atelier_index => $atelier_image_id ) : ?>
+
+											<?php
+											$atelier_image_url = wp_get_attachment_image_url(
+												$atelier_image_id,
+												'full'
+											);
+
+											if ( ! $atelier_image_url ) {
+												continue;
+											}
+											?>
+
+											<img
+												class="ve-atelier-product__image<?php echo 0 === $atelier_index ? ' is-active' : ''; ?>"
+												src="<?php echo esc_url( $atelier_image_url ); ?>"
+												alt="<?php echo esc_attr( $atelier_product->get_name() ); ?>"
+												loading="<?php echo 0 === $atelier_index ? 'eager' : 'lazy'; ?>"
+												decoding="async"
+											>
+
+										<?php endforeach; ?>
+
+									</div>
+
+								</div>
+
+
+								<div class="ve-atelier-product__content">
+
+									<h3 class="ve-atelier-product__name">
+										<?php echo esc_html( $atelier_product->get_name() ); ?>
+									</h3>
+
+
+									<?php
+									$atelier_short_description = wp_trim_words(
+										wp_strip_all_tags(
+											$atelier_product->get_short_description()
+										),
+										24,
+										'…'
+									);
+									?>
+
+									<?php if ( $atelier_short_description ) : ?>
+
+										<p class="ve-atelier-product__description">
+											<?php echo esc_html( $atelier_short_description ); ?>
+										</p>
+
+									<?php endif; ?>
+
+
+									<div class="ve-atelier-product__price">
+										<?php echo wp_kses_post( $atelier_product->get_price_html() ); ?>
+									</div>
+
+
+									<div class="ve-atelier-product__actions">
+
+										<button
+											type="button"
+											class="ve-atelier-product__purchase"
+											data-ve-purchase
+										>
+											Purchase
+										</button>
+
+										<button
+											type="button"
+											class="ve-atelier-product__cart"
+											data-ve-add-to-cart
+										>
+											Add to Cart
+										</button>
+
+									</div>
+
+
+									<a
+										class="ve-atelier-product__details"
+										href="<?php echo esc_url( $atelier_product->get_permalink() ); ?>"
+									>
+										View Details →
+									</a>
+
+								</div>
+
+
+								<div
+									class="ve-atelier-product__selection"
+									data-ve-size-selection
+									hidden
+								>
+
+									<div class="ve-atelier-product__selection-inner">
+
+										<p class="ve-atelier-product__selection-label">
+											Select Size
+										</p>
+
+										<div
+											class="ve-atelier-product__sizes"
+											data-ve-product-sizes
+										></div>
+
+										<div
+											class="ve-atelier-product__selected-price"
+											data-ve-selected-price
+										>
+											<?php echo wp_kses_post( $atelier_product->get_price_html() ); ?>
+										</div>
+
+										<button
+											type="button"
+											class="ve-atelier-product__confirm"
+											data-ve-confirm-purchase
+										>
+											Purchase
+										</button>
+
+									</div>
+
+								</div>
+
+							</article>
+
+						<?php endforeach; ?>
+
+					</div>
+
+
+					<div class="ve-atelier__navigation">
+
+						<button
+							type="button"
+							class="ve-atelier__arrow ve-atelier__arrow--previous"
+							data-ve-atelier-prev
+							aria-label="Previous product"
+						>
+							←
+						</button>
+
+						<button
+							type="button"
+							class="ve-atelier__arrow ve-atelier__arrow--next"
+							data-ve-atelier-next
+							aria-label="Next product"
+						>
+							→
+						</button>
+
+					</div>
+
+
+					<p class="ve-atelier__swipe-hint">
+						Swipe to explore →
+					</p>
+
+				</div>
+
+			<?php else : ?>
+
+				<p class="ve-atelier__empty">
+					The Atelier is currently being curated.
+				</p>
+
+			<?php endif; ?>
+
+
+			<div class="ve-atelier__footer">
+
+				<a
+					class="ve-atelier__full-link"
+					href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"
+				>
+					Explore the Full Atelier →
+				</a>
+
+			</div>
 
 		</div>
 
@@ -2309,7 +2596,988 @@ function vestis_elites_homepage() {
 			}
 
 }
+					/* =========================================================
+		   SECTION 7 — THE ATELIER
+		========================================================= */
+
+		.ve-atelier {
+
+			background: #F7F5EF;
+
+			color: #111111;
+
+			overflow: hidden;
+		}
+
+
+		.ve-atelier__inner {
+
+			width: min(100%, 1180px);
+
+			margin: 0 auto;
+
+			padding:
+				clamp(110px, 11vw, 170px)
+				32px
+				clamp(120px, 12vw, 180px);
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-atelier__header {
+
+			margin-bottom: clamp(54px, 6vw, 78px);
+		}
+
+
+		.ve-atelier__title {
+
+			margin: 0;
+
+			color: #111111;
+
+			font-size: clamp(42px, 5.5vw, 68px);
+
+			font-weight: 500;
+
+			line-height: 1.05;
+
+			letter-spacing: -0.04em;
+		}
+
+
+		.ve-atelier__carousel {
+
+			position: relative;
+
+			width: 100%;
+		}
+
+
+		.ve-atelier__track {
+
+			display: flex;
+
+			width: 100%;
+
+			transition:
+				transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+
+		.ve-atelier-product {
+
+			position: relative;
+
+			flex: 0 0 100%;
+
+			min-width: 0;
+
+			display: grid;
+
+			grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+
+			column-gap: clamp(48px, 7vw, 100px);
+
+			align-items: center;
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-atelier-product__visual {
+
+			position: relative;
+
+			width: 100%;
+
+			overflow: hidden;
+
+			background: #EDEAE2;
+
+			aspect-ratio: 4 / 5;
+		}
+
+
+		.ve-atelier-product__gallery {
+
+			position: relative;
+
+			width: 100%;
+
+			height: 100%;
+		}
+
+
+		.ve-atelier-product__image {
+
+			position: absolute;
+
+			inset: 0;
+
+			display: block;
+
+			width: 100% !important;
+
+			height: 100% !important;
+
+			max-width: none !important;
+
+			margin: 0 !important;
+
+			padding: 0 !important;
+
+			object-fit: cover;
+
+			opacity: 0;
+
+			transition: opacity 650ms ease;
+		}
+
+
+		.ve-atelier-product__image.is-active {
+
+			opacity: 1;
+		}
+
+
+		.ve-atelier-product__content {
+
+			max-width: 500px;
+
+			padding: 20px 0;
+		}
+
+
+		.ve-atelier-product__name {
+
+			margin: 0;
+
+			color: #111111;
+
+			font-family: Georgia, "Times New Roman", serif;
+
+			font-size: clamp(32px, 4vw, 52px);
+
+			font-weight: 400;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.025em;
+		}
+
+
+		.ve-atelier-product__description {
+
+			max-width: 440px;
+
+			margin: 24px 0 0;
+
+			color: #555555;
+
+			font-size: 16px;
+
+			line-height: 1.7;
+		}
+
+
+		.ve-atelier-product__price {
+
+			margin-top: 26px;
+
+			color: #111111;
+
+			font-size: 16px;
+
+			font-weight: 600;
+
+			line-height: 1.4;
+		}
+
+
+		.ve-atelier-product__price del {
+
+			color: #777777;
+
+			font-weight: 400;
+		}
+
+
+		.ve-atelier-product__price ins {
+
+			color: inherit;
+
+			text-decoration: none;
+		}
+
+
+		.ve-atelier-product__actions {
+
+			display: flex;
+
+			align-items: center;
+
+			gap: 20px;
+
+			margin-top: 34px;
+		}
+
+
+		.ve-atelier-product__purchase,
+		.ve-atelier-product__cart {
+
+			appearance: none;
+
+			border: 0;
+
+			border-radius: 0;
+
+			font-family: inherit;
+
+			font-size: 12px;
+
+			font-weight: 600;
+
+			line-height: 1.3;
+
+			letter-spacing: 0.10em;
+
+			text-transform: uppercase;
+
+			cursor: pointer;
+
+			transition:
+				background-color 220ms ease,
+				color 220ms ease,
+				border-color 220ms ease;
+		}
+
+
+		.ve-atelier-product__purchase {
+
+			padding: 15px 25px;
+
+			background: #111111;
+
+			color: #FFFFFF;
+		}
+
+
+		.ve-atelier-product__purchase:hover {
+
+			background: #1F4D3A;
+
+			color: #FFFFFF;
+		}
+
+
+		.ve-atelier-product__cart {
+
+			padding: 14px 0;
+
+			background: transparent;
+
+			color: #111111;
+
+			border-bottom: 1px solid #111111;
+		}
+
+
+		.ve-atelier-product__cart:hover {
+
+			color: #1F4D3A;
+
+			border-color: #1F4D3A;
+		}
+
+
+		.ve-atelier-product__details {
+
+			display: inline-block;
+
+			margin-top: 30px;
+
+			color: #111111;
+
+			font-size: 13px;
+
+			font-weight: 600;
+
+			line-height: 1.4;
+
+			text-decoration: none !important;
+
+			border-bottom: 1px solid #111111;
+
+			padding-bottom: 5px;
+
+			transition:
+				color 220ms ease,
+				border-color 220ms ease;
+		}
+
+
+		.ve-atelier-product__details:hover {
+
+			color: #1F4D3A;
+
+			border-color: #1F4D3A;
+		}
+
+
+		.ve-atelier__navigation {
+
+			display: flex;
+
+			align-items: center;
+
+			gap: 10px;
+
+			margin-top: 38px;
+		}
+
+
+		.ve-atelier__arrow {
+
+			display: inline-flex;
+
+			align-items: center;
+
+			justify-content: center;
+
+			width: 44px;
+
+			height: 44px;
+
+			padding: 0;
+
+			border: 1px solid #C9C6BD;
+
+			border-radius: 50%;
+
+			background: transparent;
+
+			color: #111111;
+
+			font-size: 18px;
+
+			line-height: 1;
+
+			cursor: pointer;
+
+			transition:
+				background-color 220ms ease,
+				border-color 220ms ease,
+				color 220ms ease;
+		}
+
+
+		.ve-atelier__arrow:hover {
+
+			background: #111111;
+
+			border-color: #111111;
+
+			color: #FFFFFF;
+		}
+
+
+		.ve-atelier__swipe-hint {
+
+			margin: 22px 0 0;
+
+			color: #777777;
+
+			font-size: 10px;
+
+			font-weight: 600;
+
+			line-height: 1.3;
+
+			letter-spacing: 0.16em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-atelier__footer {
+
+			margin-top: clamp(62px, 7vw, 90px);
+
+			padding-top: 28px;
+
+			border-top: 1px solid #D8D5CC;
+		}
+
+
+		.ve-atelier__full-link {
+
+			display: inline-flex;
+
+			align-items: center;
+
+			color: #111111;
+
+			font-size: 13px;
+
+			font-weight: 600;
+
+			line-height: 1.4;
+
+			text-decoration: none !important;
+
+			border-bottom: 1px solid #111111;
+
+			padding-bottom: 6px;
+
+			transition:
+				color 220ms ease,
+				border-color 220ms ease;
+		}
+
+
+		.ve-atelier__full-link:hover {
+
+			color: #1F4D3A;
+
+			border-color: #1F4D3A;
+		}
+
+
+		.ve-atelier__empty {
+
+			margin: 0;
+
+			color: #555555;
+
+			font-size: 16px;
+
+			line-height: 1.6;
+		}
+
+
+		.ve-atelier-product__selection {
+
+			position: absolute;
+
+			z-index: 5;
+
+			right: 0;
+
+			bottom: 0;
+
+			left: 0;
+
+			background: rgba(247, 245, 239, 0.98);
+
+			border-top: 1px solid #D8D5CC;
+
+			padding: 24px;
+		}
+
+
+		.ve-atelier-product__selection-inner {
+
+			max-width: 500px;
+		}
+
+
+		.ve-atelier-product__selection-label {
+
+			margin: 0 0 16px;
+
+			color: #111111;
+
+			font-size: 11px;
+
+			font-weight: 600;
+
+			line-height: 1.3;
+
+			letter-spacing: 0.14em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-atelier-product__sizes {
+
+			display: flex;
+
+			flex-wrap: wrap;
+
+			gap: 8px;
+		}
+
+
+		.ve-atelier-product__selected-price {
+
+			margin-top: 18px;
+
+			color: #111111;
+
+			font-size: 15px;
+
+			font-weight: 600;
+		}
+
+
+		.ve-atelier-product__confirm {
+
+			margin-top: 20px;
+
+			padding: 13px 22px;
+
+			border: 0;
+
+			border-radius: 0;
+
+			background: #111111;
+
+			color: #FFFFFF;
+
+			font-family: inherit;
+
+			font-size: 11px;
+
+			font-weight: 600;
+
+			letter-spacing: 0.10em;
+
+			text-transform: uppercase;
+
+			cursor: pointer;
+		}
+
+
+		/* =========================================================
+		   SECTION 7 — TABLET
+		========================================================= */
+
+		@media (max-width: 900px) {
+
+			.ve-atelier-product {
+
+				grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+
+				column-gap: 42px;
+			}
+
+
+			.ve-atelier-product__name {
+
+				font-size: clamp(30px, 5vw, 44px);
+			}
+		}
+
+
+		/* =========================================================
+		   SECTION 7 — MOBILE
+		========================================================= */
+
+		@media (max-width: 640px) {
+
+			.ve-atelier__inner {
+
+				padding:
+					90px
+					22px
+					100px;
+			}
+
+
+			.ve-atelier__header {
+
+				margin-bottom: 46px;
+			}
+
+
+			.ve-atelier__title {
+
+				font-size:
+					clamp(
+						40px,
+						11vw,
+						50px
+					);
+
+				line-height: 1.06;
+			}
+
+
+			.ve-atelier-product {
+
+				display: block;
+			}
+
+
+			.ve-atelier-product__visual {
+
+				aspect-ratio: 4 / 5;
+			}
+
+
+			.ve-atelier-product__content {
+
+				max-width: none;
+
+				padding:
+					34px
+					0
+					10px;
+			}
+
+
+			.ve-atelier-product__name {
+
+				font-size: clamp(32px, 9vw, 42px);
+
+				line-height: 1.08;
+			}
+
+
+			.ve-atelier-product__description {
+
+				margin-top: 20px;
+
+				font-size: 15px;
+
+				line-height: 1.65;
+			}
+
+
+			.ve-atelier-product__price {
+
+				margin-top: 22px;
+			}
+
+
+			.ve-atelier-product__actions {
+
+				gap: 18px;
+
+				margin-top: 28px;
+			}
+
+
+			.ve-atelier-product__purchase {
+
+				padding:
+					14px
+					21px;
+			}
+
+
+			.ve-atelier-product__details {
+
+				margin-top: 26px;
+			}
+
+
+			.ve-atelier__navigation {
+
+				margin-top: 28px;
+			}
+
+
+			.ve-atelier__arrow {
+
+				width: 42px;
+
+				height: 42px;
+			}
+
+
+			.ve-atelier__swipe-hint {
+
+				margin-top: 18px;
+
+				font-size: 9px;
+			}
+
+
+			.ve-atelier__footer {
+
+				margin-top: 58px;
+			}
+
+
+			.ve-atelier-product__selection {
+
+				position: relative;
+
+				right: auto;
+
+				bottom: auto;
+
+				left: auto;
+
+				margin-top: 20px;
+			}
+
+		}
 	</style>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+
+			const carousel = document.querySelector('[data-ve-atelier-carousel]');
+
+			if (!carousel) {
+				return;
+			}
+
+
+			const track = carousel.querySelector('.ve-atelier__track');
+
+			const products = Array.from(
+				carousel.querySelectorAll('[data-ve-atelier-product]')
+			);
+
+			const previousButton = carousel.querySelector('[data-ve-atelier-prev]');
+
+			const nextButton = carousel.querySelector('[data-ve-atelier-next]');
+
+
+			if (!track || !products.length) {
+				return;
+			}
+
+
+			let currentIndex = 0;
+
+			let galleryTimers = [];
+
+			let autoplayDisabled = false;
+
+			let touchStartX = 0;
+
+			let touchStartY = 0;
+
+
+			/* =====================================================
+			   PRODUCT CAROUSEL
+			===================================================== */
+
+			function updateCarousel() {
+
+				track.style.transform =
+					'translateX(-' + (currentIndex * 100) + '%)';
+
+				products.forEach(function (product, index) {
+
+					product.setAttribute(
+						'aria-hidden',
+						index === currentIndex ? 'false' : 'true'
+					);
+
+				});
+
+			}
+
+
+			function stopGalleryAutoplay() {
+
+				galleryTimers.forEach(function (timer) {
+
+					clearInterval(timer);
+
+				});
+
+				galleryTimers = [];
+
+			}
+
+
+			function startGalleryAutoplay() {
+
+				if (autoplayDisabled) {
+					return;
+				}
+
+				stopGalleryAutoplay();
+
+
+				products.forEach(function (product) {
+
+					const images = Array.from(
+						product.querySelectorAll(
+							'.ve-atelier-product__image'
+						)
+					);
+
+
+					if (images.length <= 1) {
+						return;
+					}
+
+
+					let imageIndex = images.findIndex(function (image) {
+
+						return image.classList.contains('is-active');
+
+					});
+
+
+					if (imageIndex < 0) {
+						imageIndex = 0;
+					}
+
+
+					const timer = setInterval(function () {
+
+						if (autoplayDisabled) {
+							return;
+						}
+
+
+						images[imageIndex].classList.remove('is-active');
+
+						imageIndex =
+							(imageIndex + 1) % images.length;
+
+						images[imageIndex].classList.add('is-active');
+
+					}, 4000);
+
+
+					galleryTimers.push(timer);
+
+				});
+
+			}
+
+
+			function disableAutoplay() {
+
+				autoplayDisabled = true;
+
+				stopGalleryAutoplay();
+
+			}
+
+
+			function goToProduct(index) {
+
+				if (index < 0) {
+					index = products.length - 1;
+				}
+
+				if (index >= products.length) {
+					index = 0;
+				}
+
+
+				currentIndex = index;
+
+				updateCarousel();
+
+			}
+
+
+			function nextProduct() {
+
+				disableAutoplay();
+
+				goToProduct(currentIndex + 1);
+
+			}
+
+
+			function previousProduct() {
+
+				disableAutoplay();
+
+				goToProduct(currentIndex - 1);
+
+			}
+
+
+			if (nextButton) {
+
+				nextButton.addEventListener(
+					'click',
+					nextProduct
+				);
+
+			}
+
+
+			if (previousButton) {
+
+				previousButton.addEventListener(
+					'click',
+					previousProduct
+				);
+
+			}
+
+
+			/* =====================================================
+			   TOUCH / SWIPE
+			===================================================== */
+
+			carousel.addEventListener(
+				'touchstart',
+				function (event) {
+
+					const touch = event.changedTouches[0];
+
+					touchStartX = touch.clientX;
+
+					touchStartY = touch.clientY;
+
+				},
+				{ passive: true }
+			);
+
+
+			carousel.addEventListener(
+				'touchend',
+				function (event) {
+
+					const touch = event.changedTouches[0];
+
+					const deltaX =
+						touch.clientX - touchStartX;
+
+					const deltaY =
+						touch.clientY - touchStartY;
+
+
+					if (
+						Math.abs(deltaX) < 50 ||
+						Math.abs(deltaX) <= Math.abs(deltaY)
+					) {
+						return;
+					}
+
+
+					if (deltaX < 0) {
+
+						nextProduct();
+
+					} else {
+
+						previousProduct();
+
+					}
+
+				},
+				{ passive: true }
+			);
+
+
+			/* =====================================================
+			   INITIALISE
+			===================================================== */
+
+			updateCarousel();
+
+			startGalleryAutoplay();
+
+		});
+	</script>
 
 	<?php
 
