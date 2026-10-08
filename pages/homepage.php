@@ -464,7 +464,7 @@ function vestis_elites_homepage() {
 			<header class="ve-why__header">
 
 				<p class="ve-why__eyebrow">
-					WHY VESTIS
+					WHY VESTIS ELITES
 				</p>
 
 				<h2
@@ -1523,7 +1523,7 @@ function vestis_elites_homepage() {
 
 			margin: 0;
 
-			color: #F7F5EF;
+			color: #F7F5EF !important;
 
 			font-size: clamp(42px, 5.5vw, 68px);
 
