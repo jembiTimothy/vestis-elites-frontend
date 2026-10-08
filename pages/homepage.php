@@ -450,6 +450,113 @@ function vestis_elites_homepage() {
 		</div>
 
 </section>
+	<!-- =========================================================
+	     SECTION 5 — WHY VESTIS
+	     ========================================================= -->
+
+	<section
+		class="ve-why"
+		aria-labelledby="ve-why-title"
+	>
+
+		<div class="ve-why__inner">
+
+			<header class="ve-why__header">
+
+				<p class="ve-why__eyebrow">
+					WHY VESTIS
+				</p>
+
+				<h2
+					id="ve-why-title"
+					class="ve-why__title"
+				>
+					We make personal presentation easier.
+				</h2>
+
+				<p class="ve-why__intro">
+					Vestis Elites helps you manage how you present yourself through tailored clothing, grooming and personal presentation solutions designed around your lifestyle.
+				</p>
+
+			</header>
+
+
+			<div class="ve-why__principles">
+
+
+				<article class="ve-why__principle">
+
+					<span class="ve-why__number">
+						01
+					</span>
+
+					<div class="ve-why__principle-content">
+
+						<h3 class="ve-why__principle-title">
+							We understand you.
+						</h3>
+
+						<p class="ve-why__principle-text">
+							We start with you — your lifestyle, work, preferences and the way you want to be seen.
+						</p>
+
+					</div>
+
+				</article>
+
+
+				<article class="ve-why__principle">
+
+					<span class="ve-why__number">
+						02
+					</span>
+
+					<div class="ve-why__principle-content">
+
+						<h3 class="ve-why__principle-title">
+							We handle the details.
+						</h3>
+
+						<p class="ve-why__principle-text">
+							From what you wear to how you groom and present yourself, we help you make better decisions without having to manage everything yourself.
+						</p>
+
+					</div>
+
+				</article>
+
+
+				<article class="ve-why__principle">
+
+					<span class="ve-why__number">
+						03
+					</span>
+
+					<div class="ve-why__principle-content">
+
+						<h3 class="ve-why__principle-title">
+							We build for the long term.
+						</h3>
+
+						<p class="ve-why__principle-text">
+							Our goal is not to dress you once. We build a trusted relationship that helps you maintain a consistent standard of presentation over time.
+						</p>
+
+					</div>
+
+				</article>
+
+
+			</div>
+
+
+			<p class="ve-why__closing">
+				Less time managing your presentation. More time focused on what matters.
+			</p>
+
+		</div>
+
+	</section>
 	<style>
 
 		/* =========================================================
@@ -1357,7 +1464,299 @@ function vestis_elites_homepage() {
 				font-size: 13px;
 			}
 		}
+		/* =========================================================
+		   SECTION 5 — WHY VESTIS
+		========================================================= */
 
+		.ve-why {
+
+			background: #111111;
+
+			color: #F7F5EF;
+
+			overflow: hidden;
+		}
+
+
+		.ve-why__inner {
+
+			width: min(100%, 1180px);
+
+			margin: 0 auto;
+
+			padding:
+				clamp(110px, 11vw, 160px)
+				32px
+				clamp(110px, 11vw, 160px);
+
+			box-sizing: border-box;
+		}
+
+
+		.ve-why__header {
+
+			max-width: 850px;
+
+			margin-bottom: clamp(80px, 9vw, 120px);
+		}
+
+
+		.ve-why__eyebrow {
+
+			margin: 0 0 28px;
+
+			color: #5E9B7D;
+
+			font-size: 10px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.20em;
+
+			text-transform: uppercase;
+		}
+
+
+		.ve-why__title {
+
+			margin: 0;
+
+			color: #F7F5EF;
+
+			font-size: clamp(42px, 5.5vw, 68px);
+
+			font-weight: 500;
+
+			line-height: 1.08;
+
+			letter-spacing: -0.035em;
+		}
+
+
+		.ve-why__intro {
+
+			max-width: 720px;
+
+			margin: 30px 0 0;
+
+			color: rgba(247, 245, 239, 0.72);
+
+			font-size: clamp(17px, 1.8vw, 20px);
+
+			line-height: 1.7;
+		}
+
+
+		.ve-why__principles {
+
+			display: grid;
+
+			grid-template-columns:
+				repeat(3, minmax(0, 1fr));
+
+			gap: 42px;
+
+			padding-top: 42px;
+
+			border-top: 1px solid rgba(247, 245, 239, 0.16);
+		}
+
+
+		.ve-why__principle {
+
+			min-width: 0;
+		}
+
+
+		.ve-why__number {
+
+			display: block;
+
+			margin-bottom: 28px;
+
+			color: #5E9B7D;
+
+			font-size: 11px;
+
+			font-weight: 600;
+
+			line-height: 1.2;
+
+			letter-spacing: 0.16em;
+		}
+
+
+		.ve-why__principle-title {
+
+			margin: 0;
+
+			color: #F7F5EF;
+
+			font-size: clamp(22px, 2.3vw, 29px);
+
+			font-weight: 500;
+
+			line-height: 1.2;
+
+			letter-spacing: -0.02em;
+		}
+
+
+		.ve-why__principle-text {
+
+			max-width: 330px;
+
+			margin: 20px 0 0;
+
+			color: rgba(247, 245, 239, 0.68);
+
+			font-size: 15px;
+
+			line-height: 1.7;
+		}
+
+
+		.ve-why__closing {
+
+			max-width: 700px;
+
+			margin: clamp(90px, 10vw, 130px) 0 0;
+
+			color: #F7F5EF;
+
+			font-size: clamp(24px, 3vw, 36px);
+
+			font-weight: 500;
+
+			line-height: 1.3;
+
+			letter-spacing: -0.025em;
+		}
+
+
+		/* =========================================================
+		   SECTION 5 — MOBILE
+		========================================================= */
+
+		@media (max-width: 640px) {
+
+			.ve-why__inner {
+
+				padding:
+					90px
+					22px
+					100px;
+			}
+
+
+			.ve-why__header {
+
+				margin-bottom: 68px;
+			}
+
+
+			.ve-why__eyebrow {
+
+				margin-bottom: 24px;
+
+				font-size: 10px;
+
+				letter-spacing: 0.19em;
+			}
+
+
+			.ve-why__title {
+
+				font-size:
+					clamp(
+						38px,
+						10.5vw,
+						46px
+					);
+
+				line-height: 1.10;
+
+				letter-spacing: -0.03em;
+			}
+
+
+			.ve-why__intro {
+
+				margin-top: 24px;
+
+				font-size: 16px;
+
+				line-height: 1.7;
+			}
+
+
+			.ve-why__principles {
+
+				display: block;
+
+				padding-top: 0;
+
+				border-top: 0;
+			}
+
+
+			.ve-why__principle {
+
+				padding-top: 32px;
+
+				margin-bottom: 58px;
+
+				border-top: 1px solid rgba(247, 245, 239, 0.16);
+			}
+
+
+			.ve-why__principle:first-child {
+
+				border-top: 0;
+
+				padding-top: 0;
+			}
+
+
+			.ve-why__number {
+
+				margin-bottom: 18px;
+
+				font-size: 10px;
+			}
+
+
+			.ve-why__principle-title {
+
+				font-size: 24px;
+
+				line-height: 1.2;
+			}
+
+
+			.ve-why__principle-text {
+
+				max-width: none;
+
+				margin-top: 16px;
+
+				font-size: 15px;
+
+				line-height: 1.7;
+			}
+
+
+			.ve-why__closing {
+
+				margin-top: 72px;
+
+				font-size: 27px;
+
+				line-height: 1.28;
+			}
+}
 
 		/* =========================================================
 		   TABLET
@@ -1371,7 +1770,34 @@ function vestis_elites_homepage() {
 				padding-left: 28px;
 
 				padding-right: 28px;
+							.ve-why__principles {
+
+				grid-template-columns:
+					repeat(2, minmax(0, 1fr));
+
+				gap: 48px 32px;
 			}
+
+
+			.ve-why__title {
+
+				font-size: clamp(40px, 5vw, 58px);
+			}
+
+
+			.ve-why__intro {
+
+				max-width: 650px;
+
+				font-size: 18px;
+			}
+
+
+			.ve-why__closing {
+
+				max-width: 620px;
+			}
+			
 		}
 
 
