@@ -2919,6 +2919,33 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 
 			border-color: #1F4D3A;
 		}
+		        .ve-atelier-product .added_to_cart.wc-forward {
+            color: #1F4D3A !important;
+            border-color: #1F4D3A !important;
+        }
+
+        .ve-atelier-product .added_to_cart.wc-forward:hover,
+        .ve-atelier-product .added_to_cart.wc-forward:focus {
+            color: #1F4D3A !important;
+            border-color: #1F4D3A !important;
+        }
+
+        .ve-atelier-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(31, 77, 58, 0.25);
+            border-top-color: #1F4D3A;
+            border-radius: 50%;
+            animation: ve-atelier-spin 700ms linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes ve-atelier-spin {
+            to {
+                transform: rotate(360deg);
+            }
+		}
 
 
 		.ve-atelier-product__details {
@@ -3758,7 +3785,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         status.textContent = message;
-        status.style.color = error ? '#9B2525' : '#1F4D3A';
+                status.style.color = error ? '#111111' : '#1F4D3A';
     }
 
     function veGetData(product) {
@@ -3820,9 +3847,19 @@ document.addEventListener('DOMContentLoaded', function () {
             ? confirmButton || product.querySelector('[data-ve-purchase]')
             : product.querySelector('[data-ve-add-to-cart]');
 
-        if (clickedButton) clickedButton.textContent = 'Adding…';
+                let checkoutRedirecting = false;
 
-        veShowMessage(product, 'Adding your selection…', false);
+        if (checkout && clickedButton) {
+            clickedButton.innerHTML =
+                '<span class="ve-atelier-spinner" aria-hidden="true"></span>';
+            clickedButton.setAttribute('aria-label', 'Proceed to Checkout');
+        } else if (clickedButton) {
+            clickedButton.textContent = 'Adding…';
+        }
+
+        if (!checkout) {
+            veShowMessage(product, '', false);
+		}
 
         const endpoint = data.ajaxUrl.replace(
             '%%endpoint%%',
@@ -3858,7 +3895,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			
 
             
-            if (window.jQuery && result.fragments) {
+                        if (!checkout && window.jQuery && result.fragments) {
                 window.jQuery(document.body).trigger(
                     'added_to_cart',
                     [
@@ -3867,13 +3904,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         clickedButton ? window.jQuery(clickedButton) : window.jQuery()
                     ]
                 );
-			}
-			
+            }
 
             if (checkout) {
-    window.location.href = data.checkoutUrl;
-    return;
-}
+                checkoutRedirecting = true;
+                window.location.href = data.checkoutUrl;
+                return;
+            }
 
 atelierSelectionOpen = false;
 
@@ -3896,7 +3933,9 @@ scheduleAutoAdvance();
             );
         })
 			
-        .finally(function () {
+        .        .finally(function () {
+            if (checkoutRedirecting) return;
+
             buttons.forEach(function (button, index) {
                 button.disabled = false;
                 button.textContent = oldLabels[index];
