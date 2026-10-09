@@ -3475,7 +3475,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scheduleAutoAdvance();
     }
 
-   let atelierSelectionOpen = false;
+
 	function scheduleAutoAdvance() {
         clearAutoTimer();
 
