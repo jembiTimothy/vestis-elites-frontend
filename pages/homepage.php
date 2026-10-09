@@ -3857,12 +3857,18 @@ document.addEventListener('DOMContentLoaded', function () {
 				
 			
 
+            
             if (window.jQuery && result.fragments) {
                 window.jQuery(document.body).trigger(
                     'added_to_cart',
-                    [result.fragments, result.cart_hash || '', clickedButton]
+                    [
+                        result.fragments,
+                        result.cart_hash || '',
+                        clickedButton ? window.jQuery(clickedButton) : window.jQuery()
+                    ]
                 );
-            }
+			}
+			
 
             if (checkout) {
     window.location.href = data.checkoutUrl;
