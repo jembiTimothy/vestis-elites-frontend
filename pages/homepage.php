@@ -3794,19 +3794,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        
         const payload = new URLSearchParams();
-        payload.set('product_id', data.id);
+        payload.set(
+            'product_id',
+            variation ? variation.variation_id : data.id
+        );
         payload.set('quantity', '1');
-
-        if (variation) {
-            payload.set('variation_id', variation.variation_id);
-
-            Object.keys(variation.attributes || {}).forEach(function (key) {
-                if (variation.attributes[key]) {
-                    payload.set(key, variation.attributes[key]);
-                }
-            });
-        }
+		
 
         const buttons = Array.from(product.querySelectorAll(
             '[data-ve-purchase], [data-ve-add-to-cart], [data-ve-confirm-purchase]'
