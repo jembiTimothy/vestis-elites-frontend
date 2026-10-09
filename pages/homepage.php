@@ -3852,24 +3852,14 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (result) {
             console.error('Vestis Elites WooCommerce response:', result);
 
+            
             if (!result || result.error) {
-                let wooMessage = '';
-
-                if (result && result.messages) {
-                    const messageDocument = new DOMParser().parseFromString(
-                        result.messages,
-                        'text/html'
-                    );
-
-                    wooMessage = messageDocument.body.textContent
-                        .replace(/\s+/g, ' ')
-                        .trim();
-                }
-
                 throw new Error(
-                    wooMessage || 'WooCommerce rejected this item. Please try again.'
+                    'WooCommerce response: ' + JSON.stringify(result)
                 );
-					}
+            }
+
+				
 			
 
             if (window.jQuery && result.fragments) {
