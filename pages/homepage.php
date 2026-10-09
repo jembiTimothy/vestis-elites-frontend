@@ -197,6 +197,109 @@ function vestis_elites_homepage() {
 			}
 		}
 	}
+		/* =========================================================
+	   SECTION 8 — JOURNAL ARTICLE DATA
+	========================================================= */
+
+	$journal_articles = array();
+
+	$journal_candidates = get_posts(
+		array(
+			'post_type'              => 'post',
+			'post_status'            => 'publish',
+			'posts_per_page'         => 30,
+			'orderby'                => 'date',
+			'order'                  => 'DESC',
+			'ignore_sticky_posts'    => true,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => true,
+			'update_post_term_cache' => true,
+			'meta_query'             => array(
+				array(
+					'key'     => '_thumbnail_id',
+					'compare' => 'EXISTS',
+				),
+			),
+		)
+	);
+
+	foreach ( $journal_candidates as $journal_post ) {
+
+		$journal_image_id = get_post_thumbnail_id(
+			$journal_post->ID
+		);
+
+		$journal_image_url = $journal_image_id
+			? wp_get_attachment_image_url(
+				$journal_image_id,
+				'large'
+			)
+			: '';
+
+		if ( ! $journal_image_url ) {
+			continue;
+		}
+
+		$journal_content = strip_shortcodes(
+			$journal_post->post_content
+		);
+
+		$journal_word_count = str_word_count(
+			wp_strip_all_tags( $journal_content )
+		);
+
+		$journal_reading_time = max(
+			1,
+			(int) ceil( $journal_word_count / 200 )
+		);
+
+		$journal_excerpt = get_the_excerpt(
+			$journal_post
+		);
+
+		$journal_categories = get_the_category(
+			$journal_post->ID
+		);
+
+		$journal_category = ! empty( $journal_categories )
+			? $journal_categories[0]->name
+			: 'Perspective';
+
+		$journal_image_alt = get_post_meta(
+			$journal_image_id,
+			'_wp_attachment_image_alt',
+			true
+		);
+
+		$journal_articles[] = array(
+			'id'            => $journal_post->ID,
+			'title'         => get_the_title( $journal_post ),
+			'excerpt'       => wp_trim_words(
+				wp_strip_all_tags( $journal_excerpt ),
+				35,
+				'…'
+			),
+			'permalink'     => get_permalink( $journal_post ),
+			'image'         => $journal_image_url,
+			'image_alt'     => $journal_image_alt
+				? $journal_image_alt
+				: get_the_title( $journal_post ),
+			'category'      => $journal_category,
+			'author'        => get_the_author_meta(
+				'display_name',
+				$journal_post->post_author
+			),
+			'date'          => get_the_date(
+				get_option( 'date_format' ),
+				$journal_post
+			),
+			'reading_time'  => $journal_reading_time,
+		);
+
+		if ( count( $journal_articles ) >= 5 ) {
+			break;
+		}
+	}
 	ob_start();
 	?>
 
