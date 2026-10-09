@@ -3388,6 +3388,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let touchStartX = 0;
     let touchStartY = 0;
     let touchAllowed = false;
+	let atelierSelectionOpen = false;
 
     /* =====================================================
        PRODUCT CAROUSEL
@@ -3474,18 +3475,20 @@ document.addEventListener('DOMContentLoaded', function () {
         scheduleAutoAdvance();
     }
 
-    function scheduleAutoAdvance() {
+   let atelierSelectionOpen = false;
+	function scheduleAutoAdvance() {
         clearAutoTimer();
 
         if (
-            reducedMotion ||
-            !carouselVisible ||
-            document.hidden ||
-            products.length <= 1 ||
-            cueRunning
-        ) {
-            return;
-        }
+    reducedMotion ||
+    !carouselVisible ||
+    document.hidden ||
+    products.length <= 1 ||
+    cueRunning ||
+    atelierSelectionOpen
+) {
+    return;
+		}
 
         autoTimer = window.setTimeout(function () {
             automaticNextProduct();
@@ -3858,11 +3861,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (checkout) {
-                window.location.href = data.checkoutUrl;
-                return;
-            }
+    window.location.href = data.checkoutUrl;
+    return;
+}
 
-            veShowMessage(product, 'Added to your cart.', false);
+atelierSelectionOpen = false;
+
+const selectionPanel = product.querySelector('[data-ve-size-selection]');
+if (selectionPanel) {
+    selectionPanel.hidden = true;
+}
+
+veShowMessage(product, 'Added to your cart.', false);
+scheduleAutoAdvance();
         })
         .catch(function (error) {
             veShowMessage(product, error.message, true);
@@ -3944,8 +3955,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         confirm.disabled = true;
-        confirm.textContent = intent === 'checkout' ? 'Continue to Checkout' : 'Add to Cart';
-        panel.hidden = false;
+        confirm.textContent = intent === 'checkout' ? 'Proceed to Checkout' : 'Add to Cart';
+        atelierSelectionOpen = true;
+clearAutoTimer();
+		panel.hidden = false;
 
         confirm.onclick = function () {
             if (!selected) {
