@@ -1065,6 +1065,187 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 		</div>
 
 	</section>
+	<!-- =========================================================
+	     SECTION 8 — THE VESTIS ELITES JOURNAL
+	     ========================================================= -->
+
+	<?php if ( ! empty( $journal_articles ) ) : ?>
+
+		<section
+			class="ve-journal"
+			id="ve-journal"
+			aria-labelledby="ve-journal-title"
+			data-ve-journal
+		>
+
+			<div class="ve-journal__inner">
+
+				<header class="ve-journal__header">
+
+					<p class="ve-journal__eyebrow">
+						THE VESTIS ELITES JOURNAL
+					</p>
+
+					<h2
+						class="ve-journal__title"
+						id="ve-journal-title"
+					>
+						The Art of Personal Presentation.
+					</h2>
+
+				</header>
+
+
+				<div
+					class="ve-journal__carousel"
+					data-ve-journal-carousel
+					aria-live="polite"
+				>
+
+					<?php foreach ( array_slice( $journal_articles, 0, 3 ) as $journal_index => $journal_article ) : ?>
+
+						<article
+							class="ve-journal-card<?php echo 0 === $journal_index ? ' ve-journal-card--featured is-active' : ' ve-journal-card--supporting'; ?>"
+							data-ve-journal-card
+							data-article-id="<?php echo esc_attr( $journal_article['id'] ); ?>"
+							data-position="<?php echo esc_attr( $journal_index ); ?>"
+						>
+
+							<a
+								class="ve-journal-card__image-link"
+								href="<?php echo esc_url( $journal_article['permalink'] ); ?>"
+								tabindex="<?php echo 0 === $journal_index ? '0' : '-1'; ?>"
+								data-ve-journal-link
+							>
+
+								<img
+									class="ve-journal-card__image"
+									src="<?php echo esc_url( $journal_article['image'] ); ?>"
+									alt="<?php echo esc_attr( $journal_article['image_alt'] ); ?>"
+									loading="<?php echo 0 === $journal_index ? 'eager' : 'lazy'; ?>"
+									decoding="async"
+								>
+
+							</a>
+
+
+							<div class="ve-journal-card__content">
+
+								<p class="ve-journal-card__category">
+									<?php echo esc_html( $journal_article['category'] ); ?>
+								</p>
+
+								<h3 class="ve-journal-card__title">
+
+									<a
+										href="<?php echo esc_url( $journal_article['permalink'] ); ?>"
+										tabindex="<?php echo 0 === $journal_index ? '0' : '-1'; ?>"
+										data-ve-journal-link
+									>
+										<?php echo esc_html( $journal_article['title'] ); ?>
+									</a>
+
+								</h3>
+
+
+								<p class="ve-journal-card__excerpt">
+									<?php echo esc_html( $journal_article['excerpt'] ); ?>
+								</p>
+
+
+								<div class="ve-journal-card__meta">
+
+									<span class="ve-journal-card__author">
+										<?php echo esc_html( $journal_article['author'] ); ?>
+									</span>
+
+									<span aria-hidden="true">·</span>
+
+									<time>
+										<?php echo esc_html( $journal_article['date'] ); ?>
+									</time>
+
+									<span aria-hidden="true">·</span>
+
+									<span>
+										<?php echo esc_html( $journal_article['reading_time'] ); ?>
+										MIN READ
+									</span>
+
+								</div>
+
+
+								<a
+									class="ve-journal-card__read"
+									href="<?php echo esc_url( $journal_article['permalink'] ); ?>"
+									tabindex="<?php echo 0 === $journal_index ? '0' : '-1'; ?>"
+									data-ve-journal-link
+								>
+									Read Article →
+								</a>
+
+							</div>
+
+						</article>
+
+					<?php endforeach; ?>
+
+				</div>
+
+
+				<div class="ve-journal__controls">
+
+					<button
+						type="button"
+						class="ve-journal__control"
+						data-ve-journal-prev
+						aria-label="Previous articles"
+					>
+						← Previous
+					</button>
+
+					<button
+						type="button"
+						class="ve-journal__control ve-journal__control--play"
+						data-ve-journal-toggle
+						aria-label="Pause automatic article rotation"
+						aria-pressed="false"
+					>
+						Pause
+					</button>
+
+					<button
+						type="button"
+						class="ve-journal__control"
+						data-ve-journal-next
+						aria-label="Next articles"
+					>
+						Next →
+					</button>
+
+				</div>
+
+
+				<?php if ( $journal_url ) : ?>
+
+					<div class="ve-journal__footer">
+
+						<a
+							class="ve-journal__archive-link"
+							href="<?php echo esc_url( $journal_url ); ?>"
+						>
+							Explore All Journal Articles →
+						</a>
+
+					</div>
+
+				<?php endif; ?>
+
+			</div>
+
+		</section>
+
+	<?php endif; ?>
 	<style>
 
 		/* =========================================================
