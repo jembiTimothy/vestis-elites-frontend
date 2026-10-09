@@ -166,7 +166,7 @@ function vestis_elites_homepage() {
 				'status'       => 'publish',
 				'type'         => array( 'simple', 'variable' ),
 				'stock_status' => 'instock',
-				'limit'        => 12,
+				'limit'        => 48,
 				'orderby'      => 'rand',
 				'return'       => 'objects',
 			)
@@ -192,7 +192,7 @@ function vestis_elites_homepage() {
 
 			$atelier_products[] = $atelier_product;
 
-			if ( count( $atelier_products ) >= 6 ) {
+			if ( count( $atelier_products ) >= 12 ) {
 				break;
 			}
 		}
@@ -2656,33 +2656,40 @@ function vestis_elites_homepage() {
 
 
 		.ve-atelier__track {
-
 			display: flex;
-
 			width: 100%;
-
-			transition:
-				transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+			gap: clamp(24px, 3.5vw, 48px);
+			transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+			will-change: transform;
 		}
 
-
 		.ve-atelier-product {
-
 			position: relative;
-
-			flex: 0 0 100%;
-
+			flex: 0 0 78%;
 			min-width: 0;
-
 			display: grid;
-
 			grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
-
 			column-gap: clamp(48px, 7vw, 100px);
-
 			align-items: center;
-
 			box-sizing: border-box;
+		}
+
+		.ve-atelier-product__content {
+			transition: opacity 350ms ease;
+		}
+
+		.ve-atelier-product:not(.is-current) .ve-atelier-product__content {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+		}
+
+		.ve-atelier-product.is-current .ve-atelier-product__content {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+		}
+			
 		}
 
 
@@ -3162,6 +3169,7 @@ function vestis_elites_homepage() {
 				grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
 
 				column-gap: 42px;
+				flex-basis: 84%;
 			}
 
 
@@ -3209,6 +3217,7 @@ function vestis_elites_homepage() {
 			.ve-atelier-product {
 
 				display: block;
+				flex-basis: 100%;
 			}
 
 
@@ -3319,223 +3328,453 @@ function vestis_elites_homepage() {
 		}
 	</style>
 	<script>
-    document.addEventListener('DOMContentLoaded', function () {
 
-        const carousel = document.querySelector('[data-ve-atelier-carousel]');
+document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
-        if (!carousel) {
+    const carousel = document.querySelector('[data-ve-atelier-carousel]');
+
+    if (!carousel) {
+        return;
+    }
+
+    const track = carousel.querySelector('.ve-atelier__track');
+    const products = Array.from(
+        carousel.querySelectorAll('[data-ve-atelier-product]')
+    );
+    const previousButton = carousel.querySelector('[data-ve-atelier-prev]');
+    const nextButton = carousel.querySelector('[data-ve-atelier-next]');
+
+    if (!track || !products.length) {
+        return;
+    }
+
+    const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    const PRODUCT_INTERVAL = 6000;
+    const GALLERY_INTERVAL = 4000;
+    const SWIPE_THRESHOLD = 50;
+
+    let currentIndex = 0;
+    let autoTimer = null;
+    let cueTimers = [];
+    let cueStarted = false;
+    let cueRunning = false;
+    let carouselVisible = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchAllowed = false;
+
+    /* =====================================================
+       PRODUCT CAROUSEL
+    ===================================================== */
+
+    function updateCarousel() {
+        const activeProduct = products[currentIndex];
+
+        if (!activeProduct) {
             return;
         }
 
+        products.forEach(function (product, index) {
+            const isCurrent = index === currentIndex;
 
-        const track = carousel.querySelector('.ve-atelier__track');
+            product.classList.toggle('is-current', isCurrent);
+            product.setAttribute('aria-hidden', String(!isCurrent));
 
-        const products = Array.from(
-            carousel.querySelectorAll('[data-ve-atelier-product]')
-        );
+            if ('inert' in product) {
+                product.inert = !isCurrent;
+            }
+        });
 
-        const previousButton = carousel.querySelector('[data-ve-atelier-prev]');
+        const centeredOffset =
+            activeProduct.offsetLeft -
+            (carousel.clientWidth - activeProduct.offsetWidth) / 2;
 
-        const nextButton = carousel.querySelector('[data-ve-atelier-next]');
+        track.style.transform =
+            'translate3d(' + (-centeredOffset) + 'px, 0, 0)';
 
+        syncGalleries();
+    }
 
-        if (!track || !products.length) {
+    function clearAutoTimer() {
+        if (autoTimer !== null) {
+            window.clearTimeout(autoTimer);
+            autoTimer = null;
+        }
+    }
+
+    function randomProductIndex() {
+        if (products.length <= 1) {
+            return currentIndex;
+        }
+
+        let nextIndex;
+
+        do {
+            nextIndex = Math.floor(Math.random() * products.length);
+        } while (nextIndex === currentIndex);
+
+        return nextIndex;
+    }
+
+    function automaticNextProduct() {
+        if (currentIndex < products.length - 1) {
+            currentIndex += 1;
+        } else {
+            currentIndex = randomProductIndex();
+        }
+
+        updateCarousel();
+    }
+
+    function nextProduct() {
+        if (currentIndex < products.length - 1) {
+            currentIndex += 1;
+        } else {
+            currentIndex = randomProductIndex();
+        }
+
+        updateCarousel();
+        scheduleAutoAdvance();
+    }
+
+    function previousProduct() {
+        if (currentIndex > 0) {
+            currentIndex -= 1;
+        } else {
+            currentIndex = randomProductIndex();
+        }
+
+        updateCarousel();
+        scheduleAutoAdvance();
+    }
+
+    function scheduleAutoAdvance() {
+        clearAutoTimer();
+
+        if (
+            reducedMotion ||
+            !carouselVisible ||
+            document.hidden ||
+            products.length <= 1 ||
+            cueRunning
+        ) {
             return;
         }
 
+        autoTimer = window.setTimeout(function () {
+            automaticNextProduct();
+            scheduleAutoAdvance();
+        }, PRODUCT_INTERVAL);
+    }
 
-        let currentIndex = 0;
+    function cancelIntroCue() {
+        cueTimers.forEach(function (timer) {
+            window.clearTimeout(timer);
+        });
 
-        let touchStartX = 0;
+        cueTimers = [];
+        cueRunning = false;
+    }
 
-        let touchStartY = 0;
-
-
-        /* =====================================================
-           PRODUCT CAROUSEL
-        ===================================================== */
-
-        function updateCarousel() {
-
-            track.style.transform =
-                'translateX(-' + (currentIndex * 100) + '%)';
-
-            products.forEach(function (product, index) {
-
-                product.setAttribute(
-                    'aria-hidden',
-                    index === currentIndex ? 'false' : 'true'
-                );
-
-            });
-
+    function startIntroCue() {
+        if (
+            cueStarted ||
+            reducedMotion ||
+            products.length <= 1 ||
+            !carouselVisible
+        ) {
+            return;
         }
 
+        cueStarted = true;
+        cueRunning = true;
+        clearAutoTimer();
 
-        function goToProduct(index) {
+        const startingIndex = currentIndex;
+        const previewIndex =
+            startingIndex < products.length - 1
+                ? startingIndex + 1
+                : randomProductIndex();
 
-            if (index < 0) {
-                index = products.length - 1;
-            }
-
-            if (index >= products.length) {
-                index = 0;
-            }
-
-
-            currentIndex = index;
-
-            updateCarousel();
-
-        }
-
-
-        function nextProduct() {
-
-            goToProduct(currentIndex + 1);
-
-        }
-
-
-        function previousProduct() {
-
-            goToProduct(currentIndex - 1);
-
-        }
-
-
-        if (nextButton) {
-
-            nextButton.addEventListener(
-                'click',
-                nextProduct
-            );
-
-        }
-
-
-        if (previousButton) {
-
-            previousButton.addEventListener(
-                'click',
-                previousProduct
-            );
-
-        }
-
-
-        /* =====================================================
-           PRODUCT IMAGE GALLERY
-           Runs independently from product navigation.
-           Never stopped by carousel interaction.
-        ===================================================== */
-
-        products.forEach(function (product) {
-
-            const images = Array.from(
-                product.querySelectorAll(
-                    '.ve-atelier-product__image'
-                )
-            );
-
-
-            if (images.length <= 1) {
+        cueTimers.push(window.setTimeout(function () {
+            if (!carouselVisible || document.hidden) {
+                cancelIntroCue();
+                scheduleAutoAdvance();
                 return;
             }
 
+            currentIndex = previewIndex;
+            updateCarousel();
 
-            let imageIndex = images.findIndex(function (image) {
-
-                return image.classList.contains('is-active');
-
-            });
-
-
-            if (imageIndex < 0) {
-                imageIndex = 0;
-
-                images[0].classList.add('is-active');
-            }
-
-
-            setInterval(function () {
-
-                images[imageIndex].classList.remove('is-active');
-
-
-                imageIndex =
-                    (imageIndex + 1) % images.length;
-
-
-                images[imageIndex].classList.add('is-active');
-
-            }, 4000);
-
-        });
-
-
-        /* =====================================================
-           TOUCH / SWIPE
-        ===================================================== */
-
-        carousel.addEventListener(
-            'touchstart',
-            function (event) {
-
-                const touch = event.changedTouches[0];
-
-                touchStartX = touch.clientX;
-
-                touchStartY = touch.clientY;
-
-            },
-            { passive: true }
-        );
-
-
-        carousel.addEventListener(
-            'touchend',
-            function (event) {
-
-                const touch = event.changedTouches[0];
-
-                const deltaX =
-                    touch.clientX - touchStartX;
-
-                const deltaY =
-                    touch.clientY - touchStartY;
-
-
-                if (
-                    Math.abs(deltaX) < 50 ||
-                    Math.abs(deltaX) <= Math.abs(deltaY)
-                ) {
+            cueTimers.push(window.setTimeout(function () {
+                if (!carouselVisible || document.hidden) {
+                    cancelIntroCue();
+                    scheduleAutoAdvance();
                     return;
                 }
 
+                currentIndex = startingIndex;
+                updateCarousel();
 
-                if (deltaX < 0) {
+                cueRunning = false;
+                cueTimers = [];
+                scheduleAutoAdvance();
+            }, 550));
+        }, 700));
+    }
 
-                    nextProduct();
+    function handleManualNavigation(action) {
+        cancelIntroCue();
+        clearAutoTimer();
+        action();
+    }
 
-                } else {
+    if (nextButton) {
+        nextButton.addEventListener('click', function () {
+            handleManualNavigation(nextProduct);
+        });
+    }
 
-                    previousProduct();
+    if (previousButton) {
+        previousButton.addEventListener('click', function () {
+            handleManualNavigation(previousProduct);
+        });
+    }
 
-                }
+    /* =====================================================
+       PRODUCT IMAGE GALLERIES
+       Preserve each product's image index when paused.
+    ===================================================== */
 
-            },
-            { passive: true }
+    const galleries = products.map(function (product) {
+        const images = Array.from(
+            product.querySelectorAll('.ve-atelier-product__image')
         );
 
+        let imageIndex = images.findIndex(function (image) {
+            return image.classList.contains('is-active');
+        });
 
-        /* =====================================================
-           INITIALISE
-        ===================================================== */
+        if (imageIndex < 0 && images.length) {
+            imageIndex = 0;
+            images[0].classList.add('is-active');
+        }
 
-        updateCarousel();
-
+        return {
+            product: product,
+            images: images,
+            imageIndex: Math.max(0, imageIndex),
+            timer: null,
+            visible: false
+        };
     });
+
+    function stopGallery(gallery) {
+        if (gallery.timer !== null) {
+            window.clearTimeout(gallery.timer);
+            gallery.timer = null;
+        }
+    }
+
+    function advanceGallery(gallery) {
+        if (gallery.images.length <= 1) {
+            return;
+        }
+
+        gallery.images[gallery.imageIndex].classList.remove('is-active');
+
+        gallery.imageIndex =
+            (gallery.imageIndex + 1) % gallery.images.length;
+
+        gallery.images[gallery.imageIndex].classList.add('is-active');
+    }
+
+    function startGallery(gallery) {
+        if (
+            reducedMotion ||
+            !carouselVisible ||
+            document.hidden ||
+            !gallery.visible ||
+            gallery.images.length <= 1 ||
+            gallery.timer !== null
+        ) {
+            return;
+        }
+
+        gallery.timer = window.setTimeout(function tick() {
+            gallery.timer = null;
+
+            if (
+                !carouselVisible ||
+                document.hidden ||
+                !gallery.visible
+            ) {
+                return;
+            }
+
+            advanceGallery(gallery);
+            startGallery(gallery);
+        }, GALLERY_INTERVAL);
+    }
+
+    function syncGalleries() {
+        galleries.forEach(function (gallery) {
+            if (
+                carouselVisible &&
+                !document.hidden &&
+                gallery.visible
+            ) {
+                startGallery(gallery);
+            } else {
+                stopGallery(gallery);
+            }
+        });
+    }
+
+    /* Only galleries with a visible portion of the carousel run. */
+
+    if ('IntersectionObserver' in window) {
+        const galleryObserver = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    const gallery = galleries.find(function (item) {
+                        return item.product === entry.target;
+                    });
+
+                    if (!gallery) {
+                        return;
+                    }
+
+                    gallery.visible =
+                        entry.isIntersecting &&
+                        entry.intersectionRatio >= 0.05;
+                });
+
+                syncGalleries();
+            },
+            {
+                root: carousel,
+                threshold: [0, 0.05, 0.2, 0.5]
+            }
+        );
+
+        products.forEach(function (product) {
+            galleryObserver.observe(product);
+        });
+    } else {
+        galleries.forEach(function (gallery, index) {
+            gallery.visible = index === currentIndex;
+        });
+    }
+
+    /* Start the carousel timer only when the section is on screen. */
+
+    if ('IntersectionObserver' in window) {
+        const carouselObserver = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    carouselVisible =
+                        entry.isIntersecting &&
+                        entry.intersectionRatio >= 0.1;
+                });
+
+                if (carouselVisible) {
+                    startIntroCue();
+                    scheduleAutoAdvance();
+                } else {
+                    clearAutoTimer();
+                    cancelIntroCue();
+                }
+
+                syncGalleries();
+            },
+            { threshold: [0, 0.1] }
+        );
+
+        carouselObserver.observe(carousel);
+    } else {
+        carouselVisible = true;
+        galleries.forEach(function (gallery, index) {
+            gallery.visible = index === currentIndex;
+        });
+    }
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            clearAutoTimer();
+            cancelIntroCue();
+        } else {
+            scheduleAutoAdvance();
+            syncGalleries();
+        }
+    });
+
+    /* =====================================================
+       TOUCH / SWIPE
+       Do not hijack vertical scrolling or control interaction.
+    ===================================================== */
+
+    carousel.addEventListener('touchstart', function (event) {
+        const target = event.target;
+
+        touchAllowed = !target.closest(
+            'button, a, input, select, textarea, [data-ve-size-selection]'
+        );
+
+        const touch = event.changedTouches[0];
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', function (event) {
+        if (!touchAllowed) {
+            return;
+        }
+
+        touchAllowed = false;
+
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        if (
+            Math.abs(deltaX) < SWIPE_THRESHOLD ||
+            Math.abs(deltaX) <= Math.abs(deltaY)
+        ) {
+            return;
+        }
+
+        handleManualNavigation(function () {
+            if (deltaX < 0) {
+                nextProduct();
+            } else {
+                previousProduct();
+            }
+        });
+    }, { passive: true });
+
+    carousel.addEventListener('touchcancel', function () {
+        touchAllowed = false;
+    }, { passive: true });
+
+    /* Keep the active product centred after a screen-size change. */
+
+    window.addEventListener('resize', function () {
+        updateCarousel();
+    });
+
+    /* =====================================================
+       INITIALISE
+    ===================================================== */
+
+    updateCarousel();
+});
+
 			</script>
 
 	<?php
