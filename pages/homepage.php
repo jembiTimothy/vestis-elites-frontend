@@ -3933,7 +3933,7 @@ scheduleAutoAdvance();
             );
         })
 			
-        .        .finally(function () {
+                .finally(function () {
             if (checkoutRedirecting) return;
 
             buttons.forEach(function (button, index) {
