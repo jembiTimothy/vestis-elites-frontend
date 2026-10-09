@@ -3848,28 +3848,29 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             return response.json();
         })
+        
         .then(function (result) {
-    console.error('Vestis Elites WooCommerce response:', result);
+            console.error('Vestis Elites WooCommerce response:', result);
 
-    if (!result || result.error) {
-        const productUrl = result && result.product_url;
+            if (!result || result.error) {
+                let wooMessage = '';
 
-        if (productUrl) {
-            veShowMessage(
-                product,
-                'WooCommerce rejected this selection. Open View Details to complete your purchase.',
-                true
-            );
-        } else {
-            veShowMessage(
-                product,
-                'WooCommerce returned an unexpected response. Please try again.',
-                true
-            );
-        }
+                if (result && result.messages) {
+                    const messageDocument = new DOMParser().parseFromString(
+                        result.messages,
+                        'text/html'
+                    );
 
-        throw new Error('WooCommerce rejected the add-to-cart request.');
-	}
+                    wooMessage = messageDocument.body.textContent
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                }
+
+                throw new Error(
+                    wooMessage || 'WooCommerce rejected this item. Please try again.'
+                );
+					}
+			
 
             if (window.jQuery && result.fragments) {
                 window.jQuery(document.body).trigger(
@@ -3893,9 +3894,17 @@ if (selectionPanel) {
 veShowMessage(product, 'Added to your cart.', false);
 scheduleAutoAdvance();
         })
+        
         .catch(function (error) {
-            veShowMessage(product, error.message, true);
+            console.error('Vestis Elites add-to-cart error:', error);
+
+            veShowMessage(
+                product,
+                error.message || 'Unable to add this item. Please try again.',
+                true
+            );
         })
+			
         .finally(function () {
             buttons.forEach(function (button, index) {
                 button.disabled = false;
