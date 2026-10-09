@@ -744,12 +744,34 @@ function vestis_elites_homepage() {
 
 							?>
 
-							<article
+						
+<?php
+$atelier_variations = array();
+
+if ( $atelier_product->is_type( 'variable' ) ) {
+    foreach ( $atelier_product->get_available_variations() as $variation ) {
+        $atelier_variations[] = array(
+            'variation_id'   => (int) $variation['variation_id'],
+            'attributes'     => $variation['attributes'],
+            'price_html'     => $variation['price_html'],
+            'is_in_stock'    => $variation['is_in_stock'],
+            'is_purchasable' => $variation['is_purchasable'],
+        );
+    }
+}
+?>
+	
+						<article
 								class="ve-atelier-product"
 								data-ve-atelier-product
 								data-product-id="<?php echo esc_attr( $atelier_product->get_id() ); ?>"
 								data-product-type="<?php echo esc_attr( $atelier_product->get_type() ); ?>"
-							>
+							
+data-product-variations="<?php echo esc_attr( wp_json_encode( $atelier_variations ) ); ?>"
+data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
+							data-ajax-url="<?php echo esc_url( WC_AJAX::get_endpoint( '%%endpoint%%' ) ); ?>"
+								
+								>
 
 								<div class="ve-atelier-product__visual">
 
@@ -3713,7 +3735,260 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    
     /* =====================================================
+       VESTIS ELITES — WOOCOMMERCE BUTTONS
+    ===================================================== */
+
+    function veShowMessage(product, message, error) {
+        let status = product.querySelector('[data-ve-cart-status]');
+
+        if (!status) {
+            status = document.createElement('p');
+            status.setAttribute('data-ve-cart-status', '');
+            status.setAttribute('role', 'status');
+            status.setAttribute('aria-live', 'polite');
+            status.style.cssText = 'margin-top:12px;font-size:13px;line-height:1.5;';
+
+            const content = product.querySelector('.ve-atelier-product__content');
+            if (content) content.appendChild(status);
+        }
+
+        status.textContent = message;
+        status.style.color = error ? '#9B2525' : '#1F4D3A';
+    }
+
+    function veGetData(product) {
+        let variations = [];
+
+        try {
+            variations = JSON.parse(
+                product.getAttribute('data-product-variations') || '[]'
+            );
+        } catch (error) {
+            console.error('Vestis Elites: variation data is invalid.', error);
+        }
+
+        return {
+            id: product.getAttribute('data-product-id'),
+            type: product.getAttribute('data-product-type'),
+            variations: variations,
+            ajaxUrl: product.getAttribute('data-ajax-url'),
+            checkoutUrl: product.getAttribute('data-checkout-url')
+        };
+    }
+
+    function veAddToCart(product, variation, checkout) {
+        const data = veGetData(product);
+
+        if (!data.id || !data.ajaxUrl || !data.checkoutUrl) {
+            veShowMessage(product, 'Shopping is temporarily unavailable. Please try again.', true);
+            return;
+        }
+
+        if (data.type === 'variable' && !variation) {
+            veShowMessage(product, 'Please select an available option.', true);
+            return;
+        }
+
+        const payload = new URLSearchParams();
+        payload.set('product_id', data.id);
+        payload.set('quantity', '1');
+
+        if (variation) {
+            payload.set('variation_id', variation.variation_id);
+
+            Object.keys(variation.attributes || {}).forEach(function (key) {
+                if (variation.attributes[key]) {
+                    payload.set(key, variation.attributes[key]);
+                }
+            });
+        }
+
+        const buttons = Array.from(product.querySelectorAll(
+            '[data-ve-purchase], [data-ve-add-to-cart], [data-ve-confirm-purchase]'
+        ));
+
+        const oldLabels = buttons.map(function (button) {
+            return button.textContent;
+        });
+
+        buttons.forEach(function (button) {
+            button.disabled = true;
+        });
+
+        const confirmButton = product.querySelector('[data-ve-confirm-purchase]');
+        const clickedButton = checkout
+            ? confirmButton || product.querySelector('[data-ve-purchase]')
+            : product.querySelector('[data-ve-add-to-cart]');
+
+        if (clickedButton) clickedButton.textContent = 'Adding…';
+
+        veShowMessage(product, 'Adding your selection…', false);
+
+        const endpoint = data.ajaxUrl.replace(
+            '%%endpoint%%',
+            'add_to_cart'
+        );
+
+        fetch(endpoint, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: payload.toString()
+        })
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('The request failed. Please try again.');
+            }
+            return response.json();
+        })
+        .then(function (result) {
+            if (!result || result.error) {
+                throw new Error('This item could not be added. Please try View Details.');
+            }
+
+            if (window.jQuery && result.fragments) {
+                window.jQuery(document.body).trigger(
+                    'added_to_cart',
+                    [result.fragments, result.cart_hash || '', clickedButton]
+                );
+            }
+
+            if (checkout) {
+                window.location.href = data.checkoutUrl;
+                return;
+            }
+
+            veShowMessage(product, 'Added to your cart.', false);
+        })
+        .catch(function (error) {
+            veShowMessage(product, error.message, true);
+        })
+        .finally(function () {
+            buttons.forEach(function (button, index) {
+                button.disabled = false;
+                button.textContent = oldLabels[index];
+            });
+        });
+    }
+
+    function veOpenSelection(product, intent) {
+        const data = veGetData(product);
+        const panel = product.querySelector('[data-ve-size-selection]');
+        const choices = product.querySelector('[data-ve-product-sizes]');
+        const price = product.querySelector('[data-ve-selected-price]');
+        const confirm = product.querySelector('[data-ve-confirm-purchase]');
+
+        if (!panel || !choices || !confirm) {
+            veShowMessage(product, 'Selection is temporarily unavailable.', true);
+            return;
+        }
+
+        const available = data.variations.filter(function (variation) {
+            return variation.is_in_stock && variation.is_purchasable;
+        });
+
+        if (!available.length) {
+            veShowMessage(product, 'No options are currently available.', true);
+            return;
+        }
+
+        choices.replaceChildren();
+
+        let selected = null;
+
+        const label = panel.querySelector('.ve-atelier-product__selection-label');
+        if (label) label.textContent = 'Select Available Option';
+
+        available.forEach(function (variation) {
+            const values = Object.keys(variation.attributes || {})
+                .map(function (key) {
+                    return variation.attributes[key];
+                })
+                .filter(Boolean);
+
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.textContent = values.length ? values.join(' / ') : 'Option';
+            option.setAttribute('aria-pressed', 'false');
+            option.style.cssText =
+                'padding:10px 14px;border:1px solid #D8D5CC;' +
+                'background:transparent;color:#111;font:inherit;' +
+                'font-size:12px;cursor:pointer;';
+
+            option.addEventListener('click', function () {
+                selected = variation;
+
+                Array.from(choices.children).forEach(function (button) {
+                    button.style.background = 'transparent';
+                    button.style.color = '#111';
+                    button.style.borderColor = '#D8D5CC';
+                    button.setAttribute('aria-pressed', 'false');
+                });
+
+                option.style.background = '#111';
+                option.style.color = '#fff';
+                option.style.borderColor = '#111';
+                option.setAttribute('aria-pressed', 'true');
+
+                if (price) price.innerHTML = variation.price_html || '';
+
+                confirm.disabled = false;
+                veShowMessage(product, '', false);
+            });
+
+            choices.appendChild(option);
+        });
+
+        confirm.disabled = true;
+        confirm.textContent = intent === 'checkout' ? 'Continue to Checkout' : 'Add to Cart';
+        panel.hidden = false;
+
+        confirm.onclick = function () {
+            if (!selected) {
+                veShowMessage(product, 'Please select an option first.', true);
+                return;
+            }
+
+            veAddToCart(product, selected, intent === 'checkout');
+        };
+
+        panel.scrollIntoView({
+            behavior: reducedMotion ? 'auto' : 'smooth',
+            block: 'nearest'
+        });
+    }
+
+    products.forEach(function (product) {
+        const data = veGetData(product);
+        const purchase = product.querySelector('[data-ve-purchase]');
+        const cart = product.querySelector('[data-ve-add-to-cart]');
+
+        if (purchase) {
+            purchase.addEventListener('click', function () {
+                if (data.type === 'variable') {
+                    veOpenSelection(product, 'checkout');
+                } else {
+                    veAddToCart(product, null, true);
+                }
+            });
+        }
+
+        if (cart) {
+            cart.addEventListener('click', function () {
+                if (data.type === 'variable') {
+                    veOpenSelection(product, 'cart');
+                } else {
+                    veAddToCart(product, null, false);
+                }
+            });
+        }
+    });
+		
+	/* =====================================================
        TOUCH / SWIPE
        Do not hijack vertical scrolling or control interaction.
     ===================================================== */
