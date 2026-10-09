@@ -3849,9 +3849,27 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(function (result) {
-            if (!result || result.error) {
-                throw new Error('This item could not be added. Please try View Details.');
-            }
+    console.error('Vestis Elites WooCommerce response:', result);
+
+    if (!result || result.error) {
+        const productUrl = result && result.product_url;
+
+        if (productUrl) {
+            veShowMessage(
+                product,
+                'WooCommerce rejected this selection. Open View Details to complete your purchase.',
+                true
+            );
+        } else {
+            veShowMessage(
+                product,
+                'WooCommerce returned an unexpected response. Please try again.',
+                true
+            );
+        }
+
+        throw new Error('WooCommerce rejected the add-to-cart request.');
+	}
 
             if (window.jQuery && result.fragments) {
                 window.jQuery(document.body).trigger(
