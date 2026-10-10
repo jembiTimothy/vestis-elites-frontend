@@ -1102,10 +1102,10 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 					aria-live="polite"
 				>
 
-					<?php foreach ( array_slice( $journal_articles, 0, 3 ) as $journal_index => $journal_article ) : ?>
+				<?php foreach ( $journal_articles as $journal_index => $journal_article ) : ?>
 
 						<article
-							class="ve-journal-card<?php echo 0 === $journal_index ? ' ve-journal-card--featured is-active' : ' ve-journal-card--supporting'; ?>"
+							class="ve-journal-card<?php echo 0 === $journal_index ? ' ve-journal-card--featured is-active' : ' ve-journal-card--supporting'; ?><?php echo $journal_index > 2 ? ' ve-journal-card--prepared' : ''; ?>"
 							data-ve-journal-card
 							data-article-id="<?php echo esc_attr( $journal_article['id'] ); ?>"
 							data-position="<?php echo esc_attr( $journal_index ); ?>"
