@@ -4067,6 +4067,176 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 				transition: none !important;
 			}
 		}
+				/* =========================================================
+		   SECTION 9 — PRIVATE CONSULTATION
+		========================================================= */
+
+		.ve-consultation {
+			width: 100%;
+			box-sizing: border-box;
+			padding: clamp(64px, 9vw, 124px) 24px;
+			background: #FFFFFF;
+			color: #111111;
+		}
+
+		.ve-consultation__inner {
+			display: grid;
+			grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+			align-items: center;
+			gap: clamp(40px, 7vw, 100px);
+			width: 100%;
+			max-width: 1320px;
+			margin: 0 auto;
+		}
+
+		.ve-consultation__image-wrap {
+			min-width: 0;
+			overflow: hidden;
+			background: #F8F7F4;
+		}
+
+		.ve-consultation__image {
+			display: block;
+			width: 100%;
+			height: auto;
+			aspect-ratio: 4 / 5;
+			object-fit: cover;
+			object-position: center;
+		}
+
+		.ve-consultation__content {
+			max-width: 540px;
+			padding: 24px 0;
+		}
+
+		.ve-consultation__eyebrow {
+			margin: 0 0 24px;
+			color: #1F4D3A;
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: 0.18em;
+			line-height: 1.5;
+		}
+
+		.ve-consultation__title {
+			margin: 0;
+			color: #111111;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(36px, 4.2vw, 58px);
+			font-weight: 400;
+			line-height: 1.12;
+			letter-spacing: -0.035em;
+		}
+
+		.ve-consultation__description {
+			max-width: 500px;
+			margin: 26px 0 0;
+			color: #555555;
+			font-size: 15px;
+			line-height: 1.9;
+		}
+
+		.ve-consultation__cta {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 18px;
+			min-height: 54px;
+			margin-top: 34px;
+			padding: 15px 22px;
+			box-sizing: border-box;
+			background: #1F4D3A;
+			border: 1px solid #1F4D3A;
+			color: #FFFFFF;
+			font-size: 12px;
+			font-weight: 600;
+			line-height: 1.4;
+			text-decoration: none;
+			transition:
+				background-color 200ms ease,
+				border-color 200ms ease;
+		}
+
+		.ve-consultation__cta:hover {
+			background: #173A2C;
+			border-color: #173A2C;
+			color: #FFFFFF;
+		}
+
+		.ve-consultation__cta:focus-visible {
+			outline: 2px solid #1F4D3A;
+			outline-offset: 4px;
+		}
+
+		/* PRIVATE CONSULTATION — TABLET */
+
+		@media (max-width: 900px) {
+			.ve-consultation {
+				padding: 76px 24px;
+			}
+
+			.ve-consultation__inner {
+				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+				gap: 32px;
+			}
+
+			.ve-consultation__title {
+				font-size: clamp(34px, 4.5vw, 44px);
+			}
+
+			.ve-consultation__description {
+				font-size: 14px;
+			}
+		}
+
+		/* PRIVATE CONSULTATION — MOBILE */
+
+		@media (max-width: 640px) {
+			.ve-consultation {
+				padding: 58px 20px 64px;
+			}
+
+			.ve-consultation__inner {
+				grid-template-columns: minmax(0, 1fr);
+				gap: 30px;
+			}
+
+			.ve-consultation__image {
+				aspect-ratio: 4 / 3;
+			}
+
+			.ve-consultation__content {
+				max-width: none;
+				padding: 0;
+			}
+
+			.ve-consultation__eyebrow {
+				margin-bottom: 18px;
+				font-size: 10px;
+			}
+
+			.ve-consultation__title {
+				font-size: clamp(36px, 9vw, 44px);
+				line-height: 1.13;
+			}
+
+			.ve-consultation__description {
+				margin-top: 20px;
+				font-size: 14px;
+				line-height: 1.8;
+			}
+
+			.ve-consultation__cta {
+				width: 100%;
+				margin-top: 26px;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.ve-consultation__cta {
+				transition: none;
+			}
+		}
 	</style>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
