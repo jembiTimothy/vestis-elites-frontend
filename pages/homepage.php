@@ -296,7 +296,7 @@ function vestis_elites_homepage() {
 			'reading_time'  => $journal_reading_time,
 		);
 
-		if ( count( $journal_articles ) >= 5 ) {
+		if ( count( $journal_articles ) >= 7 ) {
 			break;
 		}
 	}
