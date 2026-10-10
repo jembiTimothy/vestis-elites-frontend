@@ -4008,6 +4008,226 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 		}
 	</style>
 	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
+
+    const carousel = document.querySelector('[data-ve-journal-carousel]');
+
+    if (!carousel) {
+        return;
+    }
+
+    const cards = Array.from(
+        carousel.querySelectorAll('[data-ve-journal-card]')
+    );
+
+    const previousButton = document.querySelector('[data-ve-journal-prev]');
+    const nextButton = document.querySelector('[data-ve-journal-next]');
+    const toggleButton = document.querySelector('[data-ve-journal-toggle]');
+
+    if (cards.length < 2) {
+        if (previousButton) previousButton.disabled = true;
+        if (nextButton) nextButton.disabled = true;
+        if (toggleButton) toggleButton.hidden = true;
+        return;
+    }
+
+    const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    const intervalDuration = 7000;
+    let startIndex = 0;
+    let autoplayTimer = null;
+    let isPaused = reducedMotion;
+
+    function updateControls() {
+        if (!toggleButton) {
+            return;
+        }
+
+        toggleButton.textContent = isPaused ? 'Play' : 'Pause';
+
+        toggleButton.setAttribute(
+            'aria-label',
+            isPaused
+                ? 'Start automatic article rotation'
+                : 'Pause automatic article rotation'
+        );
+
+        toggleButton.setAttribute(
+            'aria-pressed',
+            isPaused ? 'true' : 'false'
+        );
+    }
+
+    function renderCards(animate = true) {
+        const previousPositions = new Map();
+
+        cards.forEach(function (card) {
+            if (!card.classList.contains('ve-journal-card--prepared')) {
+                previousPositions.set(
+                    card,
+                    card.getBoundingClientRect()
+                );
+            }
+        });
+
+        const orderedCards = cards.map(function (_, offset) {
+            return cards[(startIndex + offset) % cards.length];
+        });
+
+        orderedCards.forEach(function (card, position) {
+            const isFeatured = position === 0;
+            const isVisible = position < 3;
+
+            card.classList.remove(
+                've-journal-card--featured',
+                've-journal-card--supporting',
+                've-journal-card--prepared',
+                'is-active'
+            );
+
+            card.classList.add(
+                isFeatured
+                    ? 've-journal-card--featured'
+                    : 've-journal-card--supporting'
+            );
+
+            if (!isVisible) {
+                card.classList.add('ve-journal-card--prepared');
+            }
+
+            if (isFeatured) {
+                card.classList.add('is-active');
+            }
+
+            card.dataset.position = String(position);
+            card.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+
+            card.querySelectorAll('[data-ve-journal-link]').forEach(
+                function (link) {
+                    link.setAttribute(
+                        'tabindex',
+                        isVisible ? '0' : '-1'
+                    );
+                }
+            );
+
+            carousel.appendChild(card);
+        });
+
+        if (!animate || reducedMotion) {
+            return;
+        }
+
+        orderedCards.forEach(function (card, position) {
+            if (position >= 3) {
+                return;
+            }
+
+            const oldPosition = previousPositions.get(card);
+            const newPosition = card.getBoundingClientRect();
+
+            if (!oldPosition || oldPosition.width === 0) {
+                card.animate(
+                    [
+                        { opacity: 0 },
+                        { opacity: 1 }
+                    ],
+                    {
+                        duration: 500,
+                        easing: 'ease-out'
+                    }
+                );
+                return;
+            }
+
+            const deltaX = oldPosition.left - newPosition.left;
+            const deltaY = oldPosition.top - newPosition.top;
+
+            if (deltaX === 0 && deltaY === 0) {
+                return;
+            }
+
+            card.animate(
+                [
+                    {
+                        transform: `translate(${deltaX}px, ${deltaY}px)`
+                    },
+                    {
+                        transform: 'translate(0, 0)'
+                    }
+                ],
+                {
+                    duration: 650,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                }
+            );
+        });
+    }
+
+    function moveNext() {
+        startIndex = (startIndex + 1) % cards.length;
+        renderCards();
+    }
+
+    function movePrevious() {
+        startIndex = (startIndex - 1 + cards.length) % cards.length;
+        renderCards();
+    }
+
+    function stopAutoplay() {
+        if (autoplayTimer !== null) {
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        }
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+
+        if (isPaused || cards.length < 2) {
+            return;
+        }
+
+        autoplayTimer = window.setInterval(
+            moveNext,
+            intervalDuration
+        );
+    }
+
+    if (previousButton) {
+        previousButton.addEventListener('click', function () {
+            movePrevious();
+            startAutoplay();
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener('click', function () {
+            moveNext();
+            startAutoplay();
+        });
+    }
+
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            isPaused = !isPaused;
+            updateControls();
+
+            if (isPaused) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+    }
+
+    renderCards(false);
+    updateControls();
+    startAutoplay();
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
