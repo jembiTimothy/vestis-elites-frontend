@@ -3709,10 +3709,12 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 			gap: 48px 30px;
 			align-items: start;
 		}
-
 		.ve-journal-card {
-			min-width: 0;
-			box-sizing: border-box;
+    min-width: 0;
+    box-sizing: border-box;
+		}
+		.ve-journal-card--prepared {
+    display: none;
 		}
 
 		.ve-journal-card--featured {
