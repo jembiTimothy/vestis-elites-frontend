@@ -1246,6 +1246,67 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 		</section>
 
 	<?php endif; ?>
+		<!-- =========================================================
+	     SECTION 9 — PRIVATE CONSULTATION
+	========================================================= -->
+
+	<?php if ( $consultation_url && $consultation_image_url ) : ?>
+
+		<section
+			class="ve-consultation"
+			id="ve-consultation"
+			aria-labelledby="ve-consultation-title"
+		>
+
+			<div class="ve-consultation__inner">
+
+				<div class="ve-consultation__image-wrap">
+
+					<img
+						class="ve-consultation__image"
+						src="<?php echo esc_url( $consultation_image_url ); ?>"
+						alt="Private bespoke tailoring consultation at Vestis Elites"
+						loading="lazy"
+						decoding="async"
+					>
+
+				</div>
+
+				<div class="ve-consultation__content">
+
+					<p class="ve-consultation__eyebrow">
+						PRIVATE CONSULTATION
+					</p>
+
+					<h2
+						class="ve-consultation__title"
+						id="ve-consultation-title"
+					>
+						Let's Talk About Your Next Event.
+					</h2>
+
+					<p class="ve-consultation__description">
+						Your next event deserves more than an ordinary outfit.
+						Tell us where you're going, how you want to look, and
+						the impression you want to make. Together, we'll create
+						a bespoke piece tailored to you and the occasion.
+					</p>
+
+					<a
+						class="ve-consultation__cta"
+						href="<?php echo esc_url( $consultation_url ); ?>"
+					>
+						Book a Private Consultation
+						<span aria-hidden="true">→</span>
+					</a>
+
+				</div>
+
+			</div>
+
+		</section>
+
+	<?php endif; ?>
 	<style>
 
 		/* =========================================================
