@@ -4036,7 +4036,7 @@ data-checkout-url="<?php echo esc_url( wc_get_checkout_url() ); ?>"
         '(prefers-reduced-motion: reduce)'
     ).matches;
 
-    const intervalDuration = 7000;
+    const intervalDuration = 12000;
     let startIndex = 0;
     let autoplayTimer = null;
     let isPaused = reducedMotion;
