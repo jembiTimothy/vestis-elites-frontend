@@ -270,8 +270,21 @@ add_action(
 
 require_once __DIR__ . '/pages/homepage.php';
 
-
 add_shortcode(
     'vestis_frontend',
     'vestis_elites_homepage'
+);
+
+
+/**
+ * =========================================================
+ * VESTIS ELITES — ALTERATIONS PAGE
+ * =========================================================
+ */
+
+require_once __DIR__ . '/pages/alterations.php';
+
+add_shortcode(
+    'vestis_alterations',
+    'vestis_elites_alterations_page'
 );
