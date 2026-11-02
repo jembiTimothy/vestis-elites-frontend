@@ -96,6 +96,81 @@ function vestis_elites_alterations_page() {
             >
         </section>
 
+        <!-- SECTION 3 — OUR ALTERATION SERVICES -->
+
+        <section
+            class="ve-alterations-services"
+            aria-labelledby="ve-alterations-services-title"
+        >
+            <div class="ve-alterations-services__inner">
+
+                <p class="ve-alterations-services__eyebrow">
+                    OUR ALTERATION SERVICES
+                </p>
+
+                <h2
+                    id="ve-alterations-services-title"
+                    class="ve-alterations-services__title"
+                >
+                    Refinement for the clothes you own.
+                </h2>
+
+                <p class="ve-alterations-services__intro">
+                    Thoughtful adjustments and finishing that help your
+                    garments fit and present better.
+                </p>
+
+                <div class="ve-alterations-services__list">
+
+                    <article class="ve-alterations-service">
+                        <span class="ve-alterations-service__number">01</span>
+                        <div>
+                            <h3>Repairs &amp; Restoration</h3>
+                            <p>
+                                Addressing worn, damaged or weakened areas
+                                to restore the usability and appearance
+                                of your garments.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="ve-alterations-service">
+                        <span class="ve-alterations-service__number">02</span>
+                        <div>
+                            <h3>Size Adjustments</h3>
+                            <p>
+                                Adjusting garment dimensions where possible
+                                to achieve a more appropriate fit.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="ve-alterations-service">
+                        <span class="ve-alterations-service__number">03</span>
+                        <div>
+                            <h3>Fit &amp; Finish Refinement</h3>
+                            <p>
+                                Improving proportions, finishing details
+                                and the overall presentation of existing
+                                garments.
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div class="ve-alterations-services__garments">
+                    <p>GARMENTS WE WORK WITH</p>
+                    <span>
+                        Shirts <i>·</i> Trousers <i>·</i> Jackets
+                        <i>·</i> Suits <i>·</i> Traditional Wear
+                        <i>·</i> Casual Wear
+                    </span>
+                </div>
+
+            </div>
+        </section>
+        
     </div>
 
 
