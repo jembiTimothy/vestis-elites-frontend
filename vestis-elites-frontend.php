@@ -288,3 +288,15 @@ add_shortcode(
     'vestis_alterations',
     'vestis_elites_alterations_page'
 );
+/**
+ * =========================================================
+ * VESTIS ELITES — MANICURE & PEDICURE PAGE
+ * =========================================================
+ */
+
+require_once __DIR__ . '/pages/mens-grooming.php';
+
+add_shortcode(
+    'vestis_mens_grooming',
+    'vestis_elites_mens_grooming_page'
+);
