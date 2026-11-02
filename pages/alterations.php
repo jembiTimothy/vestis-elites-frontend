@@ -2,15 +2,38 @@
 <?php
 /**
  * Vestis Elites — Alterations & Refinement
- *
- * Section 1: Hero content.
- * Subsequent sections will be added independently.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+/**
+ * Identify the Alterations page for page-specific layout styling.
+ */
+function vestis_elites_alterations_body_class( $classes ) {
+
+    if ( is_page() ) {
+        $page_id      = get_queried_object_id();
+        $page_content = get_post_field( 'post_content', $page_id );
+
+        if ( $page_content && has_shortcode( $page_content, 'vestis_alterations' ) ) {
+            $classes[] = 've-coded-alterations';
+        }
+    }
+
+    return $classes;
+}
+
+add_filter(
+    'body_class',
+    'vestis_elites_alterations_body_class'
+);
+
+
+/**
+ * Render the Alterations & Refinement page.
+ */
 function vestis_elites_alterations_page() {
 
     ob_start();
@@ -18,15 +41,12 @@ function vestis_elites_alterations_page() {
 
     <div class="ve-alterations-page">
 
-        <!-- =====================================================
-             SECTION 1 — HERO CONTENT
-             ===================================================== -->
+        <!-- SECTION 1 — HERO -->
 
         <section
             class="ve-alterations-hero"
             aria-labelledby="ve-alterations-hero-title"
         >
-
             <div class="ve-alterations-hero__inner">
 
                 <p class="ve-alterations-hero__eyebrow">
@@ -37,8 +57,7 @@ function vestis_elites_alterations_page() {
                     id="ve-alterations-hero-title"
                     class="ve-alterations-hero__title"
                 >
-                    A Better Fit.<br>
-                    A Better Standard.
+                    A Better Fit. A Better Standard.
                 </h1>
 
                 <p class="ve-alterations-hero__supporting">
@@ -48,27 +67,77 @@ function vestis_elites_alterations_page() {
                 </p>
 
                 <div class="ve-alterations-hero__actions">
-
                     <a
                         class="ve-alterations-button"
                         href="#alteration-consultation"
                     >
                         Request an Alteration Consultation
                     </a>
-
                 </div>
 
             </div>
+        </section>
 
+
+        <!-- SECTION 2 — ATELIER IMAGE -->
+
+        <section
+            class="ve-alterations-image"
+            aria-label="The Vestis Elites alterations atelier"
+        >
+            <img
+                src="https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-clothing-alterations-tailoring-atelier.webp"
+                alt="Tailoring atelier with garments, fabrics and tools used for clothing alterations and refinement"
+                width="1671"
+                height="941"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            >
         </section>
 
     </div>
 
+
     <style>
-        /* =========================================================
-           VESTIS ELITES — ALTERATIONS PAGE / SECTION 1
-           All styling is scoped to this page.
-           ========================================================= */
+
+        /* =====================================================
+           ASTRA LAYOUT RESET — ALTERATIONS PAGE ONLY
+           ===================================================== */
+
+        body.ve-coded-alterations .site-content > .ast-container {
+            display: block !important;
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        body.ve-coded-alterations .site-content .ast-row,
+        body.ve-coded-alterations .site-content #primary,
+        body.ve-coded-alterations .site-content .hentry,
+        body.ve-coded-alterations .site-content .entry-content {
+            display: block !important;
+            float: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body.ve-coded-alterations .site-content #primary {
+            flex: none !important;
+        }
+
+        body.ve-coded-alterations .site-content #secondary {
+            display: none !important;
+        }
+
+
+        /* =====================================================
+           SHARED PAGE CONTAINER
+           ===================================================== */
 
         .ve-alterations-page,
         .ve-alterations-page * {
@@ -76,12 +145,18 @@ function vestis_elites_alterations_page() {
         }
 
         .ve-alterations-page {
-            width: 100%;
-            margin: 0;
+            width: 90%;
+            max-width: 1440px;
+            margin: 80px auto 30px;
             color: #F7F5EF;
         }
 
-        .ve-alterations-page .ve-alterations-hero {
+
+        /* =====================================================
+           SECTION 1 — HERO
+           ===================================================== */
+
+        .ve-alterations-hero {
             display: block;
             width: 100%;
             margin: 0;
@@ -91,8 +166,9 @@ function vestis_elites_alterations_page() {
             color: #F7F5EF;
         }
 
-        .ve-alterations-page .ve-alterations-hero__inner {
-            width: min(100%, 1180px);
+        .ve-alterations-hero__inner {
+            width: 100%;
+            max-width: 1180px;
             margin: 0 auto;
             padding:
                 clamp(140px, 14vw, 190px)
@@ -100,7 +176,7 @@ function vestis_elites_alterations_page() {
                 clamp(150px, 15vw, 210px);
         }
 
-        .ve-alterations-page .ve-alterations-hero__eyebrow {
+        .ve-alterations-hero__eyebrow {
             margin: 0 0 40px;
             color: #5E9B7D;
             font-size: 12px;
@@ -108,11 +184,10 @@ function vestis_elites_alterations_page() {
             line-height: 1.2;
             letter-spacing: 0.20em;
             text-transform: uppercase;
-            animation: veAlterationsHeroReveal 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
-            animation-delay: 0ms;
+            animation: veAlterationsReveal 1200ms ease both;
         }
 
-        .ve-alterations-page .ve-alterations-hero__title {
+        .ve-alterations-hero__title {
             max-width: 760px;
             margin: 0;
             color: #F7F5EF;
@@ -121,32 +196,28 @@ function vestis_elites_alterations_page() {
             font-weight: 500;
             line-height: 1.10;
             letter-spacing: -0.035em;
-            animation: veAlterationsHeroReveal 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
-            animation-delay: 250ms;
+            animation: veAlterationsReveal 1500ms ease 200ms both;
         }
 
-        .ve-alterations-page .ve-alterations-hero__supporting {
+        .ve-alterations-hero__supporting {
             max-width: 540px;
             margin: 42px 0 0;
             color: rgba(247, 245, 239, 0.76);
             font-size: clamp(16px, 1.4vw, 18px);
             line-height: 1.65;
-            animation: veAlterationsHeroReveal 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
-            animation-delay: 500ms;
+            animation: veAlterationsReveal 1500ms ease 400ms both;
         }
 
-        .ve-alterations-page .ve-alterations-hero__actions {
+        .ve-alterations-hero__actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 24px;
             margin-top: 58px;
-            animation: veAlterationsHeroReveal 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
-            animation-delay: 750ms;
+            animation: veAlterationsReveal 1500ms ease 600ms both;
         }
 
-        .ve-alterations-page .ve-alterations-button,
-        .ve-alterations-page .ve-alterations-button:visited {
+        .ve-alterations-button,
+        .ve-alterations-button:visited {
             display: inline-flex;
             min-height: 54px;
             align-items: center;
@@ -167,84 +238,136 @@ function vestis_elites_alterations_page() {
                 transform 260ms ease;
         }
 
-        .ve-alterations-page .ve-alterations-button:hover,
-        .ve-alterations-page .ve-alterations-button:focus-visible {
+        .ve-alterations-button:hover,
+        .ve-alterations-button:focus-visible {
             border-color: #1F4D3A;
             background: #1F4D3A;
             color: #FFFFFF;
             transform: translateY(-2px);
         }
 
-        .ve-alterations-page .ve-alterations-button:focus-visible {
+        .ve-alterations-button:focus-visible {
             outline: 2px solid #5E9B7D;
             outline-offset: 4px;
         }
 
-        @keyframes veAlterationsHeroReveal {
+
+        /* =====================================================
+           SECTION 2 — IMAGE
+           ===================================================== */
+
+        .ve-alterations-image {
+            width: 100%;
+            margin: 48px 0 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .ve-alterations-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1671 / 941;
+            object-fit: cover;
+            object-position: center;
+            border: 0;
+            border-radius: 0;
+            animation: veAlterationsImageReveal 1400ms ease both;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+           ===================================================== */
+
+        @keyframes veAlterationsReveal {
             from {
                 opacity: 0;
                 transform: translateY(18px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* MOBILE */
+        @keyframes veAlterationsImageReveal {
+            from {
+                opacity: 0;
+                transform: scale(1.025);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
 
         @media (max-width: 767px) {
 
-            .ve-alterations-page .ve-alterations-hero__inner {
+            .ve-alterations-page {
+                width: 90%;
+                margin-top: 80px;
+                margin-bottom: 30px;
+            }
+
+            .ve-alterations-hero__inner {
                 padding:
                     clamp(105px, 22vw, 140px)
                     24px
                     clamp(110px, 22vw, 150px);
             }
 
-            .ve-alterations-page .ve-alterations-hero__eyebrow {
+            .ve-alterations-hero__eyebrow {
                 margin-bottom: 30px;
                 font-size: 11px;
                 letter-spacing: 0.17em;
             }
 
-            .ve-alterations-page .ve-alterations-hero__title {
+            .ve-alterations-hero__title {
                 font-size: clamp(40px, 10vw, 54px);
                 line-height: 1.12;
             }
 
-            .ve-alterations-page .ve-alterations-hero__supporting {
+            .ve-alterations-hero__supporting {
                 margin-top: 30px;
                 font-size: 16px;
                 line-height: 1.65;
             }
 
-            .ve-alterations-page .ve-alterations-hero__actions {
+            .ve-alterations-hero__actions {
                 margin-top: 42px;
             }
 
-            .ve-alterations-page .ve-alterations-button {
+            .ve-alterations-button {
                 width: 100%;
                 min-height: 56px;
                 padding: 12px 18px;
             }
+
+            .ve-alterations-image {
+                margin-top: 32px;
+            }
         }
 
-        /* ACCESSIBILITY — REDUCED MOTION */
+
+        /* =====================================================
+           REDUCED MOTION ACCESSIBILITY
+           ===================================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
-            .ve-alterations-page .ve-alterations-hero__eyebrow,
-            .ve-alterations-page .ve-alterations-hero__title,
-            .ve-alterations-page .ve-alterations-hero__supporting,
-            .ve-alterations-page .ve-alterations-hero__actions {
+            .ve-alterations-page * {
                 animation: none !important;
                 transition: none !important;
             }
 
-            .ve-alterations-page .ve-alterations-button:hover,
-            .ve-alterations-page .ve-alterations-button:focus-visible {
+            .ve-alterations-button:hover,
+            .ve-alterations-button:focus-visible {
                 transform: none;
             }
         }
