@@ -90,6 +90,21 @@ function vestis_elites_mens_grooming_page() {
                 max-width: 590px;
                 margin: 0 auto;
             }
+                        /* FEATURE IMAGE */
+
+            .ve-grooming-image {
+                width: 100%;
+                background: var(--ve-black);
+                overflow: hidden;
+            }
+
+            .ve-grooming-image img {
+                display: block;
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+            }
 
             .ve-grooming-divider {
                 width: 48px;
