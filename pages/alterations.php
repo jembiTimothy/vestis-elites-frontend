@@ -602,7 +602,7 @@ function vestis_elites_alterations_page() {
 }
 
 .ve-alterations-consultation__heading {
-    color: #F7F5EF;
+    color: #F7F5EF !important;
     font-family: inherit;
     font-size: clamp(25px, 3vw, 34px);
     font-weight: 500;
