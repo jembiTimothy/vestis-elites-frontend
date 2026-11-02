@@ -352,6 +352,144 @@ function vestis_elites_alterations_page() {
 
 
         /* =====================================================
+           SECTION 3 — OUR ALTERATION SERVICES
+           ===================================================== */
+
+        .ve-alterations-services {
+            width: 100%;
+            margin: 48px 0 0;
+            padding: 0;
+            background: #F7F5EF;
+            color: #111111;
+        }
+
+        .ve-alterations-services__inner {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(65px, 9vw, 110px) 32px;
+        }
+
+        .ve-alterations-services__eyebrow {
+            margin: 0 0 26px;
+            color: #1F4D3A;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.19em;
+            text-transform: uppercase;
+        }
+
+        .ve-alterations-services__title {
+            max-width: 700px;
+            margin: 0;
+            color: #111111;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(36px, 4.5vw, 56px);
+            font-weight: 500;
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+        }
+
+        .ve-alterations-services__intro {
+            max-width: 540px;
+            margin: 24px 0 0;
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .ve-alterations-services__list {
+            margin-top: 65px;
+            border-top: 1px solid #D5D1C8;
+        }
+
+        .ve-alterations-service {
+            display: grid;
+            grid-template-columns: 75px 1fr;
+            gap: 20px;
+            padding: 32px 0;
+            border-bottom: 1px solid #D5D1C8;
+        }
+
+        .ve-alterations-service__number {
+            padding-top: 5px;
+            color: #1F4D3A;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+
+        .ve-alterations-service h3 {
+            margin: 0;
+            color: #111111;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(23px, 2.5vw, 30px);
+            font-weight: 500;
+            line-height: 1.25;
+        }
+
+        .ve-alterations-service p {
+            max-width: 560px;
+            margin: 12px 0 0;
+            color: #555555;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .ve-alterations-services__garments {
+            margin-top: 55px;
+        }
+
+        .ve-alterations-services__garments p {
+            margin: 0 0 16px;
+            color: #1F4D3A;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.17em;
+        }
+
+        .ve-alterations-services__garments span {
+            color: #222222;
+            font-size: 14px;
+            line-height: 2;
+        }
+
+        .ve-alterations-services__garments i {
+            padding: 0 5px;
+            color: #1F4D3A;
+            font-style: normal;
+        }
+
+        @media (max-width: 767px) {
+
+            .ve-alterations-services {
+                margin-top: 32px;
+            }
+
+            .ve-alterations-services__inner {
+                padding: 65px 24px;
+            }
+
+            .ve-alterations-services__list {
+                margin-top: 45px;
+            }
+
+            .ve-alterations-service {
+                grid-template-columns: 38px 1fr;
+                gap: 12px;
+                padding: 27px 0;
+            }
+
+            .ve-alterations-service p {
+                font-size: 14px;
+            }
+
+            .ve-alterations-services__garments {
+                margin-top: 40px;
+            }
+        }
+        
+        /* =====================================================
            ANIMATIONS
            ===================================================== */
 
