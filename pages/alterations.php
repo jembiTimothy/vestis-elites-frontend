@@ -576,6 +576,169 @@ function vestis_elites_alterations_page() {
             }
         }
         
+/* =====================================================
+   SECTION FOUR — ALTERATION CONSULTATION
+   ===================================================== */
+
+.ve-alterations-consultation {
+    background: #111111;
+    color: #F7F5EF;
+    padding: clamp(56px, 7vw, 100px) clamp(24px, 5vw, 72px);
+    width: 100%;
+}
+
+.ve-alterations-consultation__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(40px, 7vw, 100px);
+    align-items: start;
+}
+
+.ve-alterations-consultation__process {
+    padding-top: 12px;
+}
+
+.ve-alterations-consultation__heading {
+    color: #F7F5EF;
+    font-family: inherit;
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0 0 34px;
+}
+
+.ve-alterations-consultation__steps {
+    display: flex;
+    flex-direction: column;
+}
+
+.ve-alterations-consultation__step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 18px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(247, 245, 239, 0.18);
+}
+
+.ve-alterations-consultation__step:last-child {
+    border-bottom: 1px solid rgba(247, 245, 239, 0.18);
+}
+
+.ve-alterations-consultation__number {
+    color: #5E9B7D;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding-top: 3px;
+}
+
+.ve-alterations-consultation__step h3 {
+    color: #F7F5EF;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0 0 8px;
+}
+
+.ve-alterations-consultation__step p {
+    color: rgba(247, 245, 239, 0.68);
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.ve-alterations-consultation__form {
+    background: #F7F5EF;
+    color: #171717;
+    padding: clamp(28px, 4vw, 48px);
+    min-width: 0;
+}
+
+.ve-alterations-consultation__form-title {
+    color: #171717;
+    font-size: clamp(23px, 2.5vw, 30px);
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 0 10px;
+}
+
+.ve-alterations-consultation__form-intro {
+    color: #66615B;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+}
+
+.ve-alterations-consultation__form-placeholder {
+    border: 1px dashed #C8C3B9;
+    padding: 30px 20px;
+    text-align: center;
+    color: #777168;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ve-alterations-consultation__disclaimer {
+    color: #777168;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 22px 0 0;
+}
+
+/* TABLET AND MOBILE */
+
+@media (max-width: 767px) {
+    .ve-alterations-consultation {
+        padding: 52px 22px;
+    }
+
+    .ve-alterations-consultation__inner {
+        grid-template-columns: 1fr;
+        gap: 42px;
+    }
+
+    .ve-alterations-consultation__process {
+        padding-top: 0;
+    }
+
+    .ve-alterations-consultation__heading {
+        font-size: 27px;
+        margin-bottom: 24px;
+    }
+
+    .ve-alterations-consultation__step {
+        grid-template-columns: 34px 1fr;
+        gap: 14px;
+        padding: 20px 0;
+    }
+
+    .ve-alterations-consultation__form {
+        padding: 28px 22px;
+    }
+
+    .ve-alterations-consultation__form-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 380px) {
+    .ve-alterations-consultation {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .ve-alterations-consultation__form {
+        padding: 24px 18px;
+    }
+        }
+
         /* =====================================================
            ANIMATIONS
            ===================================================== */
