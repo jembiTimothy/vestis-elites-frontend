@@ -170,6 +170,93 @@ function vestis_elites_alterations_page() {
 
             </div>
         </section>
+  
+        <!-- SECTION 4 — ALTERATION CONSULTATION -->
+
+        <section
+            id="alteration-consultation"
+            class="ve-alterations-consultation"
+            aria-labelledby="ve-alterations-consultation-title"
+        >
+            <div class="ve-alterations-consultation__inner">
+
+                <!-- HOW IT WORKS -->
+
+                <div class="ve-alterations-consultation__process">
+
+                    <h2
+                        id="ve-alterations-consultation-title"
+                        class="ve-alterations-consultation__heading"
+                    >
+                        How It Works
+                    </h2>
+
+                    <div class="ve-alterations-consultation__steps">
+
+                        <article class="ve-alterations-consultation__step">
+                            <span class="ve-alterations-consultation__number">01</span>
+                            <div>
+                                <h3>Submit Your Request</h3>
+                                <p>
+                                    Tell us about your garment and the work you need.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="ve-alterations-consultation__step">
+                            <span class="ve-alterations-consultation__number">02</span>
+                            <div>
+                                <h3>We Review It</h3>
+                                <p>
+                                    We assess your request and determine how we can help.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="ve-alterations-consultation__step">
+                            <span class="ve-alterations-consultation__number">03</span>
+                            <div>
+                                <h3>We Contact You</h3>
+                                <p>
+                                    We discuss the work, pricing and next steps.
+                                </p>
+                            </div>
+                        </article>
+
+                    </div>
+
+                </div>
+
+                <!-- CONSULTATION FORM PLACEHOLDER -->
+
+                <div class="ve-alterations-consultation__form">
+
+                    <h3 class="ve-alterations-consultation__form-title">
+                        Submit Your Alteration Request
+                    </h3>
+
+                    <p class="ve-alterations-consultation__form-intro">
+                        Please provide the following details.
+                    </p>
+
+                    <!-- BREVO FORM SHORTCODE WILL BE INSERTED HERE -->
+
+                    <div class="ve-alterations-consultation__form-placeholder">
+                        <p>
+                            Consultation request form will appear here.
+                        </p>
+                    </div>
+
+                    <p class="ve-alterations-consultation__disclaimer">
+                        Submitting a request does not confirm an appointment
+                        or commit you to the service. We will review your
+                        enquiry and contact you to discuss the details.
+                    </p>
+
+                </div>
+
+            </div>
+                                                           </section>
         
     </div>
 
