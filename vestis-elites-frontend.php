@@ -9,6 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+
 /**
  * =========================================================
  * VESTIS ELITES — GLOBAL SOCIAL SHARING IMAGE
@@ -17,9 +18,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function vestis_elites_get_social_sharing_image( $image_url ) {
 
-    if ( is_admin() ) {
+    if ( is_admin() || ! is_singular() ) {
         return $image_url;
     }
+
+    $page_id = get_queried_object_id();
+
+    if ( ! $page_id ) {
+        return $image_url;
+    }
+
+    /*
+     * 1. PAGE HERO IMAGES
+     */
 
     $hero_images = array(
         'manicure-pedicure' => 'https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-mens-manicure-pedicure-lagos-1.webp',
@@ -27,9 +38,24 @@ function vestis_elites_get_social_sharing_image( $image_url ) {
         'alterations' => 'https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-clothing-alterations-tailoring-atelier.webp',
     );
 
-    if ( is_front_page() ) {
+    $page_slug = get_post_field( 'post_name', $page_id );
 
-        $attachments = get_posts(
+    if ( isset( $hero_images[ $page_slug ] ) ) {
+        return $hero_images[ $page_slug ];
+    }
+
+    /*
+     * 2. CODED HOMEPAGE HERO
+     */
+
+    $page_content = get_post_field( 'post_content', $page_id );
+
+    if (
+        $page_content &&
+        has_shortcode( $page_content, 'vestis_frontend' )
+    ) {
+
+        $homepage_image = get_posts(
             array(
                 'post_type'      => 'attachment',
                 'post_status'    => 'inherit',
@@ -44,32 +70,59 @@ function vestis_elites_get_social_sharing_image( $image_url ) {
             )
         );
 
-        if ( ! empty( $attachments ) ) {
-            return wp_get_attachment_image_url(
-                $attachments[0]->ID,
+        if ( ! empty( $homepage_image ) ) {
+            $hero_url = wp_get_attachment_image_url(
+                $homepage_image[0]->ID,
                 'full'
             );
+
+            if ( $hero_url ) {
+                return $hero_url;
+            }
         }
     }
 
-    if ( is_page() ) {
+    /*
+     * 3. WORDPRESS FEATURED IMAGE
+     */
 
-        $page_slug = get_post_field(
-            'post_name',
-            get_queried_object_id()
-        );
+    $featured_image = get_the_post_thumbnail_url(
+        $page_id,
+        'full'
+    );
 
-        if ( isset( $hero_images[ $page_slug ] ) ) {
-            return $hero_images[ $page_slug ];
-        }
+    if ( $featured_image ) {
+        return $featured_image;
+    }
 
-        $featured_image = get_the_post_thumbnail_url(
-            get_queried_object_id(),
+    /*
+     * 4. VESTIS ELITES FALLBACK IMAGE
+     * Use the homepage editorial hero.
+     */
+
+    $fallback_image = get_posts(
+        array(
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'posts_per_page' => 1,
+            'meta_query'     => array(
+                array(
+                    'key'     => '_wp_attached_file',
+                    'value'   => 'vestis-elite-about-hero-premium-2.webp',
+                    'compare' => 'LIKE',
+                ),
+            ),
+        )
+    );
+
+    if ( ! empty( $fallback_image ) ) {
+        $fallback_url = wp_get_attachment_image_url(
+            $fallback_image[0]->ID,
             'full'
         );
 
-        if ( $featured_image ) {
-            return $featured_image;
+        if ( $fallback_url ) {
+            return $fallback_url;
         }
     }
 
