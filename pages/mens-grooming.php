@@ -368,7 +368,17 @@ function vestis_elites_mens_grooming_page() {
 
             </div>
         </section>
+        <!-- FEATURE IMAGE -->
 
+        <section class="ve-grooming-image">
+            <img
+                src="https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-mens-manicure-pedicure-lagos-1.webp"
+                alt="Men's manicure and pedicure grooming service by Vestis Elites in Lagos"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            >
+    </section>
 
         <!-- INTRODUCTION -->
 
