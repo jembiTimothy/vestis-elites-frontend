@@ -61,7 +61,16 @@ function vestis_elites_hair_services_page() {
             </div>
         </section>
 
-
+        <section class="ve-hair-image">
+            <img
+                src="https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-professional-mens-haircut-lagos.webp"
+                alt="Vestis Elites professional barber providing a men's haircut in Lagos"
+                width="1774"
+                height="887"
+                loading="lazy"
+                decoding="async"
+            >
+        </section>
         <section class="ve-hair-services ve-hair-section">
             <div class="ve-hair-container">
 
