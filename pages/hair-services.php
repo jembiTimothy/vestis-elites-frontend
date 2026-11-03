@@ -305,7 +305,6 @@ function vestis_elites_hair_services_page() {
             overflow: hidden;
             background: #11110f;
         }
-
         .ve-hair-image img {
             display: block;
             width: 100%;
