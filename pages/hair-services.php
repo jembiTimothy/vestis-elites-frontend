@@ -300,6 +300,20 @@ function vestis_elites_hair_services_page() {
             padding: 150px 0 140px;
             text-align: center;
         }
+                .ve-hair-image {
+            width: 100%;
+            overflow: hidden;
+            background: #11110f;
+        }
+
+        .ve-hair-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 620px;
+            object-fit: cover;
+            object-position: center;
+        }
 
         .ve-hair-hero .ve-hair-eyebrow,
         .ve-hair-final-cta .ve-hair-eyebrow {
