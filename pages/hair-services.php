@@ -603,7 +603,7 @@ function vestis_elites_hair_services_page() {
     <script>
     (function () {
         const script = document.currentScript;
-        const page = script ? script.closest('.ve-hair-page') : null;
+        const page = document.querySelector('.ve-hair-page');
 
         if (!page) return;
 
