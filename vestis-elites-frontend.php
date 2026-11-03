@@ -430,3 +430,15 @@ add_shortcode(
     'vestis_mens_grooming',
     'vestis_elites_mens_grooming_page'
 );
+/**
+ * =========================================================
+ * VESTIS ELITES — HAIR SERVICES PAGE
+ * =========================================================
+ */
+
+require_once __DIR__ . '/pages/hair-services.php';
+
+add_shortcode(
+    'vestis_hair_services',
+    'vestis_elites_hair_services_page'
+);
