@@ -227,33 +227,79 @@ function vestis_elites_alterations_page() {
 
                 </div>
 
-                <!-- CONSULTATION FORM PLACEHOLDER -->
+                
+                <!-- BOOKING OPTIONS -->
 
                 <div class="ve-alterations-consultation__form">
 
                     <h3 class="ve-alterations-consultation__form-title">
-                        Submit Your Alteration Request
+                        How Would You Like to Book?
                     </h3>
 
                     <p class="ve-alterations-consultation__form-intro">
-                        Please provide the following details.
+                        Choose your preferred way to contact our team
+                        and begin your alteration enquiry.
                     </p>
 
-                    <!-- BREVO FORM SHORTCODE WILL BE INSERTED HERE -->
+                    <div class="ve-alterations-booking-options">
 
-                    <div class="ve-alterations-consultation__form-placeholder">
-                        <p>
-                            Consultation request form will appear here.
-                        </p>
+                        <!-- WHATSAPP BOOKING -->
+
+                        <div class="ve-alterations-booking-option">
+
+                            <h4>Book via WhatsApp</h4>
+
+                            <p>
+                                Start a conversation with our team.
+                                Your enquiry will identify the service
+                                you are interested in.
+                            </p>
+
+                            <a
+                                class="ve-alterations-booking-button ve-alterations-booking-button--whatsapp"
+                                href="https://wa.me/2347032681868?text=Hello%20Vestis%20Elites%2C%20I%20would%20like%20to%20make%20a%20booking%20enquiry%20for%20Alterations%20%26%20Refinement.%20Please%20assist%20me%20with%20the%20process."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Continue on WhatsApp
+                            </a>
+
+                        </div>
+
+                        <!-- TELEPHONE BOOKING -->
+
+                        <div class="ve-alterations-booking-option">
+
+                            <h4>Book via Telephone</h4>
+
+                            <p>
+                                Speak directly with our team about
+                                your requirements and preferred
+                                appointment arrangements.
+                            </p>
+
+                            <a
+                                class="ve-alterations-booking-button ve-alterations-booking-button--call"
+                                href="tel:+2347032681868"
+                            >
+                                Call Vestis Elites
+                            </a>
+
+                        </div>
+
                     </div>
 
                     <p class="ve-alterations-consultation__disclaimer">
-                        Submitting a request does not confirm an appointment
-                        or commit you to the service. We will review your
-                        enquiry and contact you to discuss the details.
+                        Contacting Vestis Elites initiates a booking
+                        enquiry and does not confirm an appointment.
+                        Our team will review your requirements,
+                        discuss availability and applicable charges,
+                        and confirm your appointment once all
+                        arrangements have been agreed.
                     </p>
 
                 </div>
+                
 
             </div>
                                                            </section>
