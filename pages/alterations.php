@@ -718,18 +718,83 @@ function vestis_elites_alterations_page() {
     margin: 0 0 28px;
 }
 
-.ve-alterations-consultation__form-placeholder {
-    border: 1px dashed #C8C3B9;
-    padding: 30px 20px;
-    text-align: center;
-    color: #777168;
+
+.ve-alterations-booking-options {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.ve-alterations-booking-option {
+    padding: 24px;
+    border: 1px solid #D8D3C9;
+    background: #FFFFFF;
+}
+
+.ve-alterations-booking-option h4 {
+    color: #171717;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 10px;
+}
+
+.ve-alterations-booking-option p {
+    color: #66615B;
     font-size: 13px;
     line-height: 1.7;
-    min-height: 100px;
+    margin: 0 0 20px;
+}
+
+.ve-alterations-booking-button,
+.ve-alterations-booking-button:visited {
     display: flex;
+    width: 100%;
+    min-height: 50px;
     align-items: center;
     justify-content: center;
+    padding: 12px 18px;
+    border: 1px solid #1F4D3A;
+    background: #1F4D3A;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    transition:
+        background-color 250ms ease,
+        color 250ms ease,
+        transform 250ms ease;
 }
+
+.ve-alterations-booking-button:hover,
+.ve-alterations-booking-button:focus-visible {
+    background: #163A2B;
+    border-color: #163A2B;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.ve-alterations-booking-button:focus-visible {
+    outline: 2px solid #5E9B7D;
+    outline-offset: 4px;
+}
+
+.ve-alterations-booking-button--call,
+.ve-alterations-booking-button--call:visited {
+    background: transparent;
+    color: #1F4D3A;
+}
+
+.ve-alterations-booking-button--call:hover,
+.ve-alterations-booking-button--call:focus-visible {
+    background: #1F4D3A;
+    color: #FFFFFF;
+        }
+        
 
 .ve-alterations-consultation__disclaimer {
     color: #777168;
