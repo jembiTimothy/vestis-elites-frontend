@@ -442,3 +442,9 @@ add_shortcode(
     'vestis_hair_services',
     'vestis_elites_hair_services_page'
 );
+require_once __DIR__ . '/pages/corporate-uniforms.php';
+
+add_shortcode(
+    'vestis_corporate_uniforms',
+    'vestis_elites_corporate_uniforms_page'
+);
