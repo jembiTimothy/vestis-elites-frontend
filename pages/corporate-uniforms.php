@@ -1,3 +1,4 @@
+
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -5,20 +6,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Render the Vestis Elites Corporate Uniforms page.
+ * Render the Vestis Elites Branded Clothing & Uniform Solutions page.
  *
  * Page: Branded Clothing & Uniform Solutions
  * Shortcode: [vestis_corporate_uniforms]
  */
+
 function vestis_elites_corporate_uniforms_page() {
 
 	ob_start();
 
-	$corporate_whatsapp_message = "Hello Vestis Elites,\n\nI would like to make an enquiry about your Branded Clothing & Uniform Solutions.\n\nI would like to discuss my organisation's clothing requirements and the available options.\n\nPlease guide me on the next steps.";
+	$corporate_whatsapp_message = "Hello Vestis Elites,\n\nI would like to make an enquiry about your Branded Clothing & Uniform Solutions.\n\nI would like to discuss my clothing requirements and the available options.\n\nPlease guide me on the next steps.";
 
 	$corporate_whatsapp_url = 'https://wa.me/2347032681868?text=' . rawurlencode( $corporate_whatsapp_message );
 
 	$corporate_hero_image = 'https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-branded-corporate-uniforms-team.webp';
+
+	$individuals_image = 'https://vestiselites.com.ng/wp-content/uploads/2026/11/vestis-elites-personalised-clothing-individuals.webp';
 
 	?>
 
@@ -90,6 +94,293 @@ function vestis_elites_corporate_uniforms_page() {
 				fetchpriority="high"
 				decoding="async"
 			>
+
+		</div>
+
+	</section>
+
+
+	<!-- =========================================================
+	     SECTION 3 — WHO WE SERVE
+	========================================================= -->
+
+	<section
+		class="ve-who-we-serve"
+		aria-labelledby="ve-who-we-serve-title"
+	>
+
+		<div class="ve-who-we-serve__container">
+
+			<h2
+				id="ve-who-we-serve-title"
+				class="ve-who-we-serve__heading"
+			>
+				Who We Serve
+			</h2>
+
+
+			<!-- =============================================
+			     CATEGORY 1 — INDIVIDUALS
+			============================================== -->
+
+			<article
+				class="ve-individuals"
+				aria-labelledby="ve-individuals-title"
+			>
+
+				<div class="ve-individuals__main">
+
+					<div class="ve-individuals__image-wrap">
+
+						<img
+							class="ve-individuals__image"
+							src="<?php echo esc_url( $individuals_image ); ?>"
+							alt="Vestis Elites personalised clothing featuring custom polo shirts, sports jerseys, hoodies, caps and matching T-shirts."
+							width="1536"
+							height="1024"
+							loading="lazy"
+							decoding="async"
+						>
+
+					</div>
+
+
+					<div class="ve-individuals__content">
+
+						<h3
+							id="ve-individuals-title"
+							class="ve-individuals__title"
+						>
+							Individuals
+						</h3>
+
+						<p class="ve-individuals__statement">
+							Your clothing should reflect the standard
+							you choose to present to the world.
+						</p>
+
+						<p class="ve-individuals__story">
+							Imagine heading out for a relaxed weekend
+							with friends, wearing a polo shirt designed
+							around your personal taste, with your name
+							or nickname embroidered on it. Perhaps you
+							want a customised jersey to wear while
+							watching your favourite team, or a matching
+							set of T-shirts for a special occasion.
+							Sometimes, it's simply about having
+							something made that feels unmistakably yours.
+						</p>
+
+
+						<details class="ve-individuals__details">
+
+							<summary class="ve-individuals__read-more">
+
+								<span>Read More</span>
+
+								<svg
+									class="ve-individuals__read-icon"
+									viewBox="0 0 24 24"
+									width="20"
+									height="20"
+									fill="none"
+									aria-hidden="true"
+								>
+									<path
+										d="M6 9L12 15L18 9"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+
+							</summary>
+
+
+							<div class="ve-individuals__expanded">
+
+								<div class="ve-individuals__expanded-copy">
+
+									<p>
+										At Vestis Elites, you can have
+										clothing made to suit your personal
+										style, your ideas and your needs.
+									</p>
+
+									<p>
+										You can choose personalised
+										T-shirts and polo shirts,
+										customised sports jerseys,
+										sweatshirts and hoodies, matching
+										clothing for couples, friends and
+										family, or other clothing designs
+										you have in mind.
+									</p>
+
+									<p>
+										You can bring us your own design
+										or reference, or simply explain
+										what you would like. We will
+										discuss the available options,
+										design details and production
+										requirements with you.
+									</p>
+
+									<p>
+										Whether you need one piece or a
+										small personal order, we aim to
+										make the process straightforward
+										and give attention to the details
+										of your clothing.
+									</p>
+
+								</div>
+
+
+								<div
+									class="ve-individuals__options"
+									aria-label="Personalised clothing options"
+								>
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											01
+										</span>
+
+										<span>
+											Personalised<br>
+											T-shirts
+										</span>
+
+									</div>
+
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											02
+										</span>
+
+										<span>
+											Personalised<br>
+											Polo Shirts
+										</span>
+
+									</div>
+
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											03
+										</span>
+
+										<span>
+											Customised<br>
+											Jerseys
+										</span>
+
+									</div>
+
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											04
+										</span>
+
+										<span>
+											Sweatshirts<br>
+											&amp; Hoodies
+										</span>
+
+									</div>
+
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											05
+										</span>
+
+										<span>
+											Matching Clothing<br>
+											<small>Couples, Friends &amp; Family</small>
+										</span>
+
+									</div>
+
+
+									<div class="ve-individuals__option">
+
+										<span
+											class="ve-individuals__option-number"
+											aria-hidden="true"
+										>
+											06
+										</span>
+
+										<span>
+											Other Individual<br>
+											Custom Clothing Requests
+										</span>
+
+									</div>
+
+								</div>
+
+
+								<button
+									class="ve-individuals__close"
+									type="button"
+								>
+
+									<svg
+										viewBox="0 0 24 24"
+										width="18"
+										height="18"
+										fill="none"
+										aria-hidden="true"
+									>
+										<path
+											d="M6 15L12 9L18 15"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+
+									<span>Close</span>
+
+								</button>
+
+							</div>
+
+						</details>
+
+					</div>
+
+				</div>
+
+			</article>
 
 		</div>
 
@@ -264,42 +555,327 @@ function vestis_elites_corporate_uniforms_page() {
 
 
 	/* =========================================================
+	   WHO WE SERVE — SECTION BASE
+	========================================================= */
+
+	.ve-who-we-serve,
+	.ve-who-we-serve * {
+		box-sizing: border-box;
+	}
+
+	.ve-who-we-serve {
+		width: 100%;
+		background: #F7F5EF;
+		color: #000000;
+		padding: 95px 24px 110px;
+	}
+
+	.ve-who-we-serve__container {
+		width: min(100%, 1180px);
+		margin: 0 auto;
+	}
+
+	.ve-who-we-serve__heading {
+		margin: 0 0 58px;
+		color: #000000;
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: clamp(38px, 5vw, 58px);
+		font-weight: 400;
+		line-height: 1.12;
+		letter-spacing: -0.035em;
+		text-align: center;
+	}
+
+
+	/* =========================================================
+	   INDIVIDUALS — MAIN CARD
+	========================================================= */
+
+	.ve-individuals {
+		width: 100%;
+		padding: 28px;
+		border: 1px solid #D5D0C2;
+		border-radius: 10px;
+		background: rgba(255, 255, 255, 0.28);
+	}
+
+	.ve-individuals__main {
+		display: grid;
+		grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+		gap: 48px;
+		align-items: start;
+	}
+
+	.ve-individuals__image-wrap {
+		width: 100%;
+		overflow: hidden;
+		background: #E9E3D6;
+	}
+
+	.ve-individuals__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.ve-individuals__content {
+		min-width: 0;
+		padding: 5px 0 0;
+	}
+
+	.ve-individuals__title {
+		margin: 0 0 12px;
+		color: #000000;
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: clamp(38px, 4vw, 54px);
+		font-weight: 400;
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+	}
+
+	.ve-individuals__statement {
+		margin: 0 0 18px;
+		color: #1F4D3A;
+		font-size: clamp(18px, 1.8vw, 22px);
+		font-weight: 600;
+		line-height: 1.45;
+	}
+
+	.ve-individuals__story {
+		margin: 0;
+		color: #282823;
+		font-size: 16px;
+		line-height: 1.75;
+	}
+
+
+	/* =========================================================
+	   INDIVIDUALS — READ MORE
+	========================================================= */
+
+	.ve-individuals__details {
+		margin-top: 22px;
+	}
+
+	.ve-individuals__read-more {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		width: fit-content;
+		color: #1F4D3A;
+		font-size: 17px;
+		font-weight: 600;
+		line-height: 1.5;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.ve-individuals__read-more::-webkit-details-marker {
+		display: none;
+	}
+
+	.ve-individuals__read-more::marker {
+		display: none;
+		content: "";
+	}
+
+	.ve-individuals__read-more:focus-visible,
+	.ve-individuals__close:focus-visible {
+		outline: 2px solid #1F4D3A;
+		outline-offset: 5px;
+	}
+
+	.ve-individuals__read-icon {
+		flex: 0 0 auto;
+		transition: transform 280ms ease;
+	}
+
+	.ve-individuals__details[open] .ve-individuals__read-icon {
+		transform: rotate(180deg);
+	}
+
+	.ve-individuals__expanded {
+		margin-top: 24px;
+		padding: 28px;
+		background: #EFEEE4;
+		border: 1px solid #E0DFD2;
+		border-radius: 10px;
+		animation: veIndividualsExpand 350ms ease both;
+	}
+
+	.ve-individuals__expanded-copy p {
+		margin: 0 0 14px;
+		color: #282823;
+		font-size: 15px;
+		line-height: 1.8;
+	}
+
+	.ve-individuals__expanded-copy p:last-child {
+		margin-bottom: 0;
+	}
+
+
+	/* =========================================================
+	   INDIVIDUALS — CLOTHING OPTIONS
+	========================================================= */
+
+	.ve-individuals__options {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		margin-top: 32px;
+		border-top: 1px solid #D2D0C1;
+		border-left: 1px solid #D2D0C1;
+	}
+
+	.ve-individuals__option {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		min-height: 112px;
+		padding: 18px 12px;
+		border-right: 1px solid #D2D0C1;
+		border-bottom: 1px solid #D2D0C1;
+		color: #11110E;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1.5;
+		text-align: center;
+	}
+
+	.ve-individuals__option-number {
+		color: #1F4D3A;
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 25px;
+		font-weight: 400;
+		line-height: 1;
+	}
+
+	.ve-individuals__option small {
+		font-size: 11px;
+		font-weight: 400;
+	}
+
+
+	/* =========================================================
+	   INDIVIDUALS — CLOSE CONTROL
+	========================================================= */
+
+	.ve-individuals__close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		margin: 26px auto 0;
+		padding: 8px 14px;
+		background: transparent;
+		border: 0;
+		color: #1F4D3A;
+		font-family: inherit;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.ve-individuals__close svg {
+		flex: 0 0 auto;
+	}
+
+
+	/* =========================================================
+	   EXPANSION ANIMATION
+	========================================================= */
+
+	@keyframes veIndividualsExpand {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+
+	/* =========================================================
 	   MOBILE RESPONSIVENESS
 	========================================================= */
 
-	@media (max-width: 640px) {
+	@media (max-width: 760px) {
 
-		.ve-corporate-hero__inner {
-			padding: 120px 22px 54px;
+		.ve-who-we-serve {
+			padding: 70px 20px 80px;
 		}
 
-		.ve-corporate-hero__eyebrow {
-			margin-bottom: 30px;
-			font-size: 10px;
+		.ve-who-we-serve__heading {
+			margin-bottom: 38px;
 		}
 
-		.ve-corporate-hero__title {
-			font-size: clamp(38px, 10.5vw, 48px);
-			line-height: 1.10;
+		.ve-individuals {
+			padding: 18px;
 		}
 
-		.ve-corporate-hero__supporting {
-			margin-top: 28px;
-			font-size: 16px;
-			line-height: 1.7;
+		.ve-individuals__main {
+			grid-template-columns: 1fr;
+			gap: 28px;
 		}
 
-		.ve-corporate-hero__actions {
-			margin-top: 38px;
+		.ve-individuals__image-wrap {
+			max-width: 100%;
 		}
 
-		.ve-corporate-hero__cta {
-			width: 100%;
-			min-height: 56px;
+		.ve-individuals__content {
+			padding-top: 0;
 		}
 
-		.ve-corporate-hero-image__inner {
-			padding: 0 22px 60px;
+		.ve-individuals__title {
+			font-size: 40px;
+		}
+
+		.ve-individuals__statement {
+			font-size: 19px;
+		}
+
+		.ve-individuals__story {
+			font-size: 15px;
+			line-height: 1.75;
+		}
+
+		.ve-individuals__expanded {
+			padding: 20px;
+		}
+
+		.ve-individuals__options {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			margin-top: 25px;
+		}
+
+		.ve-individuals__option {
+			min-height: 105px;
+			padding: 15px 8px;
+			font-size: 13px;
+		}
+
+	}
+
+	@media (max-width: 420px) {
+
+		.ve-individuals {
+			padding: 13px;
+		}
+
+		.ve-individuals__expanded {
+			padding: 16px;
+		}
+
+		.ve-individuals__option {
+			font-size: 12px;
 		}
 
 	}
@@ -314,18 +890,57 @@ function vestis_elites_corporate_uniforms_page() {
 		.ve-corporate-hero__eyebrow,
 		.ve-corporate-hero__title,
 		.ve-corporate-hero__supporting,
-		.ve-corporate-hero__actions {
-			animation: none;
+		.ve-corporate-hero__actions,
+		.ve-individuals__expanded {
+			animation: none !important;
 		}
 
 		.ve-corporate-hero__cta,
-		.ve-corporate-hero__cta span {
-			transition: none;
+		.ve-corporate-hero__cta span,
+		.ve-individuals__read-icon {
+			transition: none !important;
 		}
 
 	}
 
 	</style>
+
+
+	<script>
+	(function () {
+
+		'use strict';
+
+		var detailsElements = document.querySelectorAll(
+			'.ve-individuals__details'
+		);
+
+		detailsElements.forEach(function (details) {
+
+			var closeButton = details.querySelector(
+				'.ve-individuals__close'
+			);
+
+			if (!closeButton) {
+				return;
+			}
+
+			closeButton.addEventListener('click', function () {
+
+				details.open = false;
+
+				var summary = details.querySelector('summary');
+
+				if (summary) {
+					summary.focus();
+				}
+
+			});
+
+		});
+
+	})();
+	</script>
 
 	<?php
 
