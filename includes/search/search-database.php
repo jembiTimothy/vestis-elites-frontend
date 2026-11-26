@@ -13,13 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+
+/**
+ * Return the fully prefixed search database table names.
+ *
+ * @return array|WP_Error
+ */
 if ( ! function_exists( 've_search_get_database_tables' ) ) {
 
-    /**
-     * Return the fully prefixed search database table names.
-     *
-     * @return array|WP_Error
-     */
     function ve_search_get_database_tables() {
 
         global $wpdb;
@@ -33,13 +34,24 @@ if ( ! function_exists( 've_search_get_database_tables' ) ) {
 
         $config = ve_search_get_config();
 
-        $definitions = $config['database'];
+        if (
+            empty( $config['database'] ) ||
+            ! is_array( $config['database'] )
+        ) {
+            return new WP_Error(
+                've_search_database_config_invalid',
+                'The search database configuration is invalid.'
+            );
+        }
 
         $tables = array();
 
-        foreach ( $definitions as $key => $suffix ) {
+        foreach ( $config['database'] as $key => $suffix ) {
 
-            if ( ! preg_match( '/^[a-zA-Z0-9_]+$/', $suffix ) ) {
+            if (
+                ! is_string( $suffix ) ||
+                ! preg_match( '/^[a-zA-Z0-9_]+$/', $suffix )
+            ) {
                 return new WP_Error(
                     've_search_invalid_table_name',
                     'An invalid search database table name was supplied.'
@@ -49,20 +61,36 @@ if ( ! function_exists( 've_search_get_database_tables' ) ) {
             $tables[ $key ] = $wpdb->prefix . $suffix;
         }
 
+        $required_tables = array(
+            'index_table',
+            'queue_table',
+            'analytics_table',
+        );
+
+        foreach ( $required_tables as $required_table ) {
+
+            if ( ! isset( $tables[ $required_table ] ) ) {
+                return new WP_Error(
+                    've_search_missing_table_definition',
+                    'A required search database table definition is missing.'
+                );
+            }
+        }
+
         return $tables;
     }
 }
 
 
+/**
+ * Create or update the search database tables.
+ *
+ * This function must be explicitly called.
+ *
+ * @return true|WP_Error
+ */
 if ( ! function_exists( 've_search_install_database' ) ) {
 
-    /**
-     * Create or update the search database tables.
-     *
-     * This function must be explicitly called.
-     *
-     * @return true|WP_Error
-     */
     function ve_search_install_database() {
 
         global $wpdb;
@@ -74,6 +102,8 @@ if ( ! function_exists( 've_search_install_database' ) ) {
             );
         }
 
+        $config = ve_search_get_config();
+
         $tables = ve_search_get_database_tables();
 
         if ( is_wp_error( $tables ) ) {
@@ -84,10 +114,12 @@ if ( ! function_exists( 've_search_install_database' ) ) {
 
         $charset_collate = $wpdb->get_charset_collate();
 
+
         /*
          * TABLE 1: SEARCH INDEX
          *
-         * Stores the searchable representation of each content item.
+         * Stores the searchable representation of each
+         * supported content object.
          */
         $index_table = $tables['index_table'];
 
@@ -117,6 +149,7 @@ if ( ! function_exists( 've_search_install_database' ) ) {
             KEY sku_lookup (sku)
         ) {$charset_collate};";
 
+
         /*
          * TABLE 2: INDEXING QUEUE
          *
@@ -142,11 +175,12 @@ if ( ! function_exists( 've_search_install_database' ) ) {
             KEY queue_lock (locked_at)
         ) {$charset_collate};";
 
+
         /*
          * TABLE 3: SEARCH ANALYTICS
          *
-         * Stores query and interaction events.
-         * No visitor IP address is stored.
+         * Stores search and interaction events.
+         * Visitor IP addresses are not stored.
          */
         $analytics_table = $tables['analytics_table'];
 
@@ -165,26 +199,29 @@ if ( ! function_exists( 've_search_install_database' ) ) {
             KEY clicked_object (clicked_object_type,clicked_object_id)
         ) {$charset_collate};";
 
+
         /*
-         * Run WordPress database schema updates.
-         *
-         * dbDelta is designed to create missing tables and
-         * apply supported schema changes on future upgrades.
+         * INSTALL OR UPDATE TABLES
          */
         dbDelta( $index_sql );
         dbDelta( $queue_sql );
         dbDelta( $analytics_sql );
 
+
         /*
-         * Verify that all three tables exist before
-         * recording the installed schema version.
+         * VERIFY ALL REQUIRED TABLES
+         *
+         * Escape underscores and percent signs because
+         * SHOW TABLES LIKE treats them as wildcards.
          */
         foreach ( $tables as $table ) {
+
+            $escaped_table = $wpdb->esc_like( $table );
 
             $found_table = $wpdb->get_var(
                 $wpdb->prepare(
                     'SHOW TABLES LIKE %s',
-                    $table
+                    $escaped_table
                 )
             );
 
@@ -192,15 +229,29 @@ if ( ! function_exists( 've_search_install_database' ) ) {
 
                 return new WP_Error(
                     've_search_database_install_failed',
-                    'The search database installation could not verify all required tables.'
+                    sprintf(
+                        'The required search table could not be verified: %s',
+                        sanitize_text_field( $table )
+                    )
                 );
             }
         }
 
+
         /*
-         * Save the schema version only after verification.
+         * SAVE SCHEMA VERSION
+         *
+         * Only update the version after successful verification.
          */
-        $config = ve_search_get_config();
+        if (
+            empty( $config['system']['schema_version'] ) ||
+            ! is_string( $config['system']['schema_version'] )
+        ) {
+            return new WP_Error(
+                've_search_schema_version_missing',
+                'The search database schema version is not configured.'
+            );
+        }
 
         update_option(
             've_search_schema_version',
